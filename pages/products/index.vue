@@ -176,10 +176,11 @@ const mobileFilterOpen = ref(false)
 const { products: allProducts, loading, getProducts } = useProducts()
 const { categories, getCategories } = useCategories()
 
-// Fetch ALL products once
-await useAsyncData('products-page-init', async () => {
-  await getCategories()
-  await getProducts()
+// Fetch ALL products once on client
+onMounted(async () => {
+  if (!allProducts.value.length || !categories.value.length) {
+    await Promise.all([getProducts(), getCategories()])
+  }
 })
 
 // Client-side filtering

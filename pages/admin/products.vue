@@ -49,8 +49,9 @@ definePageMeta({ layout: 'admin', middleware: 'auth' })
 const { products, getProducts, createProduct, updateProduct, deleteProduct } = useProducts()
 const { categories, getCategories } = useCategories()
 
-await useAsyncData('admin-products', () => getProducts())
-await useAsyncData('admin-cats', () => getCategories())
+onMounted(async () => {
+  await Promise.all([getProducts(), getCategories()])
+})
 
 const showCreateForm = ref(false)
 const editingProduct = ref<Product | null>(null)

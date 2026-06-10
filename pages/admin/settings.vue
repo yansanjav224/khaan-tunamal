@@ -133,7 +133,7 @@ definePageMeta({ layout: 'admin', middleware: 'auth' })
 
 const { settings, loading, getSettings, updateSettings } = useSiteSettings()
 
-await useAsyncData('site-settings', () => getSettings())
+onMounted(() => getSettings())
 
 const form = reactive<SiteSettings>({
   companyName: '',

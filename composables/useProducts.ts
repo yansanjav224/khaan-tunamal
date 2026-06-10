@@ -8,15 +8,16 @@ import {
   deleteDoc,
   query,
   where,
-  orderBy,
 } from 'firebase/firestore'
 import { mockProducts, type Product } from './useMockData'
 
+// Shared state — persists across page navigations
+const products = ref<Product[]>([])
+const product = ref<Product | null>(null)
+const loading = ref(false)
+
 export const useProducts = () => {
   const { db, isConfigured } = useFirebase()
-  const products = ref<Product[]>([])
-  const product = ref<Product | null>(null)
-  const loading = ref(false)
 
   const getProducts = async (categoryFilter?: string) => {
     loading.value = true

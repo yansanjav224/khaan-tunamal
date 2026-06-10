@@ -10,10 +10,12 @@ import {
 } from 'firebase/firestore'
 import { mockCategories, type Category } from './useMockData'
 
+// Shared state — persists across page navigations
+const categories = ref<Category[]>([])
+const loading = ref(false)
+
 export const useCategories = () => {
   const { db, isConfigured } = useFirebase()
-  const categories = ref<Category[]>([])
-  const loading = ref(false)
 
   const getCategories = async () => {
     loading.value = true
@@ -23,9 +25,10 @@ export const useCategories = () => {
         return categories.value
       }
 
-      const q = query(collection(db, 'categories'), orderBy('order'))
-      const snap = await getDocs(q)
-      categories.value = snap.docs.map(d => ({ id: d.id, ...d.data() } as Category))
+      const snap = await getDocs(collection(db, 'categories'))
+      categories.value = snap.docs
+        .map(d => ({ id: d.id, ...d.data() } as Category))
+        .sort((a, b) => (a.order || 0) - (b.order || 0))
       return categories.value
     } finally {
       loading.value = false

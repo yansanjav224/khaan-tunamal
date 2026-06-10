@@ -74,14 +74,16 @@
 </template>
 
 <script setup lang="ts">
-import { mockCategories } from '~/composables/useMockData'
-
 const route = useRoute()
 const { product, loading, getProduct } = useProducts()
 const { categories, getCategories } = useCategories()
 
-await useAsyncData('product-detail', () => getProduct(route.params.id as string))
-await useAsyncData('cats', () => getCategories())
+onMounted(async () => {
+  await Promise.all([
+    getProduct(route.params.id as string),
+    categories.value.length ? Promise.resolve() : getCategories(),
+  ])
+})
 
 const categoryName = computed(() => {
   if (!product.value) return ''

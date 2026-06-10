@@ -18,7 +18,7 @@ definePageMeta({ layout: 'admin', middleware: 'auth' })
 
 const { categories, getCategories, createCategory, updateCategory, deleteCategory } = useCategories()
 
-await useAsyncData('admin-categories', () => getCategories())
+onMounted(() => getCategories())
 
 const handleCreate = async (data: { name: string; order: number }) => {
   try {

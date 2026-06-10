@@ -85,8 +85,9 @@ const { db } = useFirebase()
 const { products, getProducts } = useProducts()
 const { categories, getCategories } = useCategories()
 
-await useAsyncData('admin-products', () => getProducts())
-await useAsyncData('admin-categories', () => getCategories())
+onMounted(async () => {
+  await Promise.all([getProducts(), getCategories()])
+})
 
 const featuredCount = computed(() => products.value.filter(p => p.featured).length)
 
