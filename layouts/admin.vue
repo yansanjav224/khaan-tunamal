@@ -29,6 +29,13 @@
               >
                 Ангилал
               </NuxtLink>
+              <NuxtLink
+                to="/admin/settings"
+                class="text-sm text-gray-400 hover:text-gold transition-colors"
+                active-class="!text-gold"
+              >
+                Тохиргоо
+              </NuxtLink>
             </div>
           </div>
           <div class="flex items-center gap-4">
@@ -48,6 +55,7 @@
       <NuxtLink to="/admin" class="text-sm text-gray-400 hover:text-gold" active-class="!text-gold">Хянах</NuxtLink>
       <NuxtLink to="/admin/products" class="text-sm text-gray-400 hover:text-gold" active-class="!text-gold">Бараа</NuxtLink>
       <NuxtLink to="/admin/categories" class="text-sm text-gray-400 hover:text-gold" active-class="!text-gold">Ангилал</NuxtLink>
+      <NuxtLink to="/admin/settings" class="text-sm text-gray-400 hover:text-gold" active-class="!text-gold">Тохиргоо</NuxtLink>
     </div>
 
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">

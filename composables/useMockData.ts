@@ -1,3 +1,47 @@
+export interface SitePhone {
+  number: string
+  label: string
+}
+
+export interface SiteValue {
+  icon: string
+  title: string
+  description: string
+}
+
+export interface SiteSettings {
+  companyName: string
+  companySlogan: string
+  companyDescription: string
+  phones: SitePhone[]
+  facebookUrl: string
+  address: string
+  addressNote: string
+  aboutText: string
+  aboutText2: string
+  values: SiteValue[]
+}
+
+export const mockSiteSettings: SiteSettings = {
+  companyName: 'Хаан Тунамал Хийц',
+  companySlogan: 'Монгол төмөр эдлэл',
+  companyDescription: 'Монгол үндэсний хэв маягтай төмөр зуух, хүжсийн тавиур, зуухны багаж болон бусад эдлэл үйлдвэрлэгч.',
+  phones: [
+    { number: '99907191', label: 'Утас / Viber / WhatsApp' },
+    { number: '99732244', label: 'Утас' },
+  ],
+  facebookUrl: 'https://facebook.com',
+  address: 'Улаанбаатар хот',
+  addressNote: 'Дэлгэрэнгүй хаягийг утсаар лавлана уу',
+  aboutText: 'Хаан Тунамал Хийц нь Монгол үндэсний хэв маягтай төмөр эдлэл үйлдвэрлэгч юм. Бид монгол уламжлалт угалз хээ, дизайныг орчин үеийн технологитой хослуулан бат бөх, гоёмсог бүтээгдэхүүн бүтээдэг.',
+  aboutText2: 'Манай гол бүтээгдэхүүнд төмөр зуух, хүжсийн тавиур, зуухны багаж, модон авдар зэрэг олон төрлийн эдлэлүүд багтах бөгөөд тус бүр нь монгол соёлын онцлогийг тусгасан өвөрмөц загвартай.',
+  values: [
+    { icon: 'shield', title: 'Чанар', description: 'Бат бөх материал, нарийн нягт ажиллагаагаар чанартай бүтээгдэхүүн үйлдвэрлэнэ.' },
+    { icon: 'heart', title: 'Уламжлал', description: 'Монгол үндэсний угалз хээ, соёлын уламжлалыг дизайндаа тусган хадгалж байна.' },
+    { icon: 'bolt', title: 'Шинэлэг', description: 'Орчин үеийн технологи, дизайныг уламжлалтай хослуулан шинэлэг бүтээгдэхүүн гаргана.' },
+  ],
+}
+
 export interface Product {
   id: string
   name: string

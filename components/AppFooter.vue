@@ -7,12 +7,12 @@
           <div class="flex items-center gap-3 mb-5">
             <LogoHTX variant="sm" />
             <div>
-              <div class="text-gold font-display font-bold text-lg">Хаан Тунамал Хийц</div>
-              <div class="text-gray-500 text-xs tracking-wide">Монгол төмөр эдлэл</div>
+              <div class="text-gold font-display font-bold text-lg">{{ settings.companyName }}</div>
+              <div class="text-gray-500 text-xs tracking-wide">{{ settings.companySlogan }}</div>
             </div>
           </div>
           <p class="text-gray-400 text-sm leading-relaxed max-w-xs">
-            Монгол үндэсний хэв маягтай төмөр зуух, хүжсийн тавиур, зуухны багаж болон бусад эдлэл үйлдвэрлэгч.
+            {{ settings.companyDescription }}
           </p>
         </div>
 
@@ -31,20 +31,19 @@
         <div>
           <h3 class="text-gold font-display font-semibold mb-5 text-sm tracking-wide uppercase">Холбоо барих</h3>
           <div class="flex flex-col gap-3">
-            <a href="tel:99907191" class="flex items-center gap-3 text-gray-400 hover:text-gold transition-colors text-sm">
+            <a
+              v-for="(phone, i) in settings.phones"
+              :key="i"
+              :href="`tel:${phone.number}`"
+              class="flex items-center gap-3 text-gray-400 hover:text-gold transition-colors text-sm"
+            >
               <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
               </svg>
-              9990-7191
-            </a>
-            <a href="tel:99732244" class="flex items-center gap-3 text-gray-400 hover:text-gold transition-colors text-sm">
-              <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-              </svg>
-              9973-2244
+              {{ formatPhone(phone.number) }}
             </a>
             <a
-              href="https://facebook.com"
+              :href="settings.facebookUrl"
               target="_blank"
               class="flex items-center gap-3 text-gray-400 hover:text-gold transition-colors text-sm"
             >
@@ -58,9 +57,13 @@
       </div>
 
       <div class="border-t border-dark-border mt-10 pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-gray-500 text-sm">
-        <span>&copy; {{ new Date().getFullYear() }} Хаан Тунамал Хийц. Бүх эрх хуулиар хамгаалагдсан.</span>
+        <span>&copy; {{ new Date().getFullYear() }} {{ settings.companyName }}. Бүх эрх хуулиар хамгаалагдсан.</span>
         <span class="text-gray-600 text-xs">Монгол үндэсний урлал</span>
       </div>
     </div>
   </footer>
 </template>
+
+<script setup lang="ts">
+const { settings } = useSiteSettings()
+</script>

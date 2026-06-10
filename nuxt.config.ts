@@ -29,6 +29,8 @@ export default defineNuxtConfig({
       firebaseStorageBucket: '',
       firebaseMessagingSenderId: '',
       firebaseAppId: '',
+      cloudinaryCloudName: '',
+      cloudinaryUploadPreset: '',
     },
   },
   tailwindcss: {

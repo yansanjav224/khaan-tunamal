@@ -26,7 +26,7 @@
 
         <div v-else class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
           <ProductCard
-            v-for="(p, index) in featuredProducts"
+            v-for="(p, index) in (featuredProducts || [])"
             :key="p.id"
             :product="p"
             v-reveal="{ delay: index * 120 }"
@@ -88,11 +88,12 @@
 </template>
 
 <script setup lang="ts">
-const { products: featuredProducts, loading, getFeaturedProducts } = useProducts()
-const { categories, getCategories } = useCategories()
+const { getFeaturedProducts } = useProducts()
+const { getCategories } = useCategories()
 
-await useAsyncData('featured', () => getFeaturedProducts())
-await useAsyncData('categories', () => getCategories())
+const { data: featuredProducts, status } = await useAsyncData('featured', () => getFeaturedProducts())
+const { data: categories } = await useAsyncData('categories', () => getCategories())
+const loading = computed(() => status.value === 'pending')
 
 const categoryIcons: Record<string, string> = {
   zuukh: '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24" class="w-full h-full"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.879 16.121A3 3 0 1012.015 11L11 14H9c0 .768.293 1.536.879 2.121z" /></svg>',
@@ -104,7 +105,7 @@ const categoryIcons: Record<string, string> = {
 }
 
 const categoriesWithIcons = computed(() =>
-  categories.value.map(cat => ({
+  (categories.value || []).map(cat => ({
     ...cat,
     icon: categoryIcons[cat.id] || categoryIcons.avdar,
   }))
