@@ -29,12 +29,14 @@ export const useProducts = () => {
       }
 
       const col = collection(db, 'products')
-      let q = categoryFilter
-        ? query(col, where('category', '==', categoryFilter), orderBy('order'))
-        : query(col, orderBy('order'))
+      const q = categoryFilter
+        ? query(col, where('category', '==', categoryFilter))
+        : query(col)
 
       const snap = await getDocs(q)
-      products.value = snap.docs.map(d => ({ id: d.id, ...d.data() } as Product))
+      products.value = snap.docs
+        .map(d => ({ id: d.id, ...d.data() } as Product))
+        .sort((a, b) => (a.order || 0) - (b.order || 0))
       return products.value
     } finally {
       loading.value = false

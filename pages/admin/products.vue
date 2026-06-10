@@ -3,7 +3,7 @@
     <div class="flex items-center justify-between mb-6">
       <h1 class="text-2xl font-bold text-gray-100">Бараа удирдах</h1>
       <button
-        v-if="!showForm"
+        v-if="!showCreateForm"
         @click="openCreateForm"
         class="btn-gold text-sm"
       >
@@ -11,23 +11,33 @@
       </button>
     </div>
 
-    <!-- Form -->
-    <div v-if="showForm" class="mb-8">
+    <!-- Create form (top) -->
+    <div v-if="showCreateForm" class="mb-8">
       <AdminProductForm
-        :product="editingProduct"
+        :product="null"
         :categories="categories"
-        @submit="handleSubmit"
-        @cancel="closeForm"
+        @submit="handleCreate"
+        @cancel="showCreateForm = false"
       />
     </div>
 
-    <!-- Table -->
+    <!-- Table with inline edit -->
     <AdminProductTable
       :products="products"
       :categories="categories"
+      :editing-id="editingProduct?.id || ''"
       @edit="openEditForm"
       @delete="handleDelete"
-    />
+    >
+      <template #edit-form="{ product }">
+        <AdminProductForm
+          :product="product"
+          :categories="categories"
+          @submit="(data) => handleUpdate(product.id, data)"
+          @cancel="editingProduct = null"
+        />
+      </template>
+    </AdminProductTable>
   </div>
 </template>
 
@@ -42,32 +52,33 @@ const { categories, getCategories } = useCategories()
 await useAsyncData('admin-products', () => getProducts())
 await useAsyncData('admin-cats', () => getCategories())
 
-const showForm = ref(false)
+const showCreateForm = ref(false)
 const editingProduct = ref<Product | null>(null)
 
 const openCreateForm = () => {
   editingProduct.value = null
-  showForm.value = true
+  showCreateForm.value = true
 }
 
 const openEditForm = (product: Product) => {
+  showCreateForm.value = false
   editingProduct.value = product
-  showForm.value = true
 }
 
-const closeForm = () => {
-  showForm.value = false
-  editingProduct.value = null
-}
-
-const handleSubmit = async (data: Omit<Product, 'id'>) => {
+const handleCreate = async (data: Omit<Product, 'id'>) => {
   try {
-    if (editingProduct.value) {
-      await updateProduct(editingProduct.value.id, data)
-    } else {
-      await createProduct(data)
-    }
-    closeForm()
+    await createProduct(data)
+    showCreateForm.value = false
+    await getProducts()
+  } catch (e: any) {
+    alert(e.message || 'Алдаа гарлаа')
+  }
+}
+
+const handleUpdate = async (id: string, data: Omit<Product, 'id'>) => {
+  try {
+    await updateProduct(id, data)
+    editingProduct.value = null
     await getProducts()
   } catch (e: any) {
     alert(e.message || 'Алдаа гарлаа')
