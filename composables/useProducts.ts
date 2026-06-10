@@ -68,10 +68,11 @@ export const useProducts = () => {
       const q = query(
         collection(db, 'products'),
         where('featured', '==', true),
-        orderBy('order'),
       )
       const snap = await getDocs(q)
-      products.value = snap.docs.map(d => ({ id: d.id, ...d.data() } as Product))
+      products.value = snap.docs
+        .map(d => ({ id: d.id, ...d.data() } as Product))
+        .sort((a, b) => (a.order || 0) - (b.order || 0))
       return products.value
     } finally {
       loading.value = false
