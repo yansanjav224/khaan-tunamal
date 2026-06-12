@@ -1,26 +1,20 @@
 <template>
   <div class="logo-htx" :class="sizeClass">
     <svg :width="size" :height="size" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <!-- Outer circle -->
-      <circle cx="50" cy="50" r="47" stroke="#C5A55A" stroke-width="1.5" />
-      <!-- Inner thin circle -->
-      <circle cx="50" cy="50" r="41" stroke="#C5A55A" stroke-width="0.4" opacity="0.4" />
-
-      <!-- ХТХ -->
+      <circle cx="50" cy="50" r="47" stroke="#e9c176" stroke-width="1.5" />
+      <circle cx="50" cy="50" r="41" stroke="#e9c176" stroke-width="0.4" opacity="0.4" />
       <text
         x="50"
         y="53"
         text-anchor="middle"
         dominant-baseline="middle"
-        fill="#C5A55A"
+        fill="#e9c176"
         :font-size="fontSize"
-        font-family="'Cormorant Garamond', serif"
+        font-family="'EB Garamond', serif"
         font-weight="700"
         letter-spacing="2"
       >ХТХ</text>
-
-      <!-- Small line below text -->
-      <line x1="36" y1="65" x2="64" y2="65" stroke="#C5A55A" stroke-width="0.5" opacity="0.35" />
+      <line x1="36" y1="65" x2="64" y2="65" stroke="#e9c176" stroke-width="0.5" opacity="0.35" />
     </svg>
   </div>
 </template>

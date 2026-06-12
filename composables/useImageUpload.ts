@@ -18,6 +18,7 @@ export const useImageUpload = () => {
       formData.append('file', file)
       formData.append('upload_preset', uploadPreset)
       formData.append('folder', 'khaan-tunamal')
+      formData.append('transformation', 'c_limit,w_1200,h_1500,q_auto,f_auto')
 
       const res = await fetch(
         `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
@@ -40,10 +41,16 @@ export const useImageUpload = () => {
     console.warn('Cloudinary зураг устгах: admin dashboard-аас устгана')
   }
 
+  const optimizeUrl = (url: string, width = 800) => {
+    if (!url || !url.includes('cloudinary.com')) return url
+    return url.replace('/upload/', `/upload/c_limit,w_${width},q_auto,f_auto/`)
+  }
+
   return {
     uploading,
     progress,
     uploadImage,
     deleteImage,
+    optimizeUrl,
   }
 }
