@@ -1,4 +1,9 @@
 import type { Category, Product, SiteSettings } from './useMockData'
+import type { HomeContent, AboutContent, ContactContent, ProductsContent, SharedContent } from './usePageContentDefaults'
+import {
+  defaultHomeContent, defaultAboutContent, defaultContactContent,
+  defaultProductsContent, defaultSharedContent,
+} from './usePageContentDefaults'
 
 const C = 'https://res.cloudinary.com/dbortkwap/image/upload'
 
@@ -265,4 +270,13 @@ export const seedSiteSettings: SiteSettings = {
     { icon: 'heart', title: 'Уламжлал', description: 'Монгол үндэсний угалз хээ, соёлын уламжлалыг дизайндаа тусган хадгалж байна.' },
     { icon: 'bolt', title: 'Шинэлэг', description: 'Орчин үеийн технологи, дизайныг уламжлалтай хослуулан шинэлэг бүтээгдэхүүн гаргана.' },
   ],
+}
+
+// Page content seed data
+export const seedPageContent: Record<string, HomeContent | AboutContent | ContactContent | ProductsContent | SharedContent> = {
+  home: defaultHomeContent,
+  about: defaultAboutContent,
+  contact: defaultContactContent,
+  products: defaultProductsContent,
+  shared: defaultSharedContent,
 }

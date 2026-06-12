@@ -1,93 +1,90 @@
 <template>
-  <div class="py-12 md:py-20">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-      <h1 class="section-title">
-        <span class="gold-gradient-text">Холбоо барих</span>
-      </h1>
-      <p class="section-subtitle">Бидэнтэй холбогдох</p>
+  <div>
+    <!-- Hero Section -->
+    <header class="relative h-[60vh] md:h-[70vh] w-full flex items-center justify-center overflow-hidden">
+      <div class="absolute inset-0 z-0">
+        <img
+          :src="content.hero.image"
+          class="w-full h-full object-cover grayscale opacity-40"
+          alt="Ulaanbaatar skyline"
+        />
+        <div class="absolute inset-0 hero-gradient"></div>
+      </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <!-- Contact info -->
-        <div class="space-y-6">
-          <div class="card p-6">
-            <h3 class="text-gold font-semibold text-lg mb-4">Утас</h3>
-            <div class="space-y-3">
-              <a
-                v-for="(phone, i) in settings.phones"
-                :key="i"
-                :href="`tel:${phone.number}`"
-                class="flex items-center gap-3 text-gray-300 hover:text-gold transition-colors"
-              >
-                <div class="w-10 h-10 rounded-full bg-gold/10 flex items-center justify-center flex-shrink-0">
-                  <svg class="w-5 h-5 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                  </svg>
-                </div>
-                <div>
-                  <div class="font-medium">{{ formatPhone(phone.number) }}</div>
-                  <div class="text-gray-500 text-sm">{{ phone.label }}</div>
-                </div>
-              </a>
-            </div>
-          </div>
+      <!-- Mongolian Script Watermark -->
+      <div class="absolute right-[-5%] top-[20%] opacity-10 select-none pointer-events-none rotate-12 hidden lg:block">
+        <p class="text-[200px] leading-tight font-headline-md text-stroke-gold italic">
+          ᠬᠠᠭᠠᠨ ᠲᠤᠨᠠᠮᠠᠯ
+        </p>
+      </div>
 
-          <div class="card p-6">
-            <h3 class="text-gold font-semibold text-lg mb-4">Сошиал</h3>
-            <a
-              :href="settings.facebookUrl"
-              target="_blank"
-              class="flex items-center gap-3 text-gray-300 hover:text-gold transition-colors"
-            >
-              <div class="w-10 h-10 rounded-full bg-gold/10 flex items-center justify-center flex-shrink-0">
-                <svg class="w-5 h-5 text-gold" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
-                </svg>
-              </div>
-              <div>
-                <div class="font-medium">Facebook хуудас</div>
-                <div class="text-gray-500 text-sm">Шинэ бүтээгдэхүүнийг дагаарай</div>
-              </div>
-            </a>
-          </div>
+      <div class="relative z-10 text-center px-6">
+        <span class="font-label-md text-label-md text-secondary tracking-[0.3em] uppercase mb-4 block" v-reveal>{{ content.hero.label }}</span>
+        <h1 class="font-display-lg text-display-lg-mobile md:text-display-lg text-on-surface mb-6 max-w-4xl mx-auto" v-reveal>
+          {{ content.hero.titleLine1 }}<br /><span class="italic text-secondary">{{ content.hero.titleHighlight }}</span> холбоно
+        </h1>
+        <div class="w-16 h-[1px] bg-secondary mx-auto" v-reveal></div>
+      </div>
+    </header>
 
-          <div class="card p-6">
-            <h3 class="text-gold font-semibold text-lg mb-4">Хаяг</h3>
-            <div class="flex items-start gap-3 text-gray-300">
-              <div class="w-10 h-10 rounded-full bg-gold/10 flex items-center justify-center flex-shrink-0 mt-1">
-                <svg class="w-5 h-5 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                </svg>
-              </div>
-              <div>
-                <div class="font-medium">{{ settings.address }}</div>
-                <div class="text-gray-500 text-sm">{{ settings.addressNote }}</div>
-              </div>
-            </div>
-          </div>
+    <!-- Contact Cards -->
+    <main class="max-w-container-max mx-auto px-6 md:px-margin-desktop py-section-gap">
+      <!-- Top: 3 cards -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+        <!-- Location -->
+        <div class="border border-outline-variant/30 p-8 hover:border-secondary/50 transition-colors duration-500" v-reveal>
+          <span class="material-symbols-outlined text-secondary text-3xl mb-6 block">location_on</span>
+          <h3 class="font-headline-sm text-headline-sm text-on-surface mb-3">{{ content.cards.locationTitle }}</h3>
+          <p class="font-body-md text-body-md text-on-surface-variant">{{ settings.address || 'Улаанбаатар хот' }}</p>
+          <p class="font-body-sm text-body-sm text-outline mt-2">{{ settings.addressNote || 'Дэлгэрэнгүй хаягийг утсаар лавлана уу' }}</p>
         </div>
-
-        <!-- CTA right side -->
-        <div class="card p-6 md:p-8 flex flex-col items-center justify-center text-center min-h-[400px]">
-          <div class="w-16 h-16 rounded-full bg-gold/10 flex items-center justify-center mb-6">
-            <svg class="w-8 h-8 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-            </svg>
-          </div>
-          <h3 class="text-xl font-semibold text-gray-100 mb-2">Бидэнтэй холбогдоорой</h3>
-          <p class="text-gray-400 mb-6">
-            Бүтээгдэхүүний захиалга, асуулт, санал хүсэлтээ утсаар болон Facebook-ээр илгээнэ үү.
+        <!-- Phone -->
+        <div class="border border-outline-variant/30 p-8 hover:border-secondary/50 transition-colors duration-500" v-reveal="{ delay: 100 }">
+          <span class="material-symbols-outlined text-secondary text-3xl mb-6 block">call</span>
+          <h3 class="font-headline-sm text-headline-sm text-on-surface mb-3">{{ content.cards.phoneTitle }}</h3>
+          <p class="font-body-md text-body-md text-on-surface-variant">
+            {{ settings.phones.map(p => formatPhone(p.number)).join(', ') }}
           </p>
-          <a v-if="settings.phones.length" :href="`tel:${settings.phones[0].number}`" class="btn-gold">
-            Утасдах: {{ formatPhone(settings.phones[0].number) }}
-          </a>
+          <p class="font-body-sm text-body-sm text-outline mt-2">{{ content.cards.businessHours }}</p>
+        </div>
+        <!-- Email & Social -->
+        <div class="border border-outline-variant/30 p-8 hover:border-secondary/50 transition-colors duration-500" v-reveal="{ delay: 200 }">
+          <span class="material-symbols-outlined text-secondary text-3xl mb-6 block">mail</span>
+          <h3 class="font-headline-sm text-headline-sm text-on-surface mb-3">{{ content.cards.emailTitle }}</h3>
+          <p class="font-body-md text-body-md text-on-surface-variant">{{ content.cards.email }}</p>
+          <div class="flex gap-6 mt-4 pt-4 border-t border-outline-variant/20">
+            <a href="#" class="font-label-md text-label-md text-on-surface-variant hover:text-secondary transition-colors uppercase tracking-widest">{{ content.cards.instagramLabel }}</a>
+            <a :href="settings.facebookUrl" target="_blank" class="font-label-md text-label-md text-on-surface-variant hover:text-secondary transition-colors uppercase tracking-widest">{{ content.cards.facebookLabel }}</a>
+          </div>
         </div>
       </div>
-    </div>
+
+      <!-- Map -->
+      <div class="w-full h-[450px] border border-outline-variant/30 overflow-hidden relative" v-reveal>
+        <iframe
+          :src="content.mapEmbedUrl"
+          class="w-full h-full border-0 invert brightness-[0.85] contrast-[1.2] hue-rotate-[200deg]"
+          allowfullscreen=""
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+        ></iframe>
+        <!-- Overlay label -->
+        <div class="absolute bottom-6 left-6 bg-background/90 backdrop-blur-md px-6 py-4 border border-secondary/30">
+          <h3 class="font-label-md text-label-md text-secondary uppercase tracking-widest">{{ content.mapLabel }}</h3>
+        </div>
+      </div>
+    </main>
   </div>
 </template>
 
 <script setup lang="ts">
 const { settings } = useSiteSettings()
+const { content, load } = useContactContent()
+
+onMounted(() => load())
+
+const formatPhone = (num: string) => {
+  if (num.length === 8) return `${num.slice(0, 4)}-${num.slice(4)}`
+  return num
+}
 </script>

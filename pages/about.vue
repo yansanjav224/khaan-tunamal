@@ -1,73 +1,127 @@
 <template>
-  <div class="py-12 md:py-20">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-      <h1 class="section-title">
-        <span class="gold-gradient-text">Бидний тухай</span>
-      </h1>
-      <p class="section-subtitle">{{ settings.companyName }}</p>
+  <div>
+    <main class="relative overflow-hidden pt-32">
+      <!-- Mongolian Script Background -->
+      <MongolianScript />
 
-      <div class="space-y-12">
-        <!-- About text -->
-        <div class="card p-8 md:p-12">
-          <p class="text-gray-300 leading-relaxed text-lg mb-6">
-            <span class="text-gold font-semibold">{{ settings.companyName }}</span>
-            {{ aboutTextWithoutName }}
-          </p>
-          <p v-if="settings.aboutText2" class="text-gray-300 leading-relaxed text-lg">
-            {{ settings.aboutText2 }}
-          </p>
-        </div>
-
-        <!-- Values -->
-        <div v-if="settings.values.length" class="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div v-for="(val, i) in settings.values" :key="i" class="card p-6 text-center">
-            <div class="w-14 h-14 mx-auto mb-4 rounded-full bg-gold/10 flex items-center justify-center">
-              <!-- shield -->
-              <svg v-if="val.icon === 'shield'" class="w-7 h-7 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-              </svg>
-              <!-- heart -->
-              <svg v-else-if="val.icon === 'heart'" class="w-7 h-7 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-              </svg>
-              <!-- bolt -->
-              <svg v-else-if="val.icon === 'bolt'" class="w-7 h-7 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z" />
-              </svg>
-              <!-- star -->
-              <svg v-else-if="val.icon === 'star'" class="w-7 h-7 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
-              </svg>
-              <!-- fire -->
-              <svg v-else-if="val.icon === 'fire'" class="w-7 h-7 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z" />
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.879 16.121A3 3 0 1012.015 11L11 14H9c0 .768.293 1.536.879 2.121z" />
-              </svg>
-              <!-- globe -->
-              <svg v-else class="w-7 h-7 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-            </div>
-            <h3 class="text-gold font-semibold text-lg mb-2">{{ val.title }}</h3>
-            <p class="text-gray-400 text-sm">{{ val.description }}</p>
+      <!-- Hero Section -->
+      <section class="max-w-container-max mx-auto px-6 md:px-margin-desktop mb-section-gap">
+        <div class="grid md:grid-cols-12 gap-gutter items-center">
+        <!-- Image (left) -->
+        <div class="md:col-span-6 order-1" v-reveal>
+          <div class="aspect-[4/5] overflow-hidden">
+            <img
+              :src="content.hero.image"
+              alt="Craftsmanship"
+              class="w-full h-full object-cover grayscale-[30%] brightness-75"
+            />
           </div>
         </div>
-      </div>
-    </div>
+        <!-- Text (right) -->
+        <div class="md:col-span-5 md:col-start-8 order-2" v-reveal="{ delay: 200 }">
+          <span class="font-label-md text-label-md text-secondary uppercase tracking-[0.4em] mb-6 block">{{ content.hero.label }}</span>
+          <h1 class="font-display-lg text-display-lg md:text-[72px] leading-tight mb-6 italic">
+            {{ content.hero.title }}
+          </h1>
+          <p class="font-body-lg text-body-lg text-on-surface-variant">
+            {{ content.hero.description }}
+          </p>
+        </div>
+        </div>
+      </section>
 
-    <ContactCTA />
+      <!-- Our Story: Бидний түүх -->
+      <section class="max-w-container-max mx-auto px-6 md:px-margin-desktop mb-section-gap">
+        <div class="grid md:grid-cols-12 gap-gutter items-center">
+          <div class="md:col-span-5" v-reveal>
+            <h2 class="font-headline-md text-headline-md text-secondary mb-8">{{ content.story.title }}</h2>
+            <div class="space-y-6 font-body-md text-body-md text-on-surface-variant">
+              <p>{{ content.story.text1 }}</p>
+              <p>{{ content.story.text2 }}</p>
+            </div>
+            <div class="mt-12 flex space-x-16 border-t border-outline-variant/30 pt-8">
+              <div v-for="stat in content.story.stats" :key="stat.label">
+                <span class="block font-display-lg text-display-lg text-secondary">{{ stat.value }}</span>
+                <span class="font-label-md text-label-md uppercase tracking-widest text-outline">{{ stat.label }}</span>
+              </div>
+            </div>
+          </div>
+          <div class="md:col-span-6 md:col-start-8 relative" v-reveal="{ delay: 200 }">
+            <div class="aspect-[4/5] bg-surface-container relative overflow-hidden">
+              <img :src="content.story.image" alt="Heritage Detail" class="w-full h-full object-cover" />
+            </div>
+            <!-- Pull Quote -->
+            <div class="absolute -bottom-12 -left-12 bg-surface p-12 ghost-border hidden lg:block max-w-md">
+              <p class="font-headline-md text-headline-md italic text-on-surface leading-relaxed">
+                "{{ content.story.quote }}"
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Craft Tradition: Гар урлалын уламжлал -->
+      <section class="bg-surface-container-lowest py-section-gap overflow-hidden mb-section-gap">
+        <div class="max-w-container-max mx-auto px-6 md:px-margin-desktop">
+          <div class="text-center mb-24" v-reveal>
+            <h2 class="font-display-lg text-display-lg mb-6">{{ content.craftSectionTitle }}</h2>
+            <div class="w-24 h-px bg-secondary mx-auto"></div>
+          </div>
+          <div class="grid md:grid-cols-3 gap-16">
+            <div v-for="(craft, i) in content.crafts" :key="craft.title" v-reveal="{ delay: i * 200 }">
+              <div class="aspect-square mb-8 overflow-hidden grayscale hover:grayscale-0 transition-all duration-700">
+                <img :src="craft.image" :alt="craft.title" class="w-full h-full object-cover" />
+              </div>
+              <h3 class="font-headline-sm text-headline-sm text-secondary mb-4 uppercase tracking-wider">{{ craft.title }}</h3>
+              <p class="font-body-md text-body-md text-on-surface-variant">{{ craft.description }}</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Core Values: Бидний үнэт зүйлс -->
+      <section class="max-w-container-max mx-auto px-6 md:px-margin-desktop mb-section-gap">
+        <div class="grid md:grid-cols-2 gap-24 items-start">
+          <div v-reveal>
+            <h2 class="font-display-lg text-display-lg mb-12">{{ content.valuesSectionTitle }}</h2>
+            <div class="space-y-16">
+              <div v-for="value in content.values" :key="value.title" class="group">
+                <h4 class="font-headline-sm text-headline-sm text-secondary mb-4 flex items-center">
+                  <span class="w-8 h-px bg-secondary mr-4 transition-all group-hover:w-16"></span>
+                  {{ value.title }}
+                </h4>
+                <p class="font-body-md text-body-md text-on-surface-variant pl-12">{{ value.description }}</p>
+              </div>
+            </div>
+          </div>
+          <div class="relative md:mt-24" v-reveal="{ delay: 200 }">
+            <div class="ghost-border p-4">
+              <div class="bg-surface-container h-[600px] overflow-hidden">
+                <img :src="content.valuesImage" alt="Workshop Focus" class="w-full h-full object-cover" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CTA Section -->
+      <section class="max-w-container-max mx-auto px-6 md:px-margin-desktop mb-section-gap text-center">
+        <div class="max-w-3xl mx-auto border border-outline-variant/30 py-24 px-12" v-reveal>
+          <h2 class="font-headline-md text-headline-md mb-8 uppercase tracking-widest">{{ content.cta.title }}</h2>
+          <p class="font-body-lg text-body-lg text-on-surface-variant mb-12">
+            {{ content.cta.description }}
+          </p>
+          <div class="flex flex-col md:flex-row justify-center gap-8">
+            <a :href="`tel:${content.cta.phone}`" class="border border-secondary px-10 py-4 font-label-md text-label-md uppercase tracking-[0.2em] hover:bg-secondary hover:text-on-secondary transition-all">{{ content.cta.phoneDisplay }}</a>
+            <NuxtLink to="/contact" class="border border-outline px-10 py-4 font-label-md text-label-md uppercase tracking-[0.2em] hover:bg-on-surface hover:text-surface transition-all">{{ content.cta.buttonText }}</NuxtLink>
+          </div>
+        </div>
+      </section>
+    </main>
   </div>
 </template>
 
 <script setup lang="ts">
-const { settings } = useSiteSettings()
-
-const aboutTextWithoutName = computed(() => {
-  const text = settings.value.aboutText
-  const name = settings.value.companyName
-  if (text.startsWith(name)) {
-    return text.slice(name.length)
-  }
-  return ' ' + text
-})
+const { content, load } = useAboutContent()
+onMounted(() => load())
 </script>

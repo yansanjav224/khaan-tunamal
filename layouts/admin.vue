@@ -30,6 +30,13 @@
                 Ангилал
               </NuxtLink>
               <NuxtLink
+                to="/admin/pages"
+                class="text-sm text-gray-400 hover:text-gold transition-colors"
+                active-class="!text-gold"
+              >
+                Хуудас
+              </NuxtLink>
+              <NuxtLink
                 to="/admin/settings"
                 class="text-sm text-gray-400 hover:text-gold transition-colors"
                 active-class="!text-gold"
@@ -55,6 +62,7 @@
       <NuxtLink to="/admin" class="text-sm text-gray-400 hover:text-gold" active-class="!text-gold">Хянах</NuxtLink>
       <NuxtLink to="/admin/products" class="text-sm text-gray-400 hover:text-gold" active-class="!text-gold">Бараа</NuxtLink>
       <NuxtLink to="/admin/categories" class="text-sm text-gray-400 hover:text-gold" active-class="!text-gold">Ангилал</NuxtLink>
+      <NuxtLink to="/admin/pages" class="text-sm text-gray-400 hover:text-gold" active-class="!text-gold">Хуудас</NuxtLink>
       <NuxtLink to="/admin/settings" class="text-sm text-gray-400 hover:text-gold" active-class="!text-gold">Тохиргоо</NuxtLink>
     </div>
 

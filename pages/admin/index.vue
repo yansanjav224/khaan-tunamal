@@ -34,7 +34,7 @@
     </div>
 
     <!-- Quick links -->
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
       <NuxtLink to="/admin/products" class="card card-hover p-6 flex items-center gap-4">
         <div class="w-12 h-12 rounded-full bg-gold/10 flex items-center justify-center flex-shrink-0">
           <svg class="w-6 h-6 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -59,6 +59,18 @@
         </div>
       </NuxtLink>
 
+      <NuxtLink to="/admin/pages" class="card card-hover p-6 flex items-center gap-4">
+        <div class="w-12 h-12 rounded-full bg-gold/10 flex items-center justify-center flex-shrink-0">
+          <svg class="w-6 h-6 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+          </svg>
+        </div>
+        <div>
+          <div class="font-semibold text-gray-100">Хуудас удирдах</div>
+          <div class="text-gray-500 text-sm">Хуудасны контент засах</div>
+        </div>
+      </NuxtLink>
+
       <NuxtLink to="/admin/settings" class="card card-hover p-6 flex items-center gap-4">
         <div class="w-12 h-12 rounded-full bg-gold/10 flex items-center justify-center flex-shrink-0">
           <svg class="w-6 h-6 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -77,7 +89,7 @@
 
 <script setup lang="ts">
 import { collection, doc, setDoc } from 'firebase/firestore'
-import { seedCategories, seedProducts, seedSiteSettings } from '~/composables/useSeedData'
+import { seedCategories, seedProducts, seedSiteSettings, seedPageContent } from '~/composables/useSeedData'
 
 definePageMeta({ layout: 'admin', middleware: 'auth' })
 
@@ -115,8 +127,13 @@ const seedAllData = async () => {
       await setDoc(doc(collection(db, 'products')), seedProducts[i])
     }
     // 3. Settings
-    seedProgress.value = 'Тохиргоо (3/3)...'
+    seedProgress.value = 'Тохиргоо (3/4)...'
     await setDoc(doc(db, 'settings', 'site'), seedSiteSettings)
+    // 4. Page content
+    seedProgress.value = 'Хуудасны контент (4/4)...'
+    for (const [key, data] of Object.entries(seedPageContent)) {
+      await setDoc(doc(db, 'pageContent', key), data)
+    }
 
     seedDone.value = true
     setTimeout(() => navigateTo('/admin', { replace: true }), 1500)

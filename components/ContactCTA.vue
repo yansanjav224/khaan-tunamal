@@ -1,37 +1,39 @@
 <template>
-  <section class="py-20 md:py-28">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-      <div v-reveal class="card mongolian-border p-10 md:p-16 relative overflow-hidden">
-        <!-- Background glow -->
-        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-gold/5 rounded-full blur-3xl pointer-events-none"></div>
-
-        <div class="relative">
-          <span class="text-gold/60 text-sm font-medium tracking-[0.2em] uppercase mb-4 block">Холбогдох</span>
-          <h2 class="text-2xl md:text-4xl font-display font-bold mb-5">
-            <span class="gold-gradient-text">Сонирхож байна уу?</span>
-          </h2>
-          <p class="text-gray-400 mb-10 max-w-lg mx-auto leading-relaxed">
-            Бүтээгдэхүүнтэй холбоотой мэдээлэл авах, захиалга өгөхийг хүсвэл бидэнтэй холбогдоорой.
-          </p>
-          <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <a v-if="primaryPhone" :href="`tel:${primaryPhone}`" class="btn-gold flex items-center gap-2 text-base">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-              </svg>
-              {{ formatPhone(primaryPhone) }}
-            </a>
-            <NuxtLink to="/contact" class="btn-outline text-base">
-              Холбоо барих хуудас
-            </NuxtLink>
-          </div>
+  <section class="py-section-gap px-6 md:px-margin-desktop max-w-container-max mx-auto">
+    <div class="bg-surface-container-low py-20 px-8 md:px-20 text-center relative overflow-hidden ghost-border" v-reveal>
+      <div class="relative z-10">
+        <span class="font-label-md text-label-md text-secondary tracking-widest uppercase block mb-6">{{ content.contactCTA.label }}</span>
+        <h2 class="font-headline-md text-headline-md text-on-surface mb-8">{{ content.contactCTA.title }}</h2>
+        <p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto mb-12">
+          {{ content.contactCTA.description }}
+        </p>
+        <div class="flex flex-col md:flex-row justify-center gap-8">
+          <a
+            :href="`tel:${content.contactCTA.phone}`"
+            class="flex items-center justify-center gap-4 px-12 py-5 bg-secondary text-on-secondary font-label-md text-label-md uppercase tracking-widest hover:brightness-110 transition-all"
+          >
+            <span class="material-symbols-outlined">call</span>
+            {{ content.contactCTA.phoneDisplay }}
+          </a>
+          <NuxtLink
+            to="/contact"
+            class="flex items-center justify-center gap-4 px-12 py-5 ghost-border text-on-surface font-label-md text-label-md uppercase tracking-widest hover:bg-surface-container-high transition-all"
+          >
+            <span class="material-symbols-outlined">mail</span>
+            {{ content.contactCTA.buttonText }}
+          </NuxtLink>
         </div>
+      </div>
+
+      <!-- Artistic background Mongolian character -->
+      <div class="absolute right-0 top-0 opacity-10 text-[200px] font-display-lg pointer-events-none select-none translate-x-1/4 -translate-y-1/4">
+        ᠬ
       </div>
     </div>
   </section>
 </template>
 
 <script setup lang="ts">
-const { settings } = useSiteSettings()
-
-const primaryPhone = computed(() => settings.value.phones[0]?.number || '')
+const { content, load } = useSharedContent()
+onMounted(() => load())
 </script>
