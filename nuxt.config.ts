@@ -4,6 +4,7 @@ export default defineNuxtConfig({
   modules: ['@nuxtjs/tailwindcss'],
   app: {
     head: {
+      htmlAttrs: { lang: 'mn' },
       title: 'Хаан Тунамал Хийц — Монгол төмөр эдлэл',
       meta: [
         { charset: 'utf-8' },
@@ -11,9 +12,12 @@ export default defineNuxtConfig({
         { name: 'description', content: 'Монгол үндэсний хэв маягтай төмөр зуух, хүжсийн тавиур, зуухны багаж, модон авдар' },
         { property: 'og:title', content: 'Хаан Тунамал Хийц' },
         { property: 'og:description', content: 'Монгол үндэсний хэв маягтай төмөр эдлэл' },
+        { property: 'og:type', content: 'website' },
+        { property: 'og:image', content: '/images/design/design-1.jpg' },
+        { name: 'twitter:card', content: 'summary_large_image' },
       ],
       link: [
-        { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+        { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' },
         { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
         { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' },
         { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&display=swap' },

@@ -11,11 +11,24 @@
         </p>
       </header>
 
+      <!-- Search -->
+      <div class="max-w-md mx-auto mb-10 px-6">
+        <div class="relative">
+          <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant text-[20px] pointer-events-none">search</span>
+          <input
+            v-model="search"
+            type="text"
+            placeholder="Бараа хайх..."
+            class="w-full bg-surface-container border border-outline-variant/40 text-on-surface pl-12 pr-4 py-3 font-body-md text-body-md placeholder:text-on-surface-variant/50 focus:outline-none focus:border-secondary transition-colors"
+          />
+        </div>
+      </div>
+
       <!-- Filter Tabs -->
-      <div class="flex justify-center gap-8 mb-16 px-6 overflow-x-auto whitespace-nowrap">
+      <div class="flex justify-start md:justify-center gap-6 md:gap-8 mb-16 px-6 overflow-x-auto whitespace-nowrap">
         <button
           @click="activeCategory = ''"
-          class="font-label-md text-label-md pb-2 tracking-widest uppercase transition-colors"
+          class="shrink-0 font-label-md text-label-md pb-2 tracking-widest uppercase transition-colors"
           :class="!activeCategory ? 'border-b border-secondary text-on-surface' : 'text-on-surface-variant hover:text-secondary'"
         >
           Бүгд
@@ -24,7 +37,7 @@
           v-for="cat in categories"
           :key="cat.id"
           @click="activeCategory = cat.id"
-          class="font-label-md text-label-md pb-2 tracking-widest uppercase transition-colors"
+          class="shrink-0 font-label-md text-label-md pb-2 tracking-widest uppercase transition-colors"
           :class="activeCategory === cat.id ? 'border-b border-secondary text-on-surface' : 'text-on-surface-variant hover:text-secondary'"
         >
           {{ cat.name }}
@@ -58,8 +71,11 @@
         <!-- Empty State -->
         <div v-else class="text-center py-20">
           <span class="material-symbols-outlined text-outline-variant text-6xl mb-4 block">inventory_2</span>
-          <p class="text-on-surface-variant text-body-lg">{{ content.emptyStateText }}</p>
-          <button @click="clearFilters" class="mt-4 text-label-md text-secondary hover:underline uppercase tracking-widest">{{ content.emptyStateButton }}</button>
+          <template v-if="activeCategory || search.trim()">
+            <p class="text-on-surface-variant text-body-lg">{{ content.emptyStateText }}</p>
+            <button @click="clearFilters" class="mt-4 text-label-md text-secondary hover:underline uppercase tracking-widest">{{ content.emptyStateButton }}</button>
+          </template>
+          <p v-else class="text-on-surface-variant text-body-lg">Одоогоор бараа бүртгэгдээгүй байна.</p>
         </div>
       </section>
 
@@ -72,6 +88,7 @@ const route = useRoute()
 const router = useRouter()
 
 const activeCategory = ref((route.query.category as string) || '')
+const search = ref('')
 const { products: allProducts, loading, getProducts } = useProducts()
 const { categories, getCategories } = useCategories()
 const { content, load } = useProductsContent()
@@ -88,15 +105,31 @@ const filteredProducts = computed(() => {
   if (activeCategory.value) {
     result = result.filter(p => p.category === activeCategory.value)
   }
+  const q = search.value.trim().toLowerCase()
+  if (q) {
+    result = result.filter(p =>
+      p.name.toLowerCase().includes(q) ||
+      (p.description || '').toLowerCase().includes(q)
+    )
+  }
   return result.sort((a, b) => (a.order || 0) - (b.order || 0))
 })
 
 const clearFilters = () => {
   activeCategory.value = ''
+  search.value = ''
   router.replace({ query: {} })
 }
 
 watch(activeCategory, (cat) => {
   router.replace({ query: cat ? { category: cat } : {} })
+})
+
+// Reset a stale/invalid ?category=<id> deep link once categories have loaded,
+// so it doesn't leave the grid empty with no tab highlighted.
+watch(categories, (cats) => {
+  if (activeCategory.value && cats.length && !cats.some(c => c.id === activeCategory.value)) {
+    activeCategory.value = ''
+  }
 })
 </script>

@@ -21,37 +21,23 @@
     <div v-if="initialLoading" class="text-gray-400 py-12 text-center">Ачаалж байна...</div>
 
     <!-- Editors -->
+    <!-- Editors stay mounted (v-show), so unsaved edits survive a tab switch. -->
     <template v-else>
-      <PageHomeEditor
-        v-if="activeTab === 'home'"
-        :model-value="homeContent"
-        :saving="saving"
-        @save="saveHome"
-      />
-      <PageAboutEditor
-        v-if="activeTab === 'about'"
-        :model-value="aboutContent"
-        :saving="saving"
-        @save="saveAbout"
-      />
-      <PageContactEditor
-        v-if="activeTab === 'contact'"
-        :model-value="contactContent"
-        :saving="saving"
-        @save="saveContact"
-      />
-      <PageProductsEditor
-        v-if="activeTab === 'products'"
-        :model-value="productsContent"
-        :saving="saving"
-        @save="saveProducts"
-      />
-      <PageSharedEditor
-        v-if="activeTab === 'shared'"
-        :model-value="sharedContent"
-        :saving="saving"
-        @save="saveShared"
-      />
+      <div v-show="activeTab === 'home'">
+        <PageHomeEditor :model-value="homeContent" :saving="saving" @save="saveHome" />
+      </div>
+      <div v-show="activeTab === 'about'">
+        <PageAboutEditor :model-value="aboutContent" :saving="saving" @save="saveAbout" />
+      </div>
+      <div v-show="activeTab === 'contact'">
+        <PageContactEditor :model-value="contactContent" :saving="saving" @save="saveContact" />
+      </div>
+      <div v-show="activeTab === 'products'">
+        <PageProductsEditor :model-value="productsContent" :saving="saving" @save="saveProducts" />
+      </div>
+      <div v-show="activeTab === 'shared'">
+        <PageSharedEditor :model-value="sharedContent" :saving="saving" @save="saveShared" />
+      </div>
     </template>
 
     <!-- Status -->

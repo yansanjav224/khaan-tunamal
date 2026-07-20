@@ -16,6 +16,7 @@
       <AdminProductForm
         :product="null"
         :categories="categories"
+        :submitting="submitting"
         @submit="handleCreate"
         @cancel="showCreateForm = false"
       />
@@ -33,6 +34,7 @@
         <AdminProductForm
           :product="product"
           :categories="categories"
+          :submitting="submitting"
           @submit="(data) => handleUpdate(product.id, data)"
           @cancel="editingProduct = null"
         />
@@ -55,6 +57,7 @@ onMounted(async () => {
 
 const showCreateForm = ref(false)
 const editingProduct = ref<Product | null>(null)
+const submitting = ref(false)
 
 const openCreateForm = () => {
   editingProduct.value = null
@@ -67,22 +70,30 @@ const openEditForm = (product: Product) => {
 }
 
 const handleCreate = async (data: Omit<Product, 'id'>) => {
+  if (submitting.value) return
+  submitting.value = true
   try {
     await createProduct(data)
     showCreateForm.value = false
     await getProducts()
   } catch (e: any) {
     alert(e.message || 'Алдаа гарлаа')
+  } finally {
+    submitting.value = false
   }
 }
 
 const handleUpdate = async (id: string, data: Omit<Product, 'id'>) => {
+  if (submitting.value) return
+  submitting.value = true
   try {
     await updateProduct(id, data)
     editingProduct.value = null
     await getProducts()
   } catch (e: any) {
     alert(e.message || 'Алдаа гарлаа')
+  } finally {
+    submitting.value = false
   }
 }
 

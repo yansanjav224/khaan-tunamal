@@ -89,6 +89,25 @@
   .product-card:hover .product-overlay {
     opacity: 1;
   }
+
+  /* ---- Restored component classes (used by admin panel + product-detail page) ---- */
+  /* The redesign removed these from CSS/config but ~20 admin/product files still use them. */
+  .card {
+    @apply bg-dark-surface border border-outline-variant/20;
+  }
+  .card-hover {
+    @apply transition-all duration-300 hover:border-secondary/40;
+  }
+  .btn-gold {
+    @apply inline-flex items-center justify-center gap-2 bg-secondary text-on-secondary px-8 py-4 font-label-md text-label-md uppercase tracking-widest transition-all duration-300 hover:bg-secondary-fixed disabled:opacity-50 disabled:pointer-events-none;
+  }
+  .btn-outline {
+    @apply inline-flex items-center justify-center gap-2 border border-outline text-on-surface px-8 py-4 font-label-md text-label-md uppercase tracking-widest transition-all duration-300 hover:border-secondary hover:text-secondary disabled:opacity-50 disabled:pointer-events-none;
+  }
+  .input-dark,
+  .input {
+    @apply w-full bg-dark-surface border border-outline-variant/40 text-on-surface px-4 py-3 text-body-md placeholder:text-on-surface-variant/50 focus:outline-none focus:border-secondary transition-colors;
+  }
 }
 
 /* Scroll reveal */

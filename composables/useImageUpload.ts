@@ -18,14 +18,18 @@ export const useImageUpload = () => {
       formData.append('file', file)
       formData.append('upload_preset', uploadPreset)
       formData.append('folder', 'khaan-tunamal')
-      formData.append('transformation', 'c_limit,w_1200,h_1500,q_auto,f_auto')
+      // NB: unsigned uploads reject a `transformation` param (Cloudinary returns 400).
+      // Sizing/optimization is applied on delivery via optimizeUrl() instead.
 
       const res = await fetch(
         `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
         { method: 'POST', body: formData }
       )
 
-      if (!res.ok) throw new Error('Зураг upload хийхэд алдаа')
+      if (!res.ok) {
+        const detail = await res.text().catch(() => '')
+        throw new Error(`Зураг upload амжилтгүй (${res.status})${detail ? ': ' + detail.slice(0, 200) : ''}`)
+      }
 
       const data = await res.json()
       progress.value = 100

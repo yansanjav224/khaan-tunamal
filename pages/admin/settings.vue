@@ -133,8 +133,6 @@ definePageMeta({ layout: 'admin', middleware: 'auth' })
 
 const { settings, loading, getSettings, updateSettings } = useSiteSettings()
 
-onMounted(() => getSettings())
-
 const form = reactive<SiteSettings>({
   companyName: '',
   companySlogan: '',
@@ -164,7 +162,15 @@ const loadForm = () => {
   form.values = s.values.map(v => ({ ...v }))
 }
 
+// Fill with current (mock/empty) values now, then re-sync once the REAL settings
+// load and whenever they change. Without this, Save would persist the mock
+// defaults over the saved doc (data loss) because getSettings() resolves after setup.
 loadForm()
+onMounted(async () => {
+  await getSettings()
+  loadForm()
+})
+watch(settings, loadForm)
 
 const addPhone = () => {
   form.phones.push({ number: '', label: '' })

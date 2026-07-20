@@ -4,6 +4,9 @@
   "type": "module",
   "description": "",
   "private": true,
+  "engines": {
+    "node": "22.x"
+  },
   "scripts": {
     "dev": "nuxt dev",
     "build": "nuxt build",

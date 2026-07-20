@@ -1,5 +1,5 @@
 <template>
-  <section class="relative min-h-[921px] flex items-center px-6 md:px-margin-desktop max-w-container-max mx-auto overflow-hidden">
+  <section class="relative min-h-[600px] md:min-h-[921px] flex items-center px-6 md:px-margin-desktop max-w-container-max mx-auto overflow-hidden">
     <!-- Mongolian Script Vertical Watermark -->
     <div class="mongolian-script-vertical text-[120px] left-8 top-20 text-secondary hidden lg:block">
       ᠬᠠᠭᠠᠨ ᠲᠤᠨᠠᠮᠠᠯ

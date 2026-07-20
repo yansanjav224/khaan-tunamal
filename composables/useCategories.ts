@@ -30,6 +30,9 @@ export const useCategories = () => {
         .map(d => ({ id: d.id, ...d.data() } as Category))
         .sort((a, b) => (a.order || 0) - (b.order || 0))
       return categories.value
+    } catch (e) {
+      console.error('[Categories] Уншихад алдаа:', e)
+      return categories.value
     } finally {
       loading.value = false
     }

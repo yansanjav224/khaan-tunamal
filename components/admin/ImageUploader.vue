@@ -54,6 +54,8 @@
       class="hidden"
       @change="handleFileSelect"
     />
+
+    <p v-if="uploadError" class="text-red-400 text-xs mt-2">{{ uploadError }}</p>
   </div>
 </template>
 
@@ -70,6 +72,9 @@ const { uploadImage, uploading } = useImageUpload()
 const { isConfigured } = useFirebase()
 const fileInput = ref<HTMLInputElement>()
 const dragOver = ref(false)
+const uploadError = ref('')
+
+const MAX_SIZE = 10 * 1024 * 1024 // 10MB
 
 const openFileDialog = () => {
   fileInput.value?.click()
@@ -91,6 +96,7 @@ const handleDrop = async (e: DragEvent) => {
 }
 
 const uploadFiles = async (files: File[]) => {
+  uploadError.value = ''
   if (!isConfigured.value) {
     // Dev mode: create local preview URLs
     const urls = files.map(f => URL.createObjectURL(f))
@@ -98,14 +104,24 @@ const uploadFiles = async (files: File[]) => {
     return
   }
 
+  // Accumulate locally and emit once, so parallel prop flushes can't drop images.
+  const added: string[] = []
   for (const file of files) {
+    if (!file.type.startsWith('image/')) {
+      uploadError.value = `${file.name}: зөвхөн зураг оруулна уу`
+      continue
+    }
+    if (file.size > MAX_SIZE) {
+      uploadError.value = `${file.name}: хэмжээ 10MB-аас хэтэрсэн байна`
+      continue
+    }
     try {
-      const url = await uploadImage(file)
-      emit('update:modelValue', [...props.modelValue, url])
-    } catch (e) {
-      console.error('Зураг upload алдаа:', e)
+      added.push(await uploadImage(file))
+    } catch (e: any) {
+      uploadError.value = `${file.name}: ${e?.message || 'upload амжилтгүй'}`
     }
   }
+  if (added.length) emit('update:modelValue', [...props.modelValue, ...added])
 }
 
 const removeImage = (index: number) => {

@@ -39,6 +39,9 @@ export const useProducts = () => {
         .map(d => ({ id: d.id, ...d.data() } as Product))
         .sort((a, b) => (a.order || 0) - (b.order || 0))
       return products.value
+    } catch (e) {
+      console.error('[Products] Уншихад алдаа:', e)
+      return products.value
     } finally {
       loading.value = false
     }
@@ -54,6 +57,9 @@ export const useProducts = () => {
 
       const snap = await getDoc(doc(db, 'products', id))
       product.value = snap.exists() ? { id: snap.id, ...snap.data() } as Product : null
+      return product.value
+    } catch (e) {
+      console.error('[Products] Бараа уншихад алдаа:', e)
       return product.value
     } finally {
       loading.value = false
@@ -76,6 +82,9 @@ export const useProducts = () => {
       products.value = snap.docs
         .map(d => ({ id: d.id, ...d.data() } as Product))
         .sort((a, b) => (a.order || 0) - (b.order || 0))
+      return products.value
+    } catch (e) {
+      console.error('[Products] Уншихад алдаа:', e)
       return products.value
     } finally {
       loading.value = false

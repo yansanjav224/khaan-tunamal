@@ -45,6 +45,7 @@
       </div>
     </div>
     <input ref="fileInput" type="file" accept="image/*" class="hidden" @change="handleFileSelect" />
+    <p v-if="uploadError" class="text-red-400 text-xs mt-2">{{ uploadError }}</p>
   </div>
 </template>
 
@@ -62,6 +63,9 @@ const { uploadImage, uploading } = useImageUpload()
 const { isConfigured } = useFirebase()
 const fileInput = ref<HTMLInputElement>()
 const dragOver = ref(false)
+const uploadError = ref('')
+
+const MAX_SIZE = 10 * 1024 * 1024 // 10MB
 
 const openFileDialog = () => fileInput.value?.click()
 
@@ -81,15 +85,24 @@ const handleDrop = async (e: DragEvent) => {
 }
 
 const uploadFile = async (file: File) => {
+  uploadError.value = ''
   if (!isConfigured.value) {
     emit('update:modelValue', URL.createObjectURL(file))
+    return
+  }
+  if (!file.type.startsWith('image/')) {
+    uploadError.value = 'Зөвхөн зураг оруулна уу'
+    return
+  }
+  if (file.size > MAX_SIZE) {
+    uploadError.value = 'Хэмжээ 10MB-аас хэтэрсэн байна'
     return
   }
   try {
     const url = await uploadImage(file)
     emit('update:modelValue', url)
-  } catch (e) {
-    console.error('Зураг upload алдаа:', e)
+  } catch (e: any) {
+    uploadError.value = e?.message || 'Зураг upload амжилтгүй'
   }
 }
 </script>

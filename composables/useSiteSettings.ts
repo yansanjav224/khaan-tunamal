@@ -22,7 +22,9 @@ export const useSiteSettings = () => {
     try {
       const snap = await getDoc(doc(db, 'settings', 'site'))
       if (snap.exists()) {
-        siteSettings.value = snap.data() as SiteSettings
+        // Merge over defaults so a partial/legacy doc can't leave phones/values/etc.
+        // undefined (AppFooter + contact page call settings.phones.map on every page).
+        siteSettings.value = { ...mockSiteSettings, ...(snap.data() as Partial<SiteSettings>) }
       } else {
         siteSettings.value = mockSiteSettings
       }

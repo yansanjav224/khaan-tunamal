@@ -43,7 +43,7 @@
           <span class="material-symbols-outlined text-secondary text-3xl mb-6 block">call</span>
           <h3 class="font-headline-sm text-headline-sm text-on-surface mb-3">{{ content.cards.phoneTitle }}</h3>
           <p class="font-body-md text-body-md text-on-surface-variant">
-            {{ settings.phones.map(p => formatPhone(p.number)).join(', ') }}
+            {{ (settings.phones || []).map(p => formatPhone(p.number)).join(', ') }}
           </p>
           <p class="font-body-sm text-body-sm text-outline mt-2">{{ content.cards.businessHours }}</p>
         </div>
@@ -53,8 +53,7 @@
           <h3 class="font-headline-sm text-headline-sm text-on-surface mb-3">{{ content.cards.emailTitle }}</h3>
           <p class="font-body-md text-body-md text-on-surface-variant">{{ content.cards.email }}</p>
           <div class="flex gap-6 mt-4 pt-4 border-t border-outline-variant/20">
-            <a href="#" class="font-label-md text-label-md text-on-surface-variant hover:text-secondary transition-colors uppercase tracking-widest">{{ content.cards.instagramLabel }}</a>
-            <a :href="settings.facebookUrl" target="_blank" class="font-label-md text-label-md text-on-surface-variant hover:text-secondary transition-colors uppercase tracking-widest">{{ content.cards.facebookLabel }}</a>
+            <a :href="settings.facebookUrl" target="_blank" rel="noopener noreferrer" class="font-label-md text-label-md text-on-surface-variant hover:text-secondary transition-colors uppercase tracking-widest">{{ content.cards.facebookLabel }}</a>
           </div>
         </div>
       </div>

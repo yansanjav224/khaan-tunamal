@@ -17,8 +17,9 @@ import type { Category } from '~/composables/useMockData'
 definePageMeta({ layout: 'admin', middleware: 'auth' })
 
 const { categories, getCategories, createCategory, updateCategory, deleteCategory } = useCategories()
+const { products, getProducts } = useProducts()
 
-onMounted(() => getCategories())
+onMounted(() => Promise.all([getCategories(), getProducts()]))
 
 const handleCreate = async (data: { name: string; order: number }) => {
   try {
@@ -39,7 +40,11 @@ const handleUpdate = async (id: string, data: { name: string; order: number }) =
 }
 
 const handleDelete = async (cat: Category) => {
-  if (!confirm(`"${cat.name}" ангилалыг устгах уу?`)) return
+  const affected = products.value.filter(p => p.category === cat.id).length
+  const message = affected > 0
+    ? `"${cat.name}" ангилалд ${affected} бараа байна. Устгавал тэдгээр нь ангилалгүй болно. Үргэлжлүүлэх үү?`
+    : `"${cat.name}" ангилалыг устгах уу?`
+  if (!confirm(message)) return
   try {
     await deleteCategory(cat.id)
     await getCategories()

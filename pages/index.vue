@@ -45,8 +45,8 @@
           class="md:col-span-8 md:row-span-1 relative group overflow-hidden gallery-hover"
         >
           <img :src="bentoItems[0].image" :alt="bentoItems[0].name" class="w-full h-full object-cover" />
-          <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-12">
-            <div class="transform translate-y-8 group-hover:translate-y-0 transition-transform">
+          <div class="absolute inset-0 bg-black/40 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity flex items-end p-12">
+            <div class="transform md:translate-y-8 md:group-hover:translate-y-0 transition-transform">
               <span class="font-label-md text-label-md text-secondary uppercase">{{ bentoItems[0].label }}</span>
               <h3 class="font-headline-sm text-headline-sm text-on-surface">{{ bentoItems[0].name }}</h3>
             </div>
@@ -59,7 +59,7 @@
           class="md:col-span-4 md:row-span-2 relative group overflow-hidden gallery-hover bg-surface-container-low p-1 ghost-border"
         >
           <img :src="bentoItems[1].image" :alt="bentoItems[1].name" class="w-full h-full object-cover" />
-          <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-center items-center text-center p-8">
+          <div class="absolute inset-0 bg-black/40 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity flex flex-col justify-center items-center text-center p-8">
             <span class="font-label-md text-label-md text-secondary uppercase">{{ bentoItems[1].label }}</span>
             <h3 class="font-headline-sm text-headline-sm text-on-surface">{{ bentoItems[1].name }}</h3>
           </div>
@@ -71,7 +71,7 @@
           class="md:col-span-4 md:row-span-1 relative group overflow-hidden gallery-hover"
         >
           <img :src="bentoItems[2].image" :alt="bentoItems[2].name" class="w-full h-full object-cover" />
-          <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-8">
+          <div class="absolute inset-0 bg-black/40 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity flex items-end p-8">
             <div>
               <span class="font-label-md text-label-md text-secondary uppercase">{{ bentoItems[2].label }}</span>
               <h3 class="font-headline-sm text-headline-sm text-on-surface">{{ bentoItems[2].name }}</h3>
@@ -85,7 +85,7 @@
           class="md:col-span-4 md:row-span-1 relative group overflow-hidden gallery-hover"
         >
           <img :src="bentoItems[3].image" :alt="bentoItems[3].name" class="w-full h-full object-cover" />
-          <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-8">
+          <div class="absolute inset-0 bg-black/40 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity flex items-end p-8">
             <div>
               <span class="font-label-md text-label-md text-secondary uppercase">{{ bentoItems[3].label }}</span>
               <h3 class="font-headline-sm text-headline-sm text-on-surface">{{ bentoItems[3].name }}</h3>
@@ -173,10 +173,10 @@ onMounted(async () => {
 
 // Fallback images from design
 const fallbackImages = [
-  'https://lh3.googleusercontent.com/aida-public/AB6AXuAeX_hHBfNhRd6czvapKAS6r3Ar4VRSsynT-xFUslPFC08Hqb0kNC2x_pqllwsbDBIl-4LI5K0bTAASVDXpaQQaKlFP82MqzsVpwLeAYF6LcLoYGNSfJ_y5hrcbNf_opRo5b4HQgVTBvGeRpB6DpGCr-0BYXzVL0mipzmBvZ57VaT1GE6SLfvQ2CZCXnvhE7Iug52xUk7hnxbnVKYbyLU7YdvUGyTjw4BEsZCdYhc9bvesEFavI6j3dKo_0tkZEAZPYHEMP5Dj1BsZ9',
-  'https://lh3.googleusercontent.com/aida-public/AB6AXuDkqXAtyj9sEgDqMMjtsfYuu0X6oxbV4UlqXdpgBozKWETJvvdf55tYktKesCPXqOcpDjlrzroWoVgQ_MaWwMkJcXDuuzd9m0rVTqFe8PDkwa2N0OSD5BYcrVgH9Dos4NhC7HGyGF8PNuS9pUqV2TVVI7KlOPcE6PUdG7HEGCDCvs2XaeuxYoxGEY_fK_zFe89p0b7crnmIwS87pErptl4E6teDssKqfYV0vf6DGJy_ycziEDxJxQJqTLeGYVAveSO2TYE7qBRwK0Mn',
-  'https://lh3.googleusercontent.com/aida-public/AB6AXuAslTjtpF-6vhpejqHolHVfeR3Am4BIQ-9wQk0rNR05_7a9Ec7cLP9cPd_9rC1QWN_pegJfI7CYNtSDgMcsufZcjTHd8Z3_3TS_pwJYVlIkjmTE0PoOyYJsymceBPpdD64DduNbmmK0RPnxCaS0gDk5DuZLqYBHF6oyWD4sTu1kKdcbjx06c4v7dGzt-ndKWye-eY7bIAYITilXCsbbSrErcW7bqCK-gGCfYKqzkJ9sVS-LaeFeB95_MUgquoKFSK9s0ZYRYwWDF6po',
-  'https://lh3.googleusercontent.com/aida-public/AB6AXuC_TwJ2us7U645IsOaurU1JzaEfGYmRDg4aSac3nnO0c6usB_HbH8ekMFpApgHTX_qAu8ClZ8pFMvpc9t_tkriU0LXhLFGk6ymOBEEWMpspRMfJ_DkA3jlHXdVRi25FaOheD3Qrgh1cntrHa_86cuHclmsxGgx_qDKldHrOGfonDvv5F_jdSmZEQNNym3Oy4RyRo_xgIgSCUFN1XegLQ_dx6COlTdvPdQLQao2XevVwoNy9LHc7ihxbQueSk4OJaFHEyi6stUZf4qr8',
+  '/images/design/design-1.jpg',
+  '/images/design/design-15.jpg',
+  '/images/design/design-2.jpg',
+  '/images/design/design-6.jpg',
 ]
 
 const fallbackLabels = ['Дээд зэрэглэл', 'Дагалдах хэрэгсэл', 'Өв уламжлал', 'Урлалын багаж']
@@ -196,10 +196,10 @@ const bentoItems = computed(() => {
 })
 
 const categoryFallbackImages = [
-  'https://lh3.googleusercontent.com/aida-public/AB6AXuCmDwg5nfpLi6rlMohU8c-So-iGwLhuKOgsWqs5PUp6Cdmg4Hqydrrd6BrXLCUeieIb0KbrhGjdfnhykQ8PnqaKB26rF8AjmansTHrrKE2ramy258ARKXvUuta_q1wrvxOI9LQbSZUdG5OIu7cAuy7Syomk-wEVo5x-rWX_JY_NPoiqa69eJzm5-AePUKTZywShemuC08LvMr2U5-ltC1Sa-3XgGYviAymxwWZfBAQKf852duXJ3OXR3RVXLbHUyc3ZbtKOLuQoFEwJ',
-  'https://lh3.googleusercontent.com/aida-public/AB6AXuBfhCldYHAefjN0vKC8gmQw9ZvWFdcmRwalxCL9IDOQho6k81ND21Fn8pU6cvx4OgpzzFrGv72mga0pHtKrN9xjaZ70WRMkCv4W6kp2k6Y4hRHqh80bloxLBMn61KaX3jWwlgVqeynZP814C459Ofu9AQ_jk_Nw0XKgHZkPDRBryzk23yQ888qtuCnMMjzZowfM87_xFog2hX2zNtsuFjAQzrmJHOhkf60RR717upZ86H9vxP1JyTNajamZNCLYsRoZJnTkH6_l7xwe',
-  'https://lh3.googleusercontent.com/aida-public/AB6AXuCVpVbuDYlQm7qNViqJcwJkrDsobesrA8F9sOUGS3sggHzWcxQDg_h6jSrK8j6DA_N8cUpqxxsCaOFDXBn1Aj09x6slkfc1PcDpTU_FR-7Vne_c9e0qdZjWMklMqXn14zsEnsDaFSHYQck4AHUT776nPUqICvz_AkeUsLwM0YfZQ48hbG1fOmZgdlr47HRDToZQTcxMxk9VXNSpn06aRkxPnJyAPJAoe7JSIZ9TFFMr-4D16K2yFiqWWUaqGQknTvzq0irlQkn-w1sA',
-  'https://lh3.googleusercontent.com/aida-public/AB6AXuDjcDEjSQAhzYmq-CY_WZchXc58VzwUlmPTt7UpH4zTD6MqG0w_3mak5x3Yx2rqJIXbT1CPY0wwBSX8j34TpfEq7s15CB-OlRpYV8-a2V0NtFVaJ6m4caQ3kKTK-2Q6J61JXSmIh7Ba-0lIduvEwyVB8l1eoeP8W21VVcD2jCycgvTMXh1mqUMjB88bmDPX8tNY_uA0MFzpZxhwvrhr1c4LxvPOFpGtwiTr3MnQxpYjEW4dII4KnQXDsWMbVcqY__lInWfVlKusRYbl',
+  '/images/design/design-8.jpg',
+  '/images/design/design-3.jpg',
+  '/images/design/design-11.jpg',
+  '/images/design/design-13.jpg',
 ]
 const categoryFallbackNames = ['Төмөр эдлэл', 'Модон эдлэл', 'Дагалдах хэрэгсэл', 'Захиалгат бүтээл']
 
@@ -207,7 +207,7 @@ const categoryItems = computed(() => {
   if (categories.value.length) {
     return categories.value.slice(0, 4).map((cat, i) => ({
       ...cat,
-      image: categoryFallbackImages[i] || categoryFallbackImages[0],
+      image: (cat as any).image || categoryFallbackImages[i] || categoryFallbackImages[0],
     }))
   }
   return categoryFallbackNames.map((name, i) => ({

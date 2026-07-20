@@ -48,8 +48,8 @@
       <AdminImageUploader v-model="form.images" />
 
       <div class="flex gap-3 pt-4">
-        <button type="submit" :disabled="saving" class="btn-gold disabled:opacity-50">
-          {{ saving ? 'Хадгалж байна...' : (editing ? 'Хадгалах' : 'Нэмэх') }}
+        <button type="submit" :disabled="submitting" class="btn-gold disabled:opacity-50">
+          {{ submitting ? 'Хадгалж байна...' : (editing ? 'Хадгалах' : 'Нэмэх') }}
         </button>
         <button type="button" @click="$emit('cancel')" class="btn-outline">
           Болих
@@ -65,6 +65,7 @@ import type { Product, Category } from '~/composables/useMockData'
 const props = defineProps<{
   product?: Product | null
   categories: Category[]
+  submitting?: boolean
 }>()
 
 const emit = defineEmits<{
@@ -73,7 +74,6 @@ const emit = defineEmits<{
 }>()
 
 const editing = computed(() => !!props.product)
-const saving = ref(false)
 
 const form = reactive({
   name: props.product?.name || '',
@@ -86,12 +86,9 @@ const form = reactive({
   order: props.product?.order || 1,
 })
 
-const handleSubmit = async () => {
-  saving.value = true
-  try {
-    emit('submit', { ...form })
-  } finally {
-    saving.value = false
-  }
+const handleSubmit = () => {
+  // Parent owns the async Firestore write and passes `submitting` back to disable
+  // the button — prevents the double-submit that created duplicate products.
+  emit('submit', { ...form })
 }
 </script>

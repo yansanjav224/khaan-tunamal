@@ -75,10 +75,9 @@ const { login, loading: loginLoading, error, isAuthenticated, isConfigured } = u
 const email = ref('')
 const password = ref('')
 
-// Already logged in
-if (isAuthenticated.value) {
-  navigateTo('/admin')
-}
+// Redirect once auth resolves — covers both the already-logged-in case and the
+// async session restore (the old one-shot check ran while user was still null).
+watch(isAuthenticated, (v) => { if (v) navigateTo('/admin') }, { immediate: true })
 
 const handleLogin = async () => {
   const success = await login(email.value, password.value)

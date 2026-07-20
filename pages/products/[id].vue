@@ -80,6 +80,12 @@ onMounted(async () => {
   ])
 })
 
+// Refetch when navigating directly between two product pages (component is reused,
+// so onMounted won't refire) — otherwise the previous product's data would linger.
+watch(() => route.params.id, (id) => {
+  if (id) getProduct(id as string)
+})
+
 const categoryName = computed(() => {
   if (!product.value) return ''
   const cat = categories.value.find(c => c.id === product.value!.category)

@@ -88,7 +88,7 @@
 </template>
 
 <script setup lang="ts">
-import { collection, doc, setDoc } from 'firebase/firestore'
+import { doc, setDoc } from 'firebase/firestore'
 import { seedCategories, seedProducts, seedSiteSettings, seedPageContent } from '~/composables/useSeedData'
 
 definePageMeta({ layout: 'admin', middleware: 'auth' })
@@ -114,22 +114,25 @@ const seedAllData = async () => {
   seeding.value = true
   seedError.value = ''
   try {
-    // 1. Categories
-    seedProgress.value = 'Ангилал (1/3)...'
-    for (const cat of seedCategories) {
-      const { id, ...data } = cat
-      await setDoc(doc(db, 'categories', id), data)
+    // 1. Categories (fixed ids, idempotent) — skip if already present
+    if (categories.value.length === 0) {
+      seedProgress.value = 'Ангилал (1/4)...'
+      for (const cat of seedCategories) {
+        const { id, ...data } = cat
+        await setDoc(doc(db, 'categories', id), data)
+      }
     }
-    // 2. Products
-    seedProgress.value = 'Бараа (2/3)...'
-    for (let i = 0; i < seedProducts.length; i++) {
-      seedProgress.value = `Бараа ${i + 1}/${seedProducts.length}...`
-      await setDoc(doc(collection(db, 'products')), seedProducts[i])
+    // 2. Products — use fixed ids so re-running the seed can't create duplicates.
+    if (products.value.length === 0) {
+      for (let i = 0; i < seedProducts.length; i++) {
+        seedProgress.value = `Бараа ${i + 1}/${seedProducts.length}...`
+        await setDoc(doc(db, 'products', `seed-${i + 1}`), seedProducts[i])
+      }
     }
-    // 3. Settings
+    // 3. Settings (fixed id, idempotent)
     seedProgress.value = 'Тохиргоо (3/4)...'
     await setDoc(doc(db, 'settings', 'site'), seedSiteSettings)
-    // 4. Page content
+    // 4. Page content (fixed ids, idempotent)
     seedProgress.value = 'Хуудасны контент (4/4)...'
     for (const [key, data] of Object.entries(seedPageContent)) {
       await setDoc(doc(db, 'pageContent', key), data)
