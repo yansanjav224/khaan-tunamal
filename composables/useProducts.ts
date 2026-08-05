@@ -1,119 +1,80 @@
-import {
-  collection,
-  doc,
-  getDocs,
-  getDoc,
-  addDoc,
-  updateDoc,
-  deleteDoc,
-  query,
-  where,
-} from 'firebase/firestore'
-import { mockProducts, type Product } from './useMockData'
+import type { Product } from './useMockData'
 
-// Shared state — persists across page navigations
-const products = ref<Product[]>([])
-const product = ref<Product | null>(null)
-const loading = ref(false)
-
+/**
+ * Products.
+ *
+ * Reads go through `/api/products`, which is rendered on the server and cached
+ * — that is what puts real product data in the SSR HTML (for Google/Facebook)
+ * and keeps Firestore reads proportional to time rather than to visitors.
+ *
+ * Writes and the admin's own reads use the Firebase SDK directly: the admin
+ * must see their change immediately, not after the server cache expires.
+ */
 export const useProducts = () => {
-  const { db, isConfigured } = useFirebase()
+  const { requireDb, load } = useFirebase()
 
-  const getProducts = async (categoryFilter?: string) => {
-    loading.value = true
-    try {
-      if (!isConfigured.value || !db) {
-        products.value = categoryFilter
-          ? mockProducts.filter(p => p.category === categoryFilter)
-          : [...mockProducts]
-        return products.value
-      }
+  const asyncData = useAsyncData<Product[]>(
+    'products',
+    () => $fetch<Product[]>('/api/products'),
+    {
+      default: () => [] as Product[],
+      // Reuse the payload across client-side navigation instead of refetching.
+      getCachedData: (key, nuxtApp) => nuxtApp.payload.data[key] as Product[] | undefined,
+    },
+  )
+  const { data, status, refresh } = asyncData
 
-      const col = collection(db, 'products')
-      const q = categoryFilter
-        ? query(col, where('category', '==', categoryFilter))
-        : query(col)
+  /** Await the initial fetch — needed before deciding a product is missing. */
+  const ready = () => Promise.resolve(asyncData)
 
-      const snap = await getDocs(q)
-      products.value = snap.docs
-        .map(d => ({ id: d.id, ...d.data() } as Product))
-        .sort((a, b) => (a.order || 0) - (b.order || 0))
-      return products.value
-    } catch (e) {
-      console.error('[Products] Уншихад алдаа:', e)
-      return products.value
-    } finally {
-      loading.value = false
-    }
-  }
+  const products = data as Ref<Product[]>
+  const loading = computed(() => status.value === 'pending')
 
-  const getProduct = async (id: string) => {
-    loading.value = true
-    try {
-      if (!isConfigured.value || !db) {
-        product.value = mockProducts.find(p => p.id === id) || null
-        return product.value
-      }
+  const featuredProducts = computed(() =>
+    products.value.filter(p => p.featured).sort((a, b) => (a.order || 0) - (b.order || 0)),
+  )
 
-      const snap = await getDoc(doc(db, 'products', id))
-      product.value = snap.exists() ? { id: snap.id, ...snap.data() } as Product : null
-      return product.value
-    } catch (e) {
-      console.error('[Products] Бараа уншихад алдаа:', e)
-      return product.value
-    } finally {
-      loading.value = false
-    }
-  }
+  const findProduct = (id: string) => products.value.find(p => p.id === id) || null
 
-  const getFeaturedProducts = async () => {
-    loading.value = true
-    try {
-      if (!isConfigured.value || !db) {
-        products.value = mockProducts.filter(p => p.featured)
-        return products.value
-      }
-
-      const q = query(
-        collection(db, 'products'),
-        where('featured', '==', true),
-      )
-      const snap = await getDocs(q)
-      products.value = snap.docs
-        .map(d => ({ id: d.id, ...d.data() } as Product))
-        .sort((a, b) => (a.order || 0) - (b.order || 0))
-      return products.value
-    } catch (e) {
-      console.error('[Products] Уншихад алдаа:', e)
-      return products.value
-    } finally {
-      loading.value = false
-    }
+  /** Bypass the server cache — used by the admin after a write. */
+  const refreshLive = async () => {
+    const fb = await load()
+    if (!fb) return refresh()
+    const { collection, getDocs } = await import('firebase/firestore')
+    const snap = await getDocs(collection(fb.db, 'products'))
+    products.value = snap.docs
+      .map(d => ({ id: d.id, ...d.data() } as Product))
+      .sort((a, b) => (a.order || 0) - (b.order || 0))
+    return products.value
   }
 
   const createProduct = async (data: Omit<Product, 'id'>) => {
-    if (!db) throw new Error('Firebase тохируулаагүй')
-    const docRef = await addDoc(collection(db, 'products'), data)
-    return docRef.id
+    const db = await requireDb()
+    const { collection, addDoc } = await import('firebase/firestore')
+    const ref = await addDoc(collection(db, 'products'), data)
+    return ref.id
   }
 
   const updateProduct = async (id: string, data: Partial<Product>) => {
-    if (!db) throw new Error('Firebase тохируулаагүй')
+    const db = await requireDb()
+    const { doc, updateDoc } = await import('firebase/firestore')
     await updateDoc(doc(db, 'products', id), data)
   }
 
   const deleteProduct = async (id: string) => {
-    if (!db) throw new Error('Firebase тохируулаагүй')
+    const db = await requireDb()
+    const { doc, deleteDoc } = await import('firebase/firestore')
     await deleteDoc(doc(db, 'products', id))
   }
 
   return {
     products,
-    product,
     loading,
-    getProducts,
-    getProduct,
-    getFeaturedProducts,
+    ready,
+    featuredProducts,
+    findProduct,
+    refresh,
+    refreshLive,
     createProduct,
     updateProduct,
     deleteProduct,

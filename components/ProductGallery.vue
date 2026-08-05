@@ -3,7 +3,7 @@
     <!-- Main image -->
     <div
       ref="containerRef"
-      class="aspect-square bg-dark-surface rounded-2xl overflow-hidden mb-4 border border-dark-border/60 relative"
+      class="aspect-square bg-surface-container overflow-hidden mb-4 ghost-border relative"
       :class="images.length ? 'cursor-none' : ''"
       @mousemove="onMouseMove"
       @mouseenter="onMouseEnter"
@@ -12,16 +12,16 @@
     >
       <img
         v-if="images.length"
-        :src="images[activeIndex]"
+        :src="imgUrl(images[activeIndex], IMG.hero)"
         :alt="alt"
         class="w-full h-full object-cover"
       />
       <div v-else class="w-full h-full flex items-center justify-center">
         <div class="text-center">
-          <svg class="w-16 h-16 text-dark-border mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg class="w-16 h-16 text-outline-variant mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
           </svg>
-          <span class="text-dark-border text-sm">Зураг байхгүй</span>
+          <span class="text-outline-variant font-body-sm text-body-sm">Зураг байхгүй</span>
         </div>
       </div>
 
@@ -39,10 +39,10 @@
         v-for="(img, i) in images"
         :key="i"
         @click="activeIndex = i"
-        class="w-20 h-20 rounded-lg overflow-hidden border-2 transition-all flex-shrink-0"
-        :class="activeIndex === i ? 'border-gold shadow-[0_0_10px_rgba(197,165,90,0.2)]' : 'border-dark-border/60 hover:border-gold/50'"
+        class="w-20 h-20 overflow-hidden border transition-all flex-shrink-0"
+        :class="activeIndex === i ? 'border-secondary' : 'border-outline-variant/40 hover:border-secondary/60'"
       >
-        <img :src="img" :alt="`${alt} - ${i + 1}`" class="w-full h-full object-cover" />
+        <img :src="imgUrl(img, IMG.thumb)" :alt="`${alt} — зураг ${i + 1}`" class="w-full h-full object-cover" loading="lazy" decoding="async" />
       </button>
     </div>
 
@@ -59,9 +59,9 @@
           </svg>
         </button>
         <img
-          :src="images[activeIndex]"
+          :src="imgUrl(images[activeIndex], IMG.full)"
           :alt="alt"
-          class="max-w-[90vw] max-h-[90vh] object-contain rounded-lg"
+          class="max-w-[90vw] max-h-[90vh] object-contain"
         />
       </div>
     </Teleport>
@@ -104,7 +104,7 @@ const lensStyle = computed(() => {
     height: `${LENS_SIZE}px`,
     left: `${mouseX.value - half}px`,
     top: `${mouseY.value - half}px`,
-    backgroundImage: `url(${props.images[activeIndex.value]})`,
+    backgroundImage: `url(${imgUrl(props.images[activeIndex.value], IMG.full)})`,
     backgroundSize: `${bgWidth}px ${bgHeight}px`,
     backgroundPosition: `${bgX}px ${bgY}px`,
     backgroundRepeat: 'no-repeat',

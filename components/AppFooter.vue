@@ -26,8 +26,11 @@
         <div class="text-right space-y-6">
           <h4 class="font-label-md text-label-md uppercase tracking-widest text-secondary">Холбоо барих</h4>
           <ul class="space-y-4">
-            <li class="font-body-md text-body-md text-on-surface-variant">
-              {{ (settings.phones || []).map(p => formatPhone(p.number)).join(', ') }}
+            <li v-for="p in settings.phones || []" :key="p.number">
+              <a
+                :href="`tel:${p.number}`"
+                class="font-body-md text-body-md text-on-surface-variant hover:text-secondary transition-colors"
+              >{{ formatPhone(p.number) }}</a>
             </li>
             <li>
               <a :href="settings.facebookUrl" target="_blank" rel="noopener noreferrer" class="font-body-md text-body-md text-on-surface-variant hover:text-secondary transition-colors">Facebook хуудас</a>
@@ -54,12 +57,5 @@
 
 <script setup lang="ts">
 const { settings } = useSiteSettings()
-const { content: sharedContent, load } = useSharedContent()
-
-onMounted(() => load())
-
-const formatPhone = (num: string) => {
-  if (num.length === 8) return `${num.slice(0, 4)}-${num.slice(4)}`
-  return num
-}
+const { content: sharedContent } = useSharedContent()
 </script>

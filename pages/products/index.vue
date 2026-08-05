@@ -1,10 +1,10 @@
 <template>
   <div class="relative z-10">
-    <main class="pt-40">
-      <!-- Hero Section -->
-      <header class="px-6 md:px-margin-desktop max-w-container-max mx-auto mb-section-gap text-center">
+    <main class="pt-32 md:pt-40">
+      <!-- Hero -->
+      <header class="px-6 md:px-margin-desktop max-w-container-max mx-auto mb-24 md:mb-section-gap text-center">
         <span class="font-label-md text-label-md text-secondary uppercase tracking-[0.3em] block mb-4" v-reveal>{{ content.hero.label }}</span>
-        <h1 class="font-display-lg text-display-lg md:text-[64px] mb-8 text-on-surface italic" v-reveal>{{ content.hero.title }}</h1>
+        <h1 class="font-display-lg text-display-lg-mobile md:text-[64px] mb-8 text-on-surface italic" v-reveal>{{ content.hero.title }}</h1>
         <div class="w-24 h-px bg-secondary/50 mx-auto mb-12" v-reveal></div>
         <p class="max-w-2xl mx-auto font-body-lg text-body-lg text-on-surface-variant leading-relaxed" v-reveal>
           {{ content.hero.description }}
@@ -15,16 +15,18 @@
       <div class="max-w-md mx-auto mb-10 px-6">
         <div class="relative">
           <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant text-[20px] pointer-events-none">search</span>
+          <label for="product-search" class="sr-only">Бараа хайх</label>
           <input
+            id="product-search"
             v-model="search"
-            type="text"
+            type="search"
             placeholder="Бараа хайх..."
             class="w-full bg-surface-container border border-outline-variant/40 text-on-surface pl-12 pr-4 py-3 font-body-md text-body-md placeholder:text-on-surface-variant/50 focus:outline-none focus:border-secondary transition-colors"
           />
         </div>
       </div>
 
-      <!-- Filter Tabs -->
+      <!-- Filter tabs -->
       <div class="flex justify-start md:justify-center gap-6 md:gap-8 mb-16 px-6 overflow-x-auto whitespace-nowrap">
         <button
           @click="activeCategory = ''"
@@ -44,22 +46,13 @@
         </button>
       </div>
 
-      <!-- Gallery Grid -->
+      <!-- Grid -->
       <section class="px-6 md:px-margin-desktop max-w-container-max mx-auto pb-section-gap">
-        <!-- Loading -->
-        <div v-if="loading" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-24 gap-x-gutter">
-          <div v-for="i in 6" :key="i" class="animate-pulse">
-            <div class="aspect-[4/5] bg-surface-container-high mb-6"></div>
-            <div class="text-center space-y-2">
-              <div class="h-3 bg-surface-container-high w-1/3 mx-auto"></div>
-              <div class="h-5 bg-surface-container-high w-2/3 mx-auto"></div>
-              <div class="h-4 bg-surface-container-high w-1/4 mx-auto"></div>
-            </div>
-          </div>
-        </div>
+        <p v-if="filteredProducts.length" class="sr-only" aria-live="polite">
+          {{ filteredProducts.length }} бүтээгдэхүүн олдлоо
+        </p>
 
-        <!-- Products Grid -->
-        <div v-else-if="filteredProducts.length" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-24 gap-x-gutter">
+        <div v-if="filteredProducts.length" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-24 gap-x-gutter">
           <ProductCard
             v-for="p in filteredProducts"
             :key="p.id"
@@ -68,7 +61,6 @@
           />
         </div>
 
-        <!-- Empty State -->
         <div v-else class="text-center py-20">
           <span class="material-symbols-outlined text-outline-variant text-6xl mb-4 block">inventory_2</span>
           <template v-if="activeCategory || search.trim()">
@@ -78,7 +70,6 @@
           <p v-else class="text-on-surface-variant text-body-lg">Одоогоор бараа бүртгэгдээгүй байна.</p>
         </div>
       </section>
-
     </main>
   </div>
 </template>
@@ -87,18 +78,33 @@
 const route = useRoute()
 const router = useRouter()
 
+const { products: allProducts } = useProducts()
+const { categories } = useCategories()
+const { content } = useProductsContent()
+const { base } = useSiteUrl()
+
 const activeCategory = ref((route.query.category as string) || '')
 const search = ref('')
-const { products: allProducts, loading, getProducts } = useProducts()
-const { categories, getCategories } = useCategories()
-const { content, load } = useProductsContent()
 
-onMounted(async () => {
-  await load()
-  if (!allProducts.value.length || !categories.value.length) {
-    await Promise.all([getProducts(), getCategories()])
-  }
-})
+usePageSeo(() => ({
+  title: `${content.value.hero.title} — Бүтээгдэхүүн | Хаан Тунамал Хийц`,
+  description: content.value.hero.description,
+  image: allProducts.value[0]?.images?.[0],
+}))
+
+// An ItemList tells Google this is a product listing rather than a plain page.
+useJsonLd(() => ({
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: 'Хаан Тунамал Хийц — бүтээгдэхүүн',
+  numberOfItems: allProducts.value.length,
+  itemListElement: allProducts.value.slice(0, 30).map((p, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    name: p.name,
+    url: `${base}/products/${p.id}`,
+  })),
+}))
 
 const filteredProducts = computed(() => {
   let result = [...allProducts.value]
@@ -109,7 +115,7 @@ const filteredProducts = computed(() => {
   if (q) {
     result = result.filter(p =>
       p.name.toLowerCase().includes(q) ||
-      (p.description || '').toLowerCase().includes(q)
+      (p.description || '').toLowerCase().includes(q),
     )
   }
   return result.sort((a, b) => (a.order || 0) - (b.order || 0))
@@ -125,11 +131,11 @@ watch(activeCategory, (cat) => {
   router.replace({ query: cat ? { category: cat } : {} })
 })
 
-// Reset a stale/invalid ?category=<id> deep link once categories have loaded,
-// so it doesn't leave the grid empty with no tab highlighted.
+// Reset a stale/invalid ?category=<id> deep link once categories are known, so
+// it can't leave the grid empty with no tab highlighted.
 watch(categories, (cats) => {
   if (activeCategory.value && cats.length && !cats.some(c => c.id === activeCategory.value)) {
     activeCategory.value = ''
   }
-})
+}, { immediate: true })
 </script>

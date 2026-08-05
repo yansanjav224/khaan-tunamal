@@ -1,7 +1,7 @@
 <template>
   <section class="relative min-h-[600px] md:min-h-[921px] flex items-center px-6 md:px-margin-desktop max-w-container-max mx-auto overflow-hidden">
     <!-- Mongolian Script Vertical Watermark -->
-    <div class="mongolian-script-vertical text-[120px] left-8 top-20 text-secondary hidden lg:block">
+    <div class="mongolian-script-vertical font-mongolian text-[120px] left-8 top-20 text-secondary hidden lg:block">
       ᠬᠠᠭᠠᠨ ᠲᠤᠨᠠᠮᠠᠯ
     </div>
 
@@ -36,10 +36,15 @@
       <div class="md:col-span-7 relative flex justify-center mt-12 md:mt-0" v-reveal="{ delay: 300 }">
         <div class="relative w-full aspect-square max-w-2xl">
           <div class="absolute inset-0 bg-gradient-to-tr from-secondary/5 to-transparent rounded-full blur-3xl"></div>
+          <!-- Largest-contentful element: eager + high priority, never lazy. -->
           <img
-            :src="content.hero.image"
-            alt="Монгол гар урлал"
+            :src="imgUrl(content.hero.image, 1000)"
+            alt="Монгол гар урлалын төмөр зуух"
             class="w-full h-full object-contain drop-shadow-[0_20px_50px_rgba(233,193,118,0.2)] relative z-10"
+            width="1000"
+            height="1000"
+            fetchpriority="high"
+            decoding="async"
           />
         </div>
       </div>
@@ -48,6 +53,5 @@
 </template>
 
 <script setup lang="ts">
-const { content, load } = useHomeContent()
-onMounted(() => load())
+const { content } = useHomeContent()
 </script>

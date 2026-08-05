@@ -1,127 +1,71 @@
-import { doc, getDoc, setDoc } from 'firebase/firestore'
-import type {
-  HomeContent, AboutContent, ContactContent,
-  ProductsContent, SharedContent,
-} from './usePageContentDefaults'
-import {
-  defaultHomeContent, defaultAboutContent, defaultContactContent,
-  defaultProductsContent, defaultSharedContent,
-} from './usePageContentDefaults'
+import type { PageKey, PageContentMap } from './usePageContentDefaults'
+import { pageContentDefaults } from './usePageContentDefaults'
 
-type PageContentMap = {
-  home: HomeContent
-  about: AboutContent
-  contact: ContactContent
-  products: ProductsContent
-  shared: SharedContent
-}
-
-type PageKey = keyof PageContentMap
-
-const defaultsMap: Record<PageKey, any> = {
-  home: defaultHomeContent,
-  about: defaultAboutContent,
-  contact: defaultContactContent,
-  products: defaultProductsContent,
-  shared: defaultSharedContent,
-}
-
-const cache = new Map<PageKey, { data: Ref<any>; loaded: boolean }>()
-
-function getCache<K extends PageKey>(key: K) {
-  if (!cache.has(key)) {
-    cache.set(key, {
-      data: ref(structuredClone(defaultsMap[key])),
-      loaded: false,
-    })
-  }
-  return cache.get(key)!
-}
-
+/**
+ * Admin-editable page copy, stored one document per page in Firestore
+ * `pageContent/{key}`.
+ *
+ * `/api/page-content/[key]` deep-merges the stored document over the defaults
+ * server-side, so the SSR HTML already contains the final copy and a partially
+ * filled document can never blank out a section.
+ */
 export function usePageContent<K extends PageKey>(pageKey: K) {
-  const { db, isConfigured } = useFirebase()
-  const loading = ref(false)
-  const entry = getCache(pageKey)
-  const content = entry.data as Ref<PageContentMap[K]>
+  const { requireDb, load } = useFirebase()
 
-  const load = async () => {
-    if (entry.loaded) return content.value
+  const { data, status, refresh } = useAsyncData<PageContentMap[K]>(
+    `page-content:${pageKey}`,
+    () => $fetch<PageContentMap[K]>(`/api/page-content/${pageKey}`),
+    {
+      default: () => structuredClone(pageContentDefaults[pageKey]),
+      getCachedData: (key, nuxtApp) => nuxtApp.payload.data[key] as PageContentMap[K] | undefined,
+    },
+  )
 
-    if (!isConfigured.value || !db) {
-      content.value = structuredClone(defaultsMap[pageKey])
-      entry.loaded = true
-      return content.value
-    }
+  const content = data as Ref<PageContentMap[K]>
+  const loading = computed(() => status.value === 'pending')
 
-    loading.value = true
-    try {
-      const snap = await getDoc(doc(db, 'pageContent', pageKey))
-      if (snap.exists()) {
-        // Deep merge: keep defaults for any missing keys
-        content.value = deepMerge(structuredClone(defaultsMap[pageKey]), snap.data()) as PageContentMap[K]
-      } else {
-        content.value = structuredClone(defaultsMap[pageKey])
-      }
-      entry.loaded = true
-    } catch (e) {
-      console.error(`[PageContent] ${pageKey} уншихад алдаа:`, e)
-      content.value = structuredClone(defaultsMap[pageKey])
-    } finally {
-      loading.value = false
-    }
+  /** Bypass the server cache — used by the admin page editor. */
+  const refreshLive = async () => {
+    const fb = await load()
+    if (!fb) return refresh()
+    const { doc, getDoc } = await import('firebase/firestore')
+    const snap = await getDoc(doc(fb.db, 'pageContent', pageKey))
+    const defaults = structuredClone(pageContentDefaults[pageKey])
+    content.value = snap.exists()
+      ? (deepMerge(defaults, snap.data()) as PageContentMap[K])
+      : defaults
     return content.value
   }
 
-  const save = async (data: PageContentMap[K]) => {
-    if (!isConfigured.value || !db) {
-      throw new Error('Firebase тохируулаагүй байна')
-    }
-
-    loading.value = true
-    try {
-      await setDoc(doc(db, 'pageContent', pageKey), data as any)
-      content.value = data
-    } catch (e) {
-      console.error(`[PageContent] ${pageKey} хадгалахад алдаа:`, e)
-      throw e
-    } finally {
-      loading.value = false
-    }
+  const save = async (payload: PageContentMap[K]) => {
+    const db = await requireDb()
+    const { doc, setDoc } = await import('firebase/firestore')
+    await setDoc(doc(db, 'pageContent', pageKey), payload as any)
+    content.value = payload
   }
 
-  const refresh = () => {
-    entry.loaded = false
-    return load()
-  }
-
-  return { content, loading, load, save, refresh }
+  return { content, loading, refresh, refreshLive, save }
 }
 
-// Convenience composables for each page
 export const useHomeContent = () => usePageContent('home')
 export const useAboutContent = () => usePageContent('about')
 export const useContactContent = () => usePageContent('contact')
 export const useProductsContent = () => usePageContent('products')
 export const useSharedContent = () => usePageContent('shared')
 
-// Deep merge utility — arrays are replaced, not merged
+/** Deep merge — objects merge key-by-key, arrays are replaced wholesale. */
 function deepMerge(target: any, source: any): any {
   if (!source || typeof source !== 'object') return target
   if (Array.isArray(source)) return source
 
   const result = { ...target }
   for (const key of Object.keys(source)) {
-    if (
-      source[key] &&
-      typeof source[key] === 'object' &&
-      !Array.isArray(source[key]) &&
-      target[key] &&
-      typeof target[key] === 'object' &&
-      !Array.isArray(target[key])
-    ) {
-      result[key] = deepMerge(target[key], source[key])
-    } else if (source[key] !== undefined) {
-      result[key] = source[key]
+    const s = source[key]
+    const t = target?.[key]
+    if (s && typeof s === 'object' && !Array.isArray(s) && t && typeof t === 'object' && !Array.isArray(t)) {
+      result[key] = deepMerge(t, s)
+    } else if (s !== undefined) {
+      result[key] = s
     }
   }
   return result

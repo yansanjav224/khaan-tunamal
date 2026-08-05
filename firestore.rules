@@ -1,21 +1,69 @@
 rules_version = '2';
+
+// Хаан Тунамал Хийц — Firestore security rules
+//
+// The previous version allowed writes from ANY authenticated user
+// (`request.auth != null`). Because the Firebase API key is public and
+// email/password self-signup was open, anyone could register an account and
+// then edit or delete every product, category and setting. Writes are now
+// restricted to an explicit admin allowlist.
+//
+// Adding an admin: append their Firebase Auth UID to ADMIN_UIDS below and
+// redeploy with `firebase deploy --only firestore:rules`.
+
 service cloud.firestore {
   match /databases/{database}/documents {
+
+    function isAdmin() {
+      return request.auth != null && request.auth.uid in [
+        'jERW7F79AoZud348mr0o0v2RUeq2'  // eyansanjav@gmail.com
+      ];
+    }
+
+    // ---- Public catalogue: world-readable, admin-writable ----
+    // Reads must stay open: the server renders pages with the public API key.
+
     match /products/{document} {
       allow read: if true;
-      allow write: if request.auth != null;
+      allow write: if isAdmin();
     }
+
     match /categories/{document} {
       allow read: if true;
-      allow write: if request.auth != null;
+      allow write: if isAdmin();
     }
+
     match /settings/{document} {
       allow read: if true;
-      allow write: if request.auth != null;
+      allow write: if isAdmin();
     }
+
     match /pageContent/{document} {
       allow read: if true;
-      allow write: if request.auth != null;
+      allow write: if isAdmin();
     }
+
+    // ---- Contact form ----
+    // Anyone may submit one message; nobody but the admin may read them.
+    // The shape is pinned here so an open create endpoint cannot be used to
+    // store arbitrary data, and the length caps bound how much a flood costs.
+
+    match /messages/{document} {
+      allow read, update, delete: if isAdmin();
+      allow create: if request.resource.data.keys().hasOnly(['name', 'phone', 'message', 'createdAt', 'read'])
+                    && request.resource.data.keys().hasAll(['name', 'phone', 'message', 'createdAt'])
+                    && request.resource.data.name is string
+                    && request.resource.data.name.size() >= 2
+                    && request.resource.data.name.size() <= 80
+                    && request.resource.data.phone is string
+                    && request.resource.data.phone.size() >= 6
+                    && request.resource.data.phone.size() <= 20
+                    && request.resource.data.message is string
+                    && request.resource.data.message.size() >= 5
+                    && request.resource.data.message.size() <= 1000
+                    && request.resource.data.read == false;
+    }
+
+    // Anything not matched above is denied.
   }
 }

@@ -150,7 +150,7 @@ export const defaultHomeContent: HomeContent = {
     title: 'Хаан Тунамал',
     titleLine2: 'Хийц',
     description: 'Монгол үндэсний хэв маягтай төмөр зуух, хүжсийн тавиур, зуухны багаж болон бусад эдлэлийг гар урлалаар бүтээнэ.',
-    image: '/images/design/design-5.jpg',
+    image: '/images/design/design-5.webp',
     buttonProducts: 'Бүтээгдэхүүн үзэх',
     buttonContact: 'Холбоо барих',
   },
@@ -161,7 +161,7 @@ export const defaultHomeContent: HomeContent = {
     label: 'Тунамалын мөн чанар',
     title: 'Монгол үндэсний урлал',
     description: '"Хаан Тунамал Хийц" нь Монгол үндэсний өв соёл, уламжлалыг орчин үеийн урлалтай хослуулан, төмөр болон модон эдлэлийг хамгийн өндөр түвшинд урлан гаргаж байна. Бидний эдлэл бүр дахин давтагдашгүй түүх, өв уламжлалыг өөртөө агуулдаг.',
-    image: '/images/craftsman-tools.png',
+    image: '/images/craftsman-tools.webp',
     experienceNumber: '10',
     experienceLabel: 'Жилийн туршлага',
     features: ['100% Гар урлал', 'Дээд зэргийн чанартай материал'],
@@ -177,7 +177,7 @@ export const defaultAboutContent: AboutContent = {
     label: 'Талын өв уламжлал',
     title: 'Бидний тухай',
     description: 'Монгол үндэсний хэв маягтай төмөр эдлэл, гар урлалын шилдэг өв уламжлалыг орчин үеийн хэрэглээнд зохицуулан урлаж байна.',
-    image: '/images/design/design-14.jpg',
+    image: '/images/design/design-14.webp',
   },
   story: {
     title: 'Бидний түүх',
@@ -188,24 +188,24 @@ export const defaultAboutContent: AboutContent = {
       { value: '50+', label: 'Бүтээгдэхүүн' },
     ],
     quote: 'Урлаг бол сэтгэлийн илэрхийлэл, харин дархны ур бол өв соёлын тамга юм.',
-    image: '/images/design/design-7.jpg',
+    image: '/images/design/design-7.webp',
   },
   craftSectionTitle: 'Гар урлалын уламжлал',
   crafts: [
     {
       title: 'Материал Сонголт',
       description: 'Хамгийн сайн чанарын ган болон цэвэр гуулийг сонгон авч, эдэлгээ даах бат бөх байдлыг эрхэмлэдэг.',
-      image: '/images/design/design-10.jpg',
+      image: '/images/design/design-10.webp',
     },
     {
       title: 'Гар сийлбэр',
       description: 'Бүтээл бүрт монгол хээ угалзыг гараар сийлж, дахин давтагдашгүй урлагийн бүтээл болгон амилуулна.',
-      image: '/images/design/design-4.jpg',
+      image: '/images/design/design-4.webp',
     },
     {
       title: 'Эцсийн өнгөлгөө',
       description: 'Уламжлалт аргаар өнгөлж, металлын байгалийн өнгийг тодотгон тансаг зэрэглэлийн харагдах байдлыг бүрдүүлдэг.',
-      image: '/images/design/design-12.jpg',
+      image: '/images/design/design-12.webp',
     },
   ],
   valuesSectionTitle: 'Бидний үнэт зүйлс',
@@ -214,7 +214,7 @@ export const defaultAboutContent: AboutContent = {
     { title: 'Өв уламжлал', description: 'Монгол дархны ухааныг хадгалж, ирээдүй хойчдоо өвлүүлэн үлдээх эрхэм зорилготой.' },
     { title: 'Үнэнч байдал', description: 'Хэрэглэгчийн хүсэл сонирхолд нийцсэн, сэтгэлд хүрсэн бүтээлийг нийлүүлнэ.' },
   ],
-  valuesImage: '/images/design/design-9.jpg',
+  valuesImage: '/images/design/design-9.webp',
   cta: {
     title: 'Бидэнтэй холбогдох',
     description: 'Бүтээгдэхүүнтэй холбоотой мэдээлэл авах, захиалга өгөхийг хүсвэл бидэнтэй холбогдоорой.',
@@ -229,7 +229,7 @@ export const defaultContactContent: ContactContent = {
     label: 'Бидэнтэй холбогдох',
     titleLine1: 'Өв соёл, урлахуйн ухааныг',
     titleHighlight: 'алтан хэлхээгээр',
-    image: '/images/design/design-16.jpg',
+    image: '/images/design/design-16.webp',
   },
   cards: {
     locationTitle: 'Showroom',
@@ -267,4 +267,26 @@ export const defaultSharedContent: SharedContent = {
     brandName: 'ХААН ТУНАМАЛ ХИЙЦ',
     copyright: 'ХААН ТУНАМАЛ ХИЙЦ. Бүх эрх хуулиар хамгаалагдсан.',
   },
+}
+
+// ===================== REGISTRY =====================
+// Shared by the client composable and the /api/page-content/[key] handler, so
+// both sides merge stored content over exactly the same defaults.
+
+export type PageKey = 'home' | 'about' | 'contact' | 'products' | 'shared'
+
+export type PageContentMap = {
+  home: HomeContent
+  about: AboutContent
+  contact: ContactContent
+  products: ProductsContent
+  shared: SharedContent
+}
+
+export const pageContentDefaults: PageContentMap = {
+  home: defaultHomeContent,
+  about: defaultAboutContent,
+  contact: defaultContactContent,
+  products: defaultProductsContent,
+  shared: defaultSharedContent,
 }

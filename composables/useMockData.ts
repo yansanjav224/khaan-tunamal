@@ -1,3 +1,11 @@
+/**
+ * Shared domain types + the fallback site settings.
+ *
+ * `defaultSiteSettings` is the merge base for whatever is stored in Firestore
+ * `settings/site`, so a partial or missing document can never leave the footer
+ * / contact page reading `undefined.map(...)`.
+ */
+
 export interface SitePhone {
   number: string
   label: string
@@ -22,7 +30,35 @@ export interface SiteSettings {
   values: SiteValue[]
 }
 
-export const mockSiteSettings: SiteSettings = {
+export interface Product {
+  id: string
+  name: string
+  description: string
+  price: number
+  category: string
+  images: string[]
+  featured: boolean
+  sizes?: string
+  order: number
+}
+
+export interface Category {
+  id: string
+  name: string
+  order: number
+  image?: string
+}
+
+export interface ContactMessage {
+  id?: string
+  name: string
+  phone: string
+  message: string
+  createdAt: string
+  read?: boolean
+}
+
+export const defaultSiteSettings: SiteSettings = {
   companyName: 'Хаан Тунамал Хийц',
   companySlogan: 'Монгол төмөр эдлэл',
   companyDescription: 'Монгол үндэсний хэв маягтай төмөр зуух, хүжсийн тавиур, модон авдар болон бусад эдлэл үйлдвэрлэгч.',
@@ -41,43 +77,3 @@ export const mockSiteSettings: SiteSettings = {
     { icon: 'bolt', title: 'Шинэлэг', description: 'Орчин үеийн технологи, дизайныг уламжлалтай хослуулан шинэлэг бүтээгдэхүүн гаргана.' },
   ],
 }
-
-export interface Product {
-  id: string
-  name: string
-  description: string
-  price: number
-  category: string
-  images: string[]
-  featured: boolean
-  sizes?: string
-  order: number
-}
-
-export interface Category {
-  id: string
-  name: string
-  order: number
-}
-
-export const mockCategories: Category[] = [
-  { id: 'zuukh-beleg', name: 'Бэлэг дурсгалын зуух', order: 1 },
-  { id: 'zuukh-tom', name: 'Том зуух', order: 2 },
-  { id: 'taviur', name: 'Хүжсийн тавиур', order: 3 },
-  { id: 'avdar', name: 'Модон авдар', order: 4 },
-  { id: 'mashin', name: 'Машины тавцан', order: 5 },
-]
-
-export const mockProducts: Product[] = [
-  {
-    id: '1',
-    name: 'Бэлэг дурсгалын зуух "Хаан Тунамал" 16 таш (алтлаг)',
-    description: 'Монгол бичигтэй, алтлаг өнгийн 16 ташмал бэлэг дурсгалын зуух.',
-    price: 850000,
-    category: 'zuukh-beleg',
-    images: [],
-    featured: true,
-    sizes: '16см',
-    order: 1,
-  },
-]

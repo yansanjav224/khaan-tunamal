@@ -1,71 +1,45 @@
-import { doc, getDoc, setDoc } from 'firebase/firestore'
 import type { SiteSettings } from './useMockData'
-import { mockSiteSettings } from './useMockData'
+import { defaultSiteSettings } from './useMockData'
 
-const siteSettings = ref<SiteSettings>(mockSiteSettings)
-const loaded = ref(false)
-
+/**
+ * Site-wide settings (company name, phones, Facebook URL, address).
+ * The API merges the stored document over `defaultSiteSettings`, so consumers
+ * can always assume `phones` and `values` are arrays.
+ */
 export const useSiteSettings = () => {
-  const { db, isConfigured } = useFirebase()
-  const loading = ref(false)
+  const { requireDb, load } = useFirebase()
 
-  const getSettings = async () => {
-    if (!isConfigured.value || !db) {
-      siteSettings.value = mockSiteSettings
-      loaded.value = true
-      return siteSettings.value
-    }
+  const { data, status, refresh } = useAsyncData<SiteSettings>(
+    'settings',
+    () => $fetch<SiteSettings>('/api/settings'),
+    {
+      default: () => ({ ...defaultSiteSettings }),
+      getCachedData: (key, nuxtApp) => nuxtApp.payload.data[key] as SiteSettings | undefined,
+    },
+  )
 
-    if (loaded.value) return siteSettings.value
+  const settings = data as Ref<SiteSettings>
+  const loading = computed(() => status.value === 'pending')
 
-    loading.value = true
-    try {
-      const snap = await getDoc(doc(db, 'settings', 'site'))
-      if (snap.exists()) {
-        // Merge over defaults so a partial/legacy doc can't leave phones/values/etc.
-        // undefined (AppFooter + contact page call settings.phones.map on every page).
-        siteSettings.value = { ...mockSiteSettings, ...(snap.data() as Partial<SiteSettings>) }
-      } else {
-        siteSettings.value = mockSiteSettings
-      }
-      loaded.value = true
-    } catch (e) {
-      console.error('[SiteSettings] Уншихад алдаа:', e)
-      siteSettings.value = mockSiteSettings
-    } finally {
-      loading.value = false
-    }
-    return siteSettings.value
+  /** Bypass the server cache — used by the admin settings page. */
+  const refreshLive = async () => {
+    const fb = await load()
+    if (!fb) return refresh()
+    const { doc, getDoc } = await import('firebase/firestore')
+    const snap = await getDoc(doc(fb.db, 'settings', 'site'))
+    settings.value = snap.exists()
+      ? { ...defaultSiteSettings, ...(snap.data() as Partial<SiteSettings>) }
+      : { ...defaultSiteSettings }
+    return settings.value
   }
 
-  const updateSettings = async (data: Partial<SiteSettings>) => {
-    if (!isConfigured.value || !db) {
-      throw new Error('Firebase тохируулаагүй байна')
-    }
-
-    loading.value = true
-    try {
-      const updated = { ...siteSettings.value, ...data }
-      await setDoc(doc(db, 'settings', 'site'), updated)
-      siteSettings.value = updated
-    } catch (e) {
-      console.error('[SiteSettings] Хадгалахад алдаа:', e)
-      throw e
-    } finally {
-      loading.value = false
-    }
+  const updateSettings = async (payload: Partial<SiteSettings>) => {
+    const db = await requireDb()
+    const { doc, setDoc } = await import('firebase/firestore')
+    const updated = { ...settings.value, ...payload }
+    await setDoc(doc(db, 'settings', 'site'), updated)
+    settings.value = updated
   }
 
-  const refresh = () => {
-    loaded.value = false
-    return getSettings()
-  }
-
-  return {
-    settings: siteSettings,
-    loading,
-    getSettings,
-    updateSettings,
-    refresh,
-  }
+  return { settings, loading, refresh, refreshLive, updateSettings }
 }

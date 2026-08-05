@@ -11,9 +11,11 @@
         <div class="md:col-span-6 order-1" v-reveal>
           <div class="aspect-[4/5] overflow-hidden">
             <img
-              :src="content.hero.image"
-              alt="Craftsmanship"
+              :src="imgUrl(content.hero.image, 800)"
+              alt="Хаан Тунамал Хийц — гар урлал"
               class="w-full h-full object-cover grayscale-[30%] brightness-75"
+              fetchpriority="high"
+              decoding="async"
             />
           </div>
         </div>
@@ -48,7 +50,13 @@
           </div>
           <div class="md:col-span-6 md:col-start-8 relative" v-reveal="{ delay: 200 }">
             <div class="aspect-[4/5] bg-surface-container relative overflow-hidden">
-              <img :src="content.story.image" alt="Heritage Detail" class="w-full h-full object-cover" />
+              <img
+                :src="imgUrl(content.story.image, 800)"
+                alt="Өв уламжлалын нарийн ажил"
+                class="w-full h-full object-cover"
+                loading="lazy"
+                decoding="async"
+              />
             </div>
             <!-- Pull Quote -->
             <div class="absolute -bottom-12 -left-12 bg-surface p-12 ghost-border hidden lg:block max-w-md">
@@ -70,7 +78,13 @@
           <div class="grid md:grid-cols-3 gap-16">
             <div v-for="(craft, i) in content.crafts" :key="craft.title" v-reveal="{ delay: i * 200 }">
               <div class="aspect-square mb-8 overflow-hidden grayscale hover:grayscale-0 transition-all duration-700">
-                <img :src="craft.image" :alt="craft.title" class="w-full h-full object-cover" />
+                <img
+                  :src="imgUrl(craft.image, 600)"
+                  :alt="craft.title"
+                  class="w-full h-full object-cover"
+                  loading="lazy"
+                  decoding="async"
+                />
               </div>
               <h3 class="font-headline-sm text-headline-sm text-secondary mb-4 uppercase tracking-wider">{{ craft.title }}</h3>
               <p class="font-body-md text-body-md text-on-surface-variant">{{ craft.description }}</p>
@@ -97,7 +111,13 @@
           <div class="relative md:mt-24" v-reveal="{ delay: 200 }">
             <div class="ghost-border p-4">
               <div class="bg-surface-container h-[600px] overflow-hidden">
-                <img :src="content.valuesImage" alt="Workshop Focus" class="w-full h-full object-cover" />
+                <img
+                  :src="imgUrl(content.valuesImage, 800)"
+                  alt="Урлангийн ажлын үе"
+                  class="w-full h-full object-cover"
+                  loading="lazy"
+                  decoding="async"
+                />
               </div>
             </div>
           </div>
@@ -122,6 +142,29 @@
 </template>
 
 <script setup lang="ts">
-const { content, load } = useAboutContent()
-onMounted(() => load())
+const { content } = useAboutContent()
+const { settings } = useSiteSettings()
+const { base, abs } = useSiteUrl()
+
+usePageSeo(() => ({
+  title: `${content.value.hero.title} | Хаан Тунамал Хийц`,
+  description: content.value.hero.description,
+  image: content.value.hero.image,
+}))
+
+useJsonLd(() => ({
+  '@context': 'https://schema.org',
+  '@type': 'AboutPage',
+  name: content.value.hero.title,
+  description: content.value.hero.description,
+  url: `${base}/about`,
+  mainEntity: {
+    '@type': 'Organization',
+    name: settings.value.companyName,
+    description: content.value.story.text1,
+    url: base,
+    logo: abs('/favicon.svg'),
+    sameAs: settings.value.facebookUrl ? [settings.value.facebookUrl] : [],
+  },
+}))
 </script>

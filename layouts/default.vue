@@ -7,8 +7,3 @@
     <AppFooter />
   </div>
 </template>
-
-<script setup lang="ts">
-const { getSettings } = useSiteSettings()
-onMounted(() => getSettings())
-</script>

@@ -1,95 +1,166 @@
 <template>
-  <div class="py-12 md:py-20">
-    <div class="max-w-[1280px] mx-auto px-5 md:px-margin-desktop">
-      <!-- Back link -->
-      <NuxtLink to="/products" class="inline-flex items-center gap-2 text-on-surface-variant hover:text-gold transition-colors mb-8 text-label-md uppercase tracking-widest">
+  <!-- pt clears the fixed header (~88px); the old py-12/py-20 put the back link
+       and the top of the card underneath it. -->
+  <div class="pt-32 md:pt-40 pb-24">
+    <div class="max-w-container-max mx-auto px-6 md:px-margin-desktop">
+      <NuxtLink
+        to="/products"
+        class="inline-flex items-center gap-2 text-on-surface-variant hover:text-secondary transition-colors mb-8 font-label-md text-label-md uppercase tracking-widest"
+      >
         <span class="material-symbols-outlined text-lg">arrow_back</span>
         Бүтээгдэхүүн рүү буцах
       </NuxtLink>
 
-      <div v-if="loading" class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 animate-pulse">
-        <div class="aspect-[4/3] bg-dark-surface"></div>
-        <div class="space-y-4">
-          <div class="h-8 bg-dark-surface w-3/4"></div>
-          <div class="h-6 bg-dark-surface w-1/4"></div>
-          <div class="h-20 bg-dark-surface"></div>
-        </div>
-      </div>
-
-      <div v-else-if="product" class="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14">
-        <!-- Gallery -->
+      <div v-if="product" class="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14">
         <ProductGallery :images="product.images || []" :alt="product.name" />
 
-        <!-- Details -->
         <div class="flex flex-col">
-          <!-- Info card -->
-          <div class="border border-outline-variant/10 bg-dark-surface/30 p-6 lg:p-8 mb-6">
-            <div v-if="categoryName" class="inline-block text-gold text-[10px] font-bold uppercase tracking-[0.3em] mb-4 px-3 py-1 border border-gold/30 bg-gold/5">{{ categoryName }}</div>
-            <h1 class="font-display text-headline-lg text-on-surface mb-5">{{ product.name }}</h1>
+          <!-- Info -->
+          <div class="ghost-border bg-surface-container-low/40 p-6 lg:p-8 mb-6">
+            <NuxtLink
+              v-if="categoryName"
+              :to="`/products?category=${product.category}`"
+              class="inline-block text-secondary text-caption uppercase tracking-[0.3em] mb-4 px-3 py-1 border border-secondary/30 bg-secondary/5 hover:bg-secondary/15 transition-colors"
+            >{{ categoryName }}</NuxtLink>
+
+            <h1 class="font-display-lg text-headline-lg text-on-surface mb-5">{{ product.name }}</h1>
 
             <div class="flex items-baseline gap-2 mb-6">
-              <span class="text-gold font-display text-headline-lg">{{ formatPrice(product.price) }}</span>
-              <span class="text-gold/60 text-lg">₮</span>
+              <span class="text-secondary font-display-lg text-headline-lg">{{ formatPrice(product.price) }}</span>
+              <span class="text-secondary/60 text-lg">₮</span>
             </div>
 
-            <div v-if="product.sizes" class="flex items-center gap-3 mb-6 pb-6 border-b border-outline-variant/10">
+            <div v-if="product.sizes" class="flex flex-wrap items-center gap-3 mb-6 pb-6 border-b border-outline-variant/20">
               <span class="text-on-surface-variant text-caption uppercase tracking-widest">Хэмжээ</span>
-              <div class="flex gap-2">
-                <span v-for="size in product.sizes.split(',')" :key="size" class="text-on-surface text-caption px-3 py-1 border border-outline-variant/20 bg-dark-surface/50">{{ size.trim() }}</span>
+              <div class="flex flex-wrap gap-2">
+                <span
+                  v-for="size in product.sizes.split(',')"
+                  :key="size"
+                  class="text-on-surface text-caption px-3 py-1 border border-outline-variant/30"
+                >{{ size.trim() }}</span>
               </div>
             </div>
 
-            <p class="text-on-surface-variant text-body-md leading-relaxed">{{ product.description }}</p>
+            <p class="text-on-surface-variant text-body-md leading-relaxed whitespace-pre-line">{{ product.description }}</p>
           </div>
 
-          <!-- CTA card -->
-          <div class="border border-outline-variant/10 bg-dark-surface/30 p-6 lg:p-8">
+          <!-- CTA -->
+          <div class="ghost-border bg-surface-container-low/40 p-6 lg:p-8">
             <p class="text-on-surface-variant text-body-md mb-5">Захиалга өгөх, дэлгэрэнгүй мэдээлэл авахыг хүсвэл:</p>
             <div class="flex flex-col sm:flex-row gap-3">
-              <a href="tel:99907191" class="btn-gold flex items-center justify-center gap-2 flex-1">
+              <a
+                v-for="(p, i) in settings.phones || []"
+                :key="p.number"
+                :href="`tel:${p.number}`"
+                class="flex-1 inline-flex items-center justify-center gap-2 px-8 py-4 font-label-md text-label-md uppercase tracking-widest transition-all duration-300"
+                :class="i === 0
+                  ? 'bg-secondary text-on-secondary hover:brightness-110'
+                  : 'border border-outline text-on-surface hover:border-secondary hover:text-secondary'"
+              >
                 <span class="material-symbols-outlined text-lg">call</span>
-                9990-7191
-              </a>
-              <a href="tel:99732244" class="btn-outline flex items-center justify-center gap-2 flex-1">
-                <span class="material-symbols-outlined text-lg">call</span>
-                9973-2244
+                {{ formatPhone(p.number) }}
               </a>
             </div>
+            <a
+              v-if="settings.facebookUrl"
+              :href="settings.facebookUrl"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="mt-3 w-full inline-flex items-center justify-center gap-2 px-8 py-4 ghost-border font-label-md text-label-md uppercase tracking-widest text-on-surface hover:bg-surface-container-high transition-all"
+            >
+              <span class="material-symbols-outlined text-lg">chat</span>
+              Facebook-ээр бичих
+            </a>
           </div>
         </div>
       </div>
 
       <div v-else class="text-center py-20">
         <span class="material-symbols-outlined text-outline-variant text-6xl mb-4 block">inventory_2</span>
-        <p class="text-on-surface-variant text-body-lg">Бүтээгдэхүүн олдсонгүй</p>
-        <NuxtLink to="/products" class="btn-outline mt-4 inline-block">Бүтээгдэхүүн рүү буцах</NuxtLink>
+        <p class="text-on-surface-variant text-body-lg mb-6">Бүтээгдэхүүн олдсонгүй</p>
+        <NuxtLink
+          to="/products"
+          class="inline-flex items-center justify-center px-8 py-4 ghost-border font-label-md text-label-md uppercase tracking-widest hover:border-secondary hover:text-secondary transition-all"
+        >Бүтээгдэхүүн рүү буцах</NuxtLink>
       </div>
+
+      <!-- Related — internal links Google can follow, and a way out of a dead end -->
+      <section v-if="related.length" class="mt-section-gap">
+        <div class="fine-line opacity-20 mb-16"></div>
+        <h2 class="font-headline-md text-headline-md text-on-surface mb-12 text-center">Төстэй бүтээгдэхүүн</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-16 gap-x-gutter">
+          <ProductCard v-for="p in related" :key="p.id" :product="p" v-reveal />
+        </div>
+      </section>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 const route = useRoute()
-const { product, loading, getProduct } = useProducts()
-const { categories, getCategories } = useCategories()
+const { products, findProduct, ready } = useProducts()
+const { categoryName: lookupCategory } = useCategories()
+const { settings } = useSiteSettings()
+const { abs, base } = useSiteUrl()
 
-onMounted(async () => {
-  await Promise.all([
-    getProduct(route.params.id as string),
-    categories.value.length ? Promise.resolve() : getCategories(),
-  ])
+const productId = computed(() => route.params.id as string)
+const product = computed(() => findProduct(productId.value))
+
+// Return a real 404 rather than a 200 with an empty page — a soft 404 keeps the
+// URL in Google's index. Wait for the catalogue first, and only 404 when it
+// actually loaded, so an API hiccup can't bury a valid product.
+await ready()
+if (products.value.length && !product.value) {
+  // statusMessage stays ASCII — h3 sanitises it; the Mongolian text goes in `message`.
+  throw createError({
+    statusCode: 404,
+    statusMessage: 'Not Found',
+    message: 'Бүтээгдэхүүн олдсонгүй',
+    fatal: true,
+  })
+}
+
+const categoryName = computed(() => (product.value ? lookupCategory(product.value.category) : ''))
+
+const related = computed(() => {
+  const p = product.value
+  if (!p) return []
+  return products.value
+    .filter(x => x.id !== p.id && x.category === p.category)
+    .slice(0, 3)
 })
 
-// Refetch when navigating directly between two product pages (component is reused,
-// so onMounted won't refire) — otherwise the previous product's data would linger.
-watch(() => route.params.id, (id) => {
-  if (id) getProduct(id as string)
-})
+usePageSeo(() => ({
+  title: product.value
+    ? `${product.value.name} | Хаан Тунамал Хийц`
+    : 'Бүтээгдэхүүн олдсонгүй | Хаан Тунамал Хийц',
+  description: product.value
+    ? `${product.value.description || product.value.name} Үнэ: ${formatPrice(product.value.price)}₮.`
+    : 'Хүссэн бүтээгдэхүүн олдсонгүй.',
+  image: product.value?.images?.[0],
+  type: 'product',
+}))
 
-const categoryName = computed(() => {
-  if (!product.value) return ''
-  const cat = categories.value.find(c => c.id === product.value!.category)
-  return cat?.name || ''
+useJsonLd(() => {
+  const p = product.value
+  if (!p) return {}
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: p.name,
+    description: p.description || p.name,
+    image: (p.images || []).map(i => abs(imgUrl(i, IMG.full))),
+    category: categoryName.value || undefined,
+    brand: { '@type': 'Brand', name: settings.value.companyName },
+    offers: {
+      '@type': 'Offer',
+      price: p.price,
+      priceCurrency: 'MNT',
+      availability: 'https://schema.org/InStock',
+      url: `${base}/products/${p.id}`,
+      seller: { '@type': 'Organization', name: settings.value.companyName },
+    },
+  }
 })
 
 const formatPrice = (price: number) => price.toLocaleString('mn-MN')
