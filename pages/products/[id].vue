@@ -111,7 +111,13 @@ const product = computed(() => findProduct(productId.value))
 // actually loaded, so an API hiccup can't bury a valid product.
 await ready()
 if (products.value.length && !product.value) {
-  throw createError({ statusCode: 404, statusMessage: 'Бүтээгдэхүүн олдсонгүй', fatal: true })
+  // statusMessage stays ASCII — h3 sanitises it; the Mongolian text goes in `message`.
+  throw createError({
+    statusCode: 404,
+    statusMessage: 'Not Found',
+    message: 'Бүтээгдэхүүн олдсонгүй',
+    fatal: true,
+  })
 }
 
 const categoryName = computed(() => (product.value ? lookupCategory(product.value.category) : ''))
