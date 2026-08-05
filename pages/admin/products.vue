@@ -48,11 +48,11 @@ import type { Product } from '~/composables/useMockData'
 
 definePageMeta({ layout: 'admin', middleware: 'auth' })
 
-const { products, getProducts, createProduct, updateProduct, deleteProduct } = useProducts()
-const { categories, getCategories } = useCategories()
+const { products, refreshLive: reloadProducts, createProduct, updateProduct, deleteProduct } = useProducts()
+const { categories, refreshLive: reloadCategories } = useCategories()
 
 onMounted(async () => {
-  await Promise.all([getProducts(), getCategories()])
+  await Promise.all([reloadProducts(), reloadCategories()])
 })
 
 const showCreateForm = ref(false)
@@ -75,7 +75,7 @@ const handleCreate = async (data: Omit<Product, 'id'>) => {
   try {
     await createProduct(data)
     showCreateForm.value = false
-    await getProducts()
+    await reloadProducts()
   } catch (e: any) {
     alert(e.message || 'Алдаа гарлаа')
   } finally {
@@ -89,7 +89,7 @@ const handleUpdate = async (id: string, data: Omit<Product, 'id'>) => {
   try {
     await updateProduct(id, data)
     editingProduct.value = null
-    await getProducts()
+    await reloadProducts()
   } catch (e: any) {
     alert(e.message || 'Алдаа гарлаа')
   } finally {
@@ -101,7 +101,7 @@ const handleDelete = async (product: Product) => {
   if (!confirm(`"${product.name}" устгах уу?`)) return
   try {
     await deleteProduct(product.id)
-    await getProducts()
+    await reloadProducts()
   } catch (e: any) {
     alert(e.message || 'Алдаа гарлаа')
   }

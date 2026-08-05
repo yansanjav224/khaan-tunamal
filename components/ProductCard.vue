@@ -4,9 +4,11 @@
     <div class="aspect-[4/5] overflow-hidden bg-surface-container mb-6 relative">
       <img
         v-if="product.images?.length"
-        :src="product.images[0]"
+        :src="imgUrl(product.images[0], IMG.card)"
         :alt="product.name"
         class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+        loading="lazy"
+        decoding="async"
       />
       <div v-else class="w-full h-full bg-surface-container-high"></div>
 
@@ -32,12 +34,9 @@ const props = defineProps<{
   product: Product
 }>()
 
-const { categories } = useCategories()
+const { categoryName: lookupCategory } = useCategories()
 
-const categoryName = computed(() => {
-  const cat = categories.value.find(c => c.id === props.product.category)
-  return cat?.name || ''
-})
+const categoryName = computed(() => lookupCategory(props.product.category))
 
 const formatPrice = (price: number) => price.toLocaleString('mn-MN')
 </script>

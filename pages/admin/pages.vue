@@ -64,11 +64,11 @@ const statusMsg = ref('')
 const statusError = ref(false)
 const initialLoading = ref(true)
 
-const { content: homeContent, load: loadHome, save: saveHomeRaw } = useHomeContent()
-const { content: aboutContent, load: loadAbout, save: saveAboutRaw } = useAboutContent()
-const { content: contactContent, load: loadContact, save: saveContactRaw } = useContactContent()
-const { content: productsContent, load: loadProducts, save: saveProductsRaw } = useProductsContent()
-const { content: sharedContent, load: loadShared, save: saveSharedRaw } = useSharedContent()
+const { content: homeContent, refreshLive: loadHome, save: saveHomeRaw } = useHomeContent()
+const { content: aboutContent, refreshLive: loadAbout, save: saveAboutRaw } = useAboutContent()
+const { content: contactContent, refreshLive: loadContact, save: saveContactRaw } = useContactContent()
+const { content: productsContent, refreshLive: loadProducts, save: saveProductsRaw } = useProductsContent()
+const { content: sharedContent, refreshLive: loadShared, save: saveSharedRaw } = useSharedContent()
 
 onMounted(async () => {
   await Promise.all([loadHome(), loadAbout(), loadContact(), loadProducts(), loadShared()])

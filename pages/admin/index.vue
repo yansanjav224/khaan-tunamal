@@ -17,6 +17,23 @@
       <p v-if="seedError" class="text-red-400 text-sm mt-3">{{ seedError }}</p>
     </div>
 
+    <!-- Page content seed -->
+    <div class="card p-6 mb-8">
+      <h2 class="text-lg font-semibold text-gray-100 mb-2">Хуудасны контент</h2>
+      <p class="text-gray-400 text-sm mb-4">
+        Нүүр, Тухай, Холбоо барих, Бүтээгдэхүүн, Дундын хэсгийн бичвэрийг үндсэн утгаар Firestore-д бичнэ.
+        Дараа нь "Хуудас" цэснээс чөлөөтэй засна. Одоо байгаа засварыг дарж бичихийг анхаарна уу.
+      </p>
+      <button
+        class="btn-outline text-sm"
+        :disabled="seedingPages"
+        @click="seedPages"
+      >
+        {{ seedingPages ? 'Бичиж байна...' : 'Үндсэн контентоор бөглөх' }}
+      </button>
+      <p v-if="pagesSeedMsg" class="text-sm mt-3" :class="pagesSeedError ? 'text-red-400' : 'text-green-400'">{{ pagesSeedMsg }}</p>
+    </div>
+
     <!-- Stats -->
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
       <div class="card p-6">
@@ -88,55 +105,48 @@
 </template>
 
 <script setup lang="ts">
-import { doc, setDoc } from 'firebase/firestore'
 import { seedCategories, seedProducts, seedSiteSettings, seedPageContent } from '~/composables/useSeedData'
 
 definePageMeta({ layout: 'admin', middleware: 'auth' })
 
-const { db } = useFirebase()
-const { products, getProducts } = useProducts()
-const { categories, getCategories } = useCategories()
+const { requireDb } = useFirebase()
+const { products, refreshLive: reloadProducts } = useProducts()
+const { categories, refreshLive: reloadCategories } = useCategories()
 
 onMounted(async () => {
-  await Promise.all([getProducts(), getCategories()])
+  await Promise.all([reloadProducts(), reloadCategories()])
 })
 
 const featuredCount = computed(() => products.value.filter(p => p.featured).length)
 
-// Seed functionality
 const seeding = ref(false)
 const seedDone = ref(false)
 const seedError = ref('')
 const seedProgress = ref('')
 
 const seedAllData = async () => {
-  if (!db) { seedError.value = 'Firebase тохируулаагүй'; return }
   seeding.value = true
   seedError.value = ''
   try {
-    // 1. Categories (fixed ids, idempotent) — skip if already present
+    const db = await requireDb()
+    const { doc, setDoc } = await import('firebase/firestore')
+
+    // Fixed ids throughout, so re-running the seed can never duplicate rows.
     if (categories.value.length === 0) {
-      seedProgress.value = 'Ангилал (1/4)...'
+      seedProgress.value = 'Ангилал (1/3)...'
       for (const cat of seedCategories) {
         const { id, ...data } = cat
         await setDoc(doc(db, 'categories', id), data)
       }
     }
-    // 2. Products — use fixed ids so re-running the seed can't create duplicates.
     if (products.value.length === 0) {
       for (let i = 0; i < seedProducts.length; i++) {
         seedProgress.value = `Бараа ${i + 1}/${seedProducts.length}...`
         await setDoc(doc(db, 'products', `seed-${i + 1}`), seedProducts[i])
       }
     }
-    // 3. Settings (fixed id, idempotent)
-    seedProgress.value = 'Тохиргоо (3/4)...'
+    seedProgress.value = 'Тохиргоо (3/3)...'
     await setDoc(doc(db, 'settings', 'site'), seedSiteSettings)
-    // 4. Page content (fixed ids, idempotent)
-    seedProgress.value = 'Хуудасны контент (4/4)...'
-    for (const [key, data] of Object.entries(seedPageContent)) {
-      await setDoc(doc(db, 'pageContent', key), data)
-    }
 
     seedDone.value = true
     setTimeout(() => navigateTo('/admin', { replace: true }), 1500)
@@ -144,6 +154,33 @@ const seedAllData = async () => {
     seedError.value = e.message || 'Алдаа гарлаа'
   } finally {
     seeding.value = false
+  }
+}
+
+// Page content is seeded separately and stays available: the combined seed only
+// appeared while products/categories were empty, so `pageContent` documents were
+// never actually created and the Хуудас editor had nothing to load.
+const seedingPages = ref(false)
+const pagesSeedMsg = ref('')
+const pagesSeedError = ref(false)
+
+const seedPages = async () => {
+  if (!confirm('Хуудасны контентыг үндсэн утгаар дарж бичих үү? Одоо байгаа засварууд устана.')) return
+  seedingPages.value = true
+  pagesSeedMsg.value = ''
+  pagesSeedError.value = false
+  try {
+    const db = await requireDb()
+    const { doc, setDoc } = await import('firebase/firestore')
+    for (const [key, data] of Object.entries(seedPageContent)) {
+      await setDoc(doc(db, 'pageContent', key), data)
+    }
+    pagesSeedMsg.value = 'Хуудасны контент бэлэн боллоо. "Хуудас" цэснээс засна уу.'
+  } catch (e: any) {
+    pagesSeedError.value = true
+    pagesSeedMsg.value = e?.message || 'Алдаа гарлаа'
+  } finally {
+    seedingPages.value = false
   }
 }
 </script>

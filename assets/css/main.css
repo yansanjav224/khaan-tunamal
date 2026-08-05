@@ -46,22 +46,24 @@
     transform: scale(1.05);
   }
 
-  /* Mongolian vertical script */
+  /* Traditional Mongolian script watermark (U+1800-18AF).
+     A generic `serif` has no glyphs for this block — it rendered as tofu boxes
+     on macOS/iOS/Android. Noto Sans Mongolian is loaded in nuxt.config. */
   .mongolian-script-vertical {
     writing-mode: vertical-lr;
     text-orientation: mixed;
-    font-family: serif;
+    font-family: 'Noto Sans Mongolian', serif;
     letter-spacing: 0.2em;
     opacity: 0.15;
     position: absolute;
     pointer-events: none;
   }
 
-  /* Mongolian background text */
+  /* Cyrillic background texture — deliberately a serif, not Mongolian script */
   .mongolian-script-bg {
     writing-mode: vertical-lr;
     text-orientation: mixed;
-    font-family: serif;
+    font-family: 'EB Garamond', serif;
     opacity: 0.03;
     pointer-events: none;
     user-select: none;

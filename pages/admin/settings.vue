@@ -131,7 +131,11 @@ import type { SiteSettings, SitePhone, SiteValue } from '~/composables/useMockDa
 
 definePageMeta({ layout: 'admin', middleware: 'auth' })
 
-const { settings, loading, getSettings, updateSettings } = useSiteSettings()
+const { settings, refreshLive: reloadSettings, updateSettings } = useSiteSettings()
+
+// Tracks the save round-trip. The composable's own `loading` now reflects the
+// read status, which is already false by the time Save is pressed.
+const loading = ref(false)
 
 const form = reactive<SiteSettings>({
   companyName: '',
@@ -164,10 +168,10 @@ const loadForm = () => {
 
 // Fill with current (mock/empty) values now, then re-sync once the REAL settings
 // load and whenever they change. Without this, Save would persist the mock
-// defaults over the saved doc (data loss) because getSettings() resolves after setup.
+// defaults over the saved doc (data loss) because the live read resolves after setup.
 loadForm()
 onMounted(async () => {
-  await getSettings()
+  await reloadSettings()
   loadForm()
 })
 watch(settings, loadForm)
@@ -189,12 +193,16 @@ const removeValue = (i: number) => {
 }
 
 const save = async () => {
+  if (loading.value) return
+  loading.value = true
   try {
     await updateSettings({ ...form })
     saveSuccess.value = true
     setTimeout(() => { saveSuccess.value = false }, 3000)
-  } catch (e) {
-    alert('Хадгалахад алдаа гарлаа')
+  } catch (e: any) {
+    alert(e?.message || 'Хадгалахад алдаа гарлаа')
+  } finally {
+    loading.value = false
   }
 }
 </script>

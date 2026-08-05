@@ -18,8 +18,8 @@ export const useImageUpload = () => {
       formData.append('file', file)
       formData.append('upload_preset', uploadPreset)
       formData.append('folder', 'khaan-tunamal')
-      // NB: unsigned uploads reject a `transformation` param (Cloudinary returns 400).
-      // Sizing/optimization is applied on delivery via optimizeUrl() instead.
+      // NB: unsigned uploads reject a `transformation` param (Cloudinary returns
+      // 400). Sizing/optimisation happens on delivery instead — see utils/image.ts.
 
       const res = await fetch(
         `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
@@ -39,22 +39,14 @@ export const useImageUpload = () => {
     }
   }
 
-  const deleteImage = async (url: string) => {
-    // Cloudinary-с зураг устгахад server-side API шаардлагатай
-    // Одоогоор зүгээр skip хийнэ — зураг Cloudinary-д үлдэнэ
-    console.warn('Cloudinary зураг устгах: admin dashboard-аас устгана')
-  }
-
-  const optimizeUrl = (url: string, width = 800) => {
-    if (!url || !url.includes('cloudinary.com')) return url
-    return url.replace('/upload/', `/upload/c_limit,w_${width},q_auto,f_auto/`)
-  }
+  // Removing the file from Cloudinary needs a signed server-side call; dropping
+  // the URL from the product is enough for the site, and the free tier has room.
+  const deleteImage = async (_url: string) => {}
 
   return {
     uploading,
     progress,
     uploadImage,
     deleteImage,
-    optimizeUrl,
   }
 }

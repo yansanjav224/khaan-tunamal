@@ -77,17 +77,20 @@ export default {
         dark: { bg: '#131313', surface: '#1c1b1b', border: '#444748', lighter: '#353535' },
       },
       fontFamily: {
-        sans: ['Hanken Grotesk', 'sans-serif'],
+        sans: ['Manrope', 'sans-serif'],
         display: ['EB Garamond', 'serif'],
-        'headline-sm': ['Hanken Grotesk'],
+        'headline-sm': ['Manrope'],
         'headline-md': ['EB Garamond'],
         'display-lg': ['EB Garamond'],
         'display-lg-mobile': ['EB Garamond'],
         'headline-lg': ['EB Garamond'],
-        'body-lg': ['Hanken Grotesk'],
-        'body-md': ['Hanken Grotesk'],
-        'body-sm': ['Hanken Grotesk'],
-        'label-md': ['Hanken Grotesk'],
+        'body-lg': ['Manrope'],
+        'body-md': ['Manrope'],
+        'body-sm': ['Manrope'],
+        'label-md': ['Manrope'],
+        // Traditional Mongolian script (U+1800-18AF) — used for the decorative
+        // ᠬᠠᠭᠠᠨ ᠲᠤᠨᠠᠮᠠᠯ watermarks. No text face on the site covers this block.
+        mongolian: ['Noto Sans Mongolian', 'serif'],
       },
       fontSize: {
         'display-lg': ['48px', { lineHeight: '1.1', letterSpacing: '-0.02em', fontWeight: '400' }],

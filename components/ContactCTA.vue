@@ -26,7 +26,7 @@
       </div>
 
       <!-- Artistic background Mongolian character -->
-      <div class="absolute right-0 top-0 opacity-10 text-[200px] font-display-lg pointer-events-none select-none translate-x-1/4 -translate-y-1/4">
+      <div class="absolute right-0 top-0 opacity-10 text-[200px] font-mongolian pointer-events-none select-none translate-x-1/4 -translate-y-1/4">
         ᠬ
       </div>
     </div>
@@ -34,6 +34,5 @@
 </template>
 
 <script setup lang="ts">
-const { content, load } = useSharedContent()
-onMounted(() => load())
+const { content } = useSharedContent()
 </script>
