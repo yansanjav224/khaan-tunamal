@@ -42,10 +42,25 @@
         <div class="border border-outline-variant/30 p-8 hover:border-secondary/50 transition-colors duration-500" v-reveal="{ delay: 100 }">
           <span class="material-symbols-outlined text-secondary text-3xl mb-6 block">call</span>
           <h2 class="font-headline-sm text-headline-sm text-on-surface mb-3">{{ content.cards.phoneTitle }}</h2>
-          <p v-for="p in settings.phones || []" :key="p.number" class="font-body-md text-body-md">
-            <a :href="`tel:${p.number}`" class="text-on-surface-variant hover:text-secondary transition-colors">{{ formatPhone(p.number) }}</a>
-            <span class="text-outline text-body-sm"> · {{ p.label }}</span>
-          </p>
+          <div v-for="p in settings.phones || []" :key="p.number" class="mb-3">
+            <p class="font-body-md text-body-md">
+              <a :href="`tel:${p.number}`" class="text-on-surface-variant hover:text-secondary transition-colors">{{ formatPhone(p.number) }}</a>
+              <span class="text-outline text-body-sm"> · {{ p.label }}</span>
+            </p>
+            <!-- Most customers here message rather than call. -->
+            <div class="flex gap-4 mt-1">
+              <a
+                :href="`viber://chat?number=%2B976${p.number}`"
+                class="font-label-md text-label-md uppercase tracking-widest text-outline hover:text-secondary transition-colors"
+              >Viber</a>
+              <a
+                :href="`https://wa.me/976${p.number}`"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="font-label-md text-label-md uppercase tracking-widest text-outline hover:text-secondary transition-colors"
+              >WhatsApp</a>
+            </div>
+          </div>
           <p class="font-body-sm text-body-sm text-outline mt-2">{{ content.cards.businessHours }}</p>
         </div>
 
