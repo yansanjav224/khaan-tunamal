@@ -226,7 +226,7 @@ const submit = async () => {
     await $fetch('/api/contact', { method: 'POST', body: { ...form } })
     sent.value = true
   } catch (e: any) {
-    sendError.value = e?.data?.statusMessage || 'Илгээхэд алдаа гарлаа. Утсаар холбогдоно уу.'
+    sendError.value = e?.data?.message || e?.data?.statusMessage || 'Илгээхэд алдаа гарлаа. Утсаар холбогдоно уу.'
   } finally {
     sending.value = false
   }

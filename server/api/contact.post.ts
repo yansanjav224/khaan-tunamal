@@ -43,13 +43,13 @@ export default defineEventHandler(async (event) => {
   if (honeypot) return { ok: true }
 
   if (name.length < 2 || name.length > 80) {
-    throw createError({ statusCode: 400, statusMessage: 'Нэрээ зөв оруулна уу.' })
+    throw createError({ statusCode: 400, statusMessage: 'Нэрээ зөв оруулна уу.', message: 'Нэрээ зөв оруулна уу.' })
   }
   if (phone.replace(/\D/g, '').length < 6 || phone.length > 20) {
-    throw createError({ statusCode: 400, statusMessage: 'Утасны дугаараа зөв оруулна уу.' })
+    throw createError({ statusCode: 400, statusMessage: 'Утасны дугаараа зөв оруулна уу.', message: 'Утасны дугаараа зөв оруулна уу.' })
   }
   if (message.length < 5 || message.length > 1000) {
-    throw createError({ statusCode: 400, statusMessage: 'Зурвас 5-1000 тэмдэгт байх ёстой.' })
+    throw createError({ statusCode: 400, statusMessage: 'Зурвас 5-1000 тэмдэгт байх ёстой.', message: 'Зурвас 5-1000 тэмдэгт байх ёстой.' })
   }
 
   const ip = getRequestHeader(event, 'x-forwarded-for')?.split(',')[0]?.trim()
@@ -57,14 +57,14 @@ export default defineEventHandler(async (event) => {
     || 'unknown'
 
   if (rateLimited(ip)) {
-    throw createError({ statusCode: 429, statusMessage: 'Хэт олон хүсэлт. Түр хүлээгээд дахин оролдоно уу.' })
+    throw createError({ statusCode: 429, statusMessage: 'Хэт олон хүсэлт. Түр хүлээгээд дахин оролдоно уу.', message: 'Хэт олон хүсэлт. Түр хүлээгээд дахин оролдоно уу.' })
   }
 
   const { public: pub } = useRuntimeConfig()
   const projectId = pub.firebaseProjectId as string
   const apiKey = pub.firebaseApiKey as string
   if (!projectId || !apiKey) {
-    throw createError({ statusCode: 503, statusMessage: 'Түр ашиглах боломжгүй байна.' })
+    throw createError({ statusCode: 503, statusMessage: 'Түр ашиглах боломжгүй байна.', message: 'Түр ашиглах боломжгүй байна.' })
   }
 
   try {
@@ -85,7 +85,7 @@ export default defineEventHandler(async (event) => {
       },
     )
   } catch {
-    throw createError({ statusCode: 502, statusMessage: 'Илгээхэд алдаа гарлаа. Утсаар холбогдоно уу.' })
+    throw createError({ statusCode: 502, statusMessage: 'Илгээхэд алдаа гарлаа. Утсаар холбогдоно уу.', message: 'Илгээхэд алдаа гарлаа. Утсаар холбогдоно уу.' })
   }
 
   return { ok: true }

@@ -16,7 +16,7 @@ service cloud.firestore {
 
     function isAdmin() {
       return request.auth != null && request.auth.uid in [
-        'REPLACE_WITH_ADMIN_UID'
+        'jERW7F79AoZud348mr0o0v2RUeq2'  // eyansanjav@gmail.com
       ];
     }
 
