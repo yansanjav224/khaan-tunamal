@@ -66,6 +66,10 @@ export default defineNuxtConfig({
       cloudinaryCloudName: '',
       cloudinaryUploadPreset: '',
       gaMeasurementId: '',
+      // Google Search Console verification token. Kept in runtime config so the
+      // site can be verified by setting an env var in Vercel — no code change,
+      // no redeploy of the repo.
+      gscVerification: '',
     },
   },
 
