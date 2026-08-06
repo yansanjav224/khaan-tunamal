@@ -88,8 +88,10 @@ export default {
         'body-md': ['Manrope'],
         'body-sm': ['Manrope'],
         'label-md': ['Manrope'],
+        // Squared display face for the wordmark.
+        square: ['Russo One', 'sans-serif'],
         // Traditional Mongolian script (U+1800-18AF) — used for the decorative
-        // ᠬᠠᠭᠠᠨ ᠲᠤᠨᠠᠮᠠᠯ watermarks. No text face on the site covers this block.
+        // ᠬᠠᠭᠠᠨ ᠲᠤᠨᠠᠮᠠᠯ ᠬᠢᠢᠴᠡ watermarks. No text face on the site covers this block.
         mongolian: ['Noto Sans Mongolian', 'serif'],
       },
       fontSize: {

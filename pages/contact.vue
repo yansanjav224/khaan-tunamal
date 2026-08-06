@@ -16,12 +16,10 @@
       <!-- Mongolian script is written top-to-bottom. Laid out horizontally and
            tilted 12° at 200px it sprawled across the skyline as scribble; set
            vertically at the margin it reads as the mark it was meant to be. -->
-      <div
-        class="mongolian-script-vertical font-mongolian text-[110px] right-[6%] top-1/2 -translate-y-1/2 !opacity-[0.09] text-secondary hidden lg:block"
+      <p
+        class="mongolian-column absolute right-[6%] top-1/2 -translate-y-1/2 text-[90px] !opacity-25 hidden lg:block"
         aria-hidden="true"
-      >
-        ᠬᠠᠭᠠᠨ ᠲᠤᠨᠠᠮᠠᠯ
-      </div>
+      >{{ MONGOLIAN_NAME }}</p>
 
       <div class="relative z-10 text-center px-6">
         <span v-if="content.hero.label" class="font-label-md text-label-md text-secondary tracking-[0.3em] uppercase mb-4 block" v-reveal>{{ content.hero.label }}</span>

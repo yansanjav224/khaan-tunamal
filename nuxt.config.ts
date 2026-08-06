@@ -12,8 +12,10 @@
 // Material Symbols is requested with `icon_names=`, which returns a subsetted
 // font containing only the 14 glyphs the site uses instead of the full ~300 kB
 // variable icon font.
+// Russo One is the squared display face for the wordmark ("дөрвөлжин").
+// Swap candidates that also carry Cyrillic: Tektur, Unbounded, Play, Oswald.
 const FONT_TEXT =
-  'https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Manrope:wght@200..800&family=Noto+Sans+Mongolian&display=swap'
+  'https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Manrope:wght@200..800&family=Russo+One&family=Noto+Sans+Mongolian&display=swap'
 
 const FONT_ICONS =
   'https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,300,0,0' +
