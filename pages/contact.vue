@@ -47,7 +47,7 @@
           <h2 class="font-headline-sm text-headline-sm text-on-surface mb-3">{{ content.cards.phoneTitle }}</h2>
           <div v-for="p in settings.phones || []" :key="p.number" class="mb-3">
             <p class="font-body-md text-body-md">
-              <a :href="`tel:${p.number}`" class="text-on-surface-variant hover:text-secondary transition-colors">{{ formatPhone(p.number) }}</a>
+              <a :href="`tel:${p.number}`" class="text-[19px] font-medium text-secondary hover:brightness-110 transition-all">{{ formatPhone(p.number) }}</a>
               <span class="text-outline text-body-sm"> · {{ p.label }}</span>
             </p>
             <!-- Most customers here message rather than call. -->
@@ -94,7 +94,7 @@
 
           <form class="space-y-5" @submit.prevent="submit">
             <div>
-              <label for="cf-name" class="block font-label-md text-label-md uppercase tracking-widest text-on-surface-variant mb-2">Нэр *</label>
+              <label for="cf-name" class="block text-[15px] text-on-surface mb-2">Нэр *</label>
               <input
                 id="cf-name"
                 v-model="form.name"
@@ -102,13 +102,13 @@
                 required
                 maxlength="80"
                 autocomplete="name"
-                class="w-full bg-surface-container border border-outline-variant/40 text-on-surface px-4 py-3 font-body-md text-body-md placeholder:text-on-surface-variant/50 focus:outline-none focus:border-secondary transition-colors"
+                class="w-full bg-surface-container border border-outline-variant/40 text-on-surface px-4 py-3.5 text-[16px] placeholder:text-on-surface-variant/50 focus:outline-none focus:border-secondary transition-colors"
                 placeholder="Таны нэр"
               />
             </div>
 
             <div>
-              <label for="cf-phone" class="block font-label-md text-label-md uppercase tracking-widest text-on-surface-variant mb-2">Утас *</label>
+              <label for="cf-phone" class="block text-[15px] text-on-surface mb-2">Утас *</label>
               <input
                 id="cf-phone"
                 v-model="form.phone"
@@ -117,20 +117,20 @@
                 maxlength="20"
                 inputmode="tel"
                 autocomplete="tel"
-                class="w-full bg-surface-container border border-outline-variant/40 text-on-surface px-4 py-3 font-body-md text-body-md placeholder:text-on-surface-variant/50 focus:outline-none focus:border-secondary transition-colors"
+                class="w-full bg-surface-container border border-outline-variant/40 text-on-surface px-4 py-3.5 text-[16px] placeholder:text-on-surface-variant/50 focus:outline-none focus:border-secondary transition-colors"
                 placeholder="99112233"
               />
             </div>
 
             <div>
-              <label for="cf-message" class="block font-label-md text-label-md uppercase tracking-widest text-on-surface-variant mb-2">Зурвас *</label>
+              <label for="cf-message" class="block text-[15px] text-on-surface mb-2">Зурвас *</label>
               <textarea
                 id="cf-message"
                 v-model="form.message"
                 required
                 rows="5"
                 maxlength="1000"
-                class="w-full bg-surface-container border border-outline-variant/40 text-on-surface px-4 py-3 font-body-md text-body-md placeholder:text-on-surface-variant/50 focus:outline-none focus:border-secondary transition-colors resize-y"
+                class="w-full bg-surface-container border border-outline-variant/40 text-on-surface px-4 py-3.5 text-[16px] placeholder:text-on-surface-variant/50 focus:outline-none focus:border-secondary transition-colors resize-y"
                 placeholder="Ямар бүтээгдэхүүн сонирхож байна вэ?"
               ></textarea>
               <p class="text-body-sm text-outline mt-1 text-right">{{ form.message.length }}/1000</p>
@@ -145,7 +145,7 @@
             <button
               type="submit"
               :disabled="sending || sent"
-              class="w-full inline-flex items-center justify-center gap-3 px-8 py-4 bg-secondary text-on-secondary font-label-md text-label-md uppercase tracking-widest hover:brightness-110 transition-all disabled:opacity-50 disabled:pointer-events-none"
+              class="w-full inline-flex items-center justify-center gap-3 px-8 py-4 bg-secondary text-on-secondary text-[15px] font-semibold tracking-wide hover:brightness-110 transition-all disabled:opacity-50 disabled:pointer-events-none"
             >
               <span class="material-symbols-outlined text-lg">{{ sent ? 'check_circle' : 'send' }}</span>
               {{ sending ? 'Илгээж байна...' : sent ? 'Илгээгдлээ' : 'Илгээх' }}

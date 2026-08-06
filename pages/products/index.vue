@@ -1,12 +1,12 @@
 <template>
   <div class="relative z-10">
-    <main class="pt-32 md:pt-40">
+    <main class="pt-28 md:pt-40">
       <!-- Hero -->
-      <header class="px-6 md:px-margin-desktop max-w-container-max mx-auto mb-14 md:mb-20 text-center">
-        <span class="font-label-md text-label-md text-secondary uppercase tracking-[0.3em] block mb-4" v-reveal>{{ content.hero.label }}</span>
-        <h1 class="font-display-lg text-display-lg-mobile md:text-[64px] mb-8 text-on-surface italic" v-reveal>{{ content.hero.title }}</h1>
-        <div class="w-24 h-px bg-secondary/50 mx-auto mb-8" v-reveal></div>
-        <p class="max-w-2xl mx-auto font-body-lg text-body-lg text-on-surface-variant leading-relaxed" v-reveal>
+      <header class="px-6 md:px-margin-desktop max-w-container-max mx-auto mb-10 md:mb-20 text-center">
+        <span class="font-label-md text-[11px] md:text-label-md text-secondary uppercase tracking-[0.25em] md:tracking-[0.3em] block mb-3 md:mb-4" v-reveal>{{ content.hero.label }}</span>
+        <h1 class="font-display-lg text-[34px] md:text-[64px] mb-5 md:mb-8 text-on-surface italic" v-reveal>{{ content.hero.title }}</h1>
+        <div class="w-20 h-px bg-secondary/50 mx-auto mb-6 md:mb-8" v-reveal></div>
+        <p class="max-w-2xl mx-auto font-body-lg text-[16px] md:text-body-lg text-on-surface-variant leading-relaxed" v-reveal>
           {{ content.hero.description }}
         </p>
       </header>
@@ -27,11 +27,13 @@
       </div>
 
       <!-- Filter tabs -->
-      <div class="flex justify-start md:justify-center gap-6 md:gap-8 mb-12 px-6 overflow-x-auto whitespace-nowrap">
+      <div class="flex md:justify-center gap-3 md:gap-8 mb-10 md:mb-12 px-6 overflow-x-auto whitespace-nowrap pb-1">
         <button
           @click="activeCategory = ''"
-          class="shrink-0 font-label-md text-label-md pb-2 tracking-widest uppercase transition-colors"
-          :class="!activeCategory ? 'border-b border-secondary text-on-surface' : 'text-on-surface-variant hover:text-secondary'"
+          class="shrink-0 px-4 py-2.5 text-[14px] border transition-colors md:border-0 md:px-0 md:py-0 md:pb-2 md:font-label-md md:text-label-md md:tracking-widest md:uppercase"
+          :class="!activeCategory
+            ? 'border-secondary text-secondary md:border-b md:text-on-surface'
+            : 'border-outline-variant/40 text-on-surface-variant hover:text-secondary md:border-transparent'"
         >
           Бүгд
         </button>
@@ -39,8 +41,10 @@
           v-for="cat in categories"
           :key="cat.id"
           @click="activeCategory = cat.id"
-          class="shrink-0 font-label-md text-label-md pb-2 tracking-widest uppercase transition-colors"
-          :class="activeCategory === cat.id ? 'border-b border-secondary text-on-surface' : 'text-on-surface-variant hover:text-secondary'"
+          class="shrink-0 px-4 py-2.5 text-[14px] border transition-colors md:border-0 md:px-0 md:py-0 md:pb-2 md:font-label-md md:text-label-md md:tracking-widest md:uppercase"
+          :class="activeCategory === cat.id
+            ? 'border-secondary text-secondary md:border-b md:text-on-surface'
+            : 'border-outline-variant/40 text-on-surface-variant hover:text-secondary md:border-transparent'"
         >
           {{ cat.name }}
         </button>

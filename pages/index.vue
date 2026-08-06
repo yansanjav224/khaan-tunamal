@@ -1,10 +1,10 @@
 <template>
-  <div>
+  <div class="flex flex-col">
     <!-- Hero -->
-    <HeroSection />
+    <HeroSection class="order-1" />
 
     <!-- Stats -->
-    <section class="px-6 md:px-margin-desktop max-w-container-max mx-auto" v-reveal>
+    <section class="order-4 md:order-2 px-6 md:px-margin-desktop max-w-container-max mx-auto" v-reveal>
       <div class="fine-line opacity-20"></div>
       <div
         class="grid grid-cols-3 gap-6 md:gap-24 text-center py-12 md:py-16"
@@ -19,7 +19,7 @@
     </section>
 
     <!-- Featured Products — Bento -->
-    <section class="py-16 md:py-section-gap px-6 md:px-margin-desktop max-w-container-max mx-auto">
+    <section class="order-3 py-10 md:py-section-gap px-6 md:px-margin-desktop max-w-container-max mx-auto">
       <div class="flex justify-between items-end gap-6 mb-10 md:mb-12" v-reveal>
         <div>
           <span class="font-label-md text-label-md text-secondary tracking-widest uppercase block mb-4">{{ content.featuredLabel }}</span>
@@ -75,7 +75,7 @@
     </section>
 
     <!-- Heritage Story -->
-    <section class="py-section-gap relative">
+    <section class="order-5 md:order-4 py-section-gap relative">
       <div class="fine-line opacity-20"></div>
       <div class="max-w-container-max mx-auto px-6 md:px-margin-desktop py-16 md:py-24 flex flex-col md:flex-row gap-16 md:gap-20 items-center">
         <div class="w-full md:w-1/2 group" v-reveal>
@@ -112,7 +112,7 @@
     </section>
 
     <!-- Categories -->
-    <section class="py-16 md:py-section-gap px-6 md:px-margin-desktop max-w-container-max mx-auto text-center">
+    <section class="order-2 md:order-5 pt-10 pb-4 md:py-section-gap px-6 md:px-margin-desktop max-w-container-max mx-auto text-center">
       <span class="font-label-md text-label-md text-secondary tracking-widest uppercase block mb-4" v-reveal>{{ content.categoriesLabel }}</span>
       <h2 class="font-headline-md text-headline-md text-on-surface mb-12 md:mb-16" v-reveal>{{ content.categoriesTitle }}</h2>
       <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-gutter">
@@ -132,12 +132,12 @@
             />
             <div class="absolute inset-0 z-10 bg-secondary/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
           </div>
-          <span class="font-label-md text-label-md uppercase tracking-widest text-on-surface group-hover:text-secondary transition-colors">{{ cat.name }}</span>
+          <span class="block text-[15px] leading-snug tracking-normal text-on-surface md:font-label-md md:text-label-md md:uppercase md:tracking-widest group-hover:text-secondary transition-colors">{{ cat.name }}</span>
         </NuxtLink>
       </div>
     </section>
 
-    <ContactCTA />
+    <ContactCTA class="order-6" />
   </div>
 </template>
 

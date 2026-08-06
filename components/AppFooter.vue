@@ -15,10 +15,10 @@
         <div class="space-y-6">
           <h4 class="font-label-md text-label-md uppercase tracking-widest text-secondary">Холбоосууд</h4>
           <ul class="space-y-4">
-            <li><NuxtLink to="/" class="font-body-md text-body-md text-on-surface-variant hover:text-secondary transition-colors">Нүүр хуудас</NuxtLink></li>
-            <li><NuxtLink to="/products" class="font-body-md text-body-md text-on-surface-variant hover:text-secondary transition-colors">Бүтээгдэхүүн</NuxtLink></li>
-            <li><NuxtLink to="/about" class="font-body-md text-body-md text-on-surface-variant hover:text-secondary transition-colors">Бидний тухай</NuxtLink></li>
-            <li><NuxtLink to="/contact" class="font-body-md text-body-md text-on-surface-variant hover:text-secondary transition-colors">Холбоо барих</NuxtLink></li>
+            <li><NuxtLink to="/" class="text-[16px] text-on-surface-variant hover:text-secondary transition-colors">Нүүр хуудас</NuxtLink></li>
+            <li><NuxtLink to="/products" class="text-[16px] text-on-surface-variant hover:text-secondary transition-colors">Бүтээгдэхүүн</NuxtLink></li>
+            <li><NuxtLink to="/about" class="text-[16px] text-on-surface-variant hover:text-secondary transition-colors">Бидний тухай</NuxtLink></li>
+            <li><NuxtLink to="/contact" class="text-[16px] text-on-surface-variant hover:text-secondary transition-colors">Холбоо барих</NuxtLink></li>
           </ul>
         </div>
 
@@ -29,7 +29,7 @@
             <li v-for="p in settings.phones || []" :key="p.number">
               <a
                 :href="`tel:${p.number}`"
-                class="font-body-md text-body-md text-on-surface-variant hover:text-secondary transition-colors"
+                class="text-[17px] font-medium text-on-surface hover:text-secondary transition-colors"
               >{{ formatPhone(p.number) }}</a>
             </li>
             <li>

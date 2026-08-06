@@ -20,11 +20,18 @@
     <!-- Info. The name gets a fixed two-line box so prices sit on one baseline
          across the row — titles vary from one to three lines. -->
     <div class="text-center">
-      <span class="font-label-md text-[10px] text-secondary/70 tracking-[0.2em] uppercase mb-2 block">{{ categoryName }}</span>
-      <h3 class="font-headline-md text-headline-sm text-on-surface mb-2 group-hover:text-secondary transition-colors line-clamp-2 min-h-[2.8em] flex items-center justify-center">
+      <span class="font-label-md text-[11px] text-secondary/80 tracking-[0.18em] uppercase mb-2 block">{{ categoryName }}</span>
+      <h3 class="font-headline-md text-[19px] md:text-headline-sm leading-snug text-on-surface mb-2 group-hover:text-secondary transition-colors line-clamp-2 min-h-[2.6em] flex items-center justify-center">
         {{ product.name }}
       </h3>
-      <p class="font-body-md text-on-surface-variant font-light tracking-wider">{{ formatPrice(product.price) }}₮</p>
+      <p class="font-body-md text-[18px] font-medium text-secondary tracking-wide">{{ formatPrice(product.price) }}₮</p>
+
+      <!-- Touch devices never see the hover overlay, so the card needs to say
+           out loud that it opens. -->
+      <span class="md:hidden mt-2 inline-flex items-center gap-1 text-[13px] text-on-surface-variant">
+        Дэлгэрэнгүй
+        <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+      </span>
     </div>
   </NuxtLink>
 </template>
