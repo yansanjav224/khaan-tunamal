@@ -88,8 +88,8 @@ export default {
         'body-md': ['Manrope'],
         'body-sm': ['Manrope'],
         'label-md': ['Manrope'],
-        // Squared display face for the wordmark.
-        square: ['Russo One', 'sans-serif'],
+        // Display face for the wordmark — geometric, squared, set light.
+        square: ['Unbounded', 'sans-serif'],
       },
       fontSize: {
         'display-lg': ['48px', { lineHeight: '1.1', letterSpacing: '-0.02em', fontWeight: '400' }],
