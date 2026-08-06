@@ -45,26 +45,44 @@
     <!-- Category list -->
     <div class="card overflow-hidden">
       <div class="divide-y divide-dark-border">
-        <div
-          v-for="cat in categories"
-          :key="cat.id"
-          class="flex items-center justify-between px-4 py-3 hover:bg-dark-bg/50"
-        >
-          <div class="flex items-center gap-3 min-w-0">
-            <span class="text-gray-500 text-sm w-8 flex-shrink-0">{{ cat.order }}</span>
-            <div class="w-10 h-10 flex-shrink-0 bg-dark-bg overflow-hidden">
-              <img v-if="cat.image" :src="imgUrl(cat.image, IMG.thumb)" :alt="cat.name" class="w-full h-full object-cover" loading="lazy" />
+        <div v-for="cat in categories" :key="cat.id" class="px-4 py-3 hover:bg-dark-bg/50">
+          <div class="flex items-center justify-between gap-4">
+            <div class="flex items-center gap-3 min-w-0">
+              <span class="text-gray-500 text-sm w-8 flex-shrink-0">{{ cat.order }}</span>
+              <div class="w-10 h-10 flex-shrink-0 bg-dark-bg overflow-hidden">
+                <img v-if="cat.image" :src="imgUrl(cat.image, IMG.thumb)" :alt="cat.name" class="w-full h-full object-cover" loading="lazy" />
+              </div>
+              <span class="text-gray-200 font-medium truncate">{{ cat.name }}</span>
+              <span class="text-xs flex-shrink-0" :class="count(cat.id) ? 'text-gold' : 'text-gray-600'">
+                {{ count(cat.id) }} бараа
+              </span>
             </div>
-            <span class="text-gray-200 font-medium truncate">{{ cat.name }}</span>
-            <span class="text-gray-500 text-xs flex-shrink-0">({{ cat.id }})</span>
+            <div class="flex gap-3 flex-shrink-0">
+              <button @click="startEdit(cat)" class="text-sm text-gray-400 hover:text-gold transition-colors">Засах</button>
+              <button
+                v-if="count(cat.id) && categories.length > 1"
+                @click="mergingId = mergingId === cat.id ? '' : cat.id"
+                class="text-sm text-gray-400 hover:text-gold transition-colors"
+              >Нэгтгэх</button>
+              <button @click="$emit('delete', cat)" class="text-sm text-gray-400 hover:text-red-400 transition-colors">Устгах</button>
+            </div>
           </div>
-          <div class="flex gap-2">
-            <button @click="startEdit(cat)" class="text-sm text-gray-400 hover:text-gold transition-colors">
-              Засах
-            </button>
-            <button @click="$emit('delete', cat)" class="text-sm text-gray-400 hover:text-red-400 transition-colors">
-              Устгах
-            </button>
+
+          <!-- Merge. Renaming a category keeps its products; deleting one strands
+               them. Moving each product by hand is the only other route, so this
+               reassigns them in bulk and then removes the empty category. -->
+          <div v-if="mergingId === cat.id" class="mt-3 pt-3 border-t border-dark-border flex flex-wrap items-center gap-3">
+            <span class="text-sm text-gray-400">{{ count(cat.id) }} барааг зөөх:</span>
+            <select v-model="mergeTarget" class="input-dark py-2 text-sm">
+              <option value="" disabled>Хаашаа...</option>
+              <option v-for="t in categories.filter(c => c.id !== cat.id)" :key="t.id" :value="t.id">{{ t.name }}</option>
+            </select>
+            <button
+              :disabled="!mergeTarget"
+              class="btn-gold text-sm !px-5 !py-2"
+              @click="confirmMerge(cat)"
+            >Зөөгөөд «{{ cat.name }}»-г устгах</button>
+            <button class="text-sm text-gray-500 hover:text-gray-300" @click="mergingId = ''">Болих</button>
           </div>
         </div>
       </div>
@@ -76,10 +94,11 @@
 </template>
 
 <script setup lang="ts">
-import type { Category } from '~/composables/useMockData'
+import type { Category, Product } from '~/composables/useMockData'
 
 const props = defineProps<{
   categories: Category[]
+  products: Product[]
 }>()
 
 type CategoryInput = { name: string; order: number; image: string }
@@ -88,7 +107,23 @@ const emit = defineEmits<{
   create: [data: CategoryInput]
   update: [id: string, data: CategoryInput]
   delete: [category: Category]
+  merge: [from: Category, toId: string]
 }>()
+
+const count = (id: string) => props.products.filter(p => p.category === id).length
+
+const mergingId = ref('')
+const mergeTarget = ref('')
+
+watch(mergingId, () => { mergeTarget.value = '' })
+
+const confirmMerge = (cat: Category) => {
+  const target = props.categories.find(c => c.id === mergeTarget.value)
+  if (!target) return
+  if (!confirm(`«${cat.name}»-ийн ${count(cat.id)} барааг «${target.name}» руу зөөгөөд, «${cat.name}» ангилалыг устгах уу?`)) return
+  emit('merge', cat, target.id)
+  mergingId.value = ''
+}
 
 const editingCategory = ref<Category | null>(null)
 const form = reactive<CategoryInput>({
