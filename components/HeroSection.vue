@@ -2,16 +2,7 @@
   <!-- pt clears the fixed header. Without it the flex centring pushed the first
        line of the headline up behind the bar on phones — "Хаан Тунамал" was
        simply missing and the hero opened on the word "Хийц". -->
-  <section class="relative pt-28 pb-8 md:pt-40 md:pb-24 md:min-h-[860px] flex items-center px-6 md:px-margin-desktop max-w-container-max mx-auto overflow-hidden">
-    <!-- Mongolian script watermark. Sits behind the image column, not under the
-         headline — at 120px over the text it read as smudging, not texture. -->
-    <div
-      class="mongolian-script-vertical font-mongolian text-[150px] right-[2%] top-1/2 -translate-y-1/2 text-secondary hidden xl:block"
-      aria-hidden="true"
-    >
-      ᠬᠠᠭᠠᠨ ᠲᠤᠨᠠᠮᠠᠯ
-    </div>
-
+  <section class="relative pt-28 pb-4 md:pt-40 md:pb-24 md:min-h-[860px] flex items-center px-6 md:px-margin-desktop max-w-container-max mx-auto overflow-hidden">
     <div class="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16 w-full items-center">
       <!-- Left: copy -->
       <div class="md:col-span-5 z-10" v-reveal>
@@ -43,10 +34,10 @@
       </div>
 
       <!-- Right: hero image -->
-      <div class="md:col-span-7 relative flex justify-center mt-2 md:mt-0" v-reveal="{ delay: 300 }">
+      <div class="hidden md:col-span-7 relative md:flex justify-center" v-reveal="{ delay: 300 }">
         <div class="relative w-full aspect-[16/10] md:aspect-square max-w-2xl">
           <div class="absolute inset-0 bg-gradient-to-tr from-secondary/10 to-transparent blur-3xl"></div>
-          <div class="media-frame absolute inset-0 ghost-border">
+          <div class="media-frame absolute inset-0">
             <!-- Largest-contentful element: eager and high priority, never lazy. -->
             <img
               :src="imgUrl(content.hero.image, 1000)"

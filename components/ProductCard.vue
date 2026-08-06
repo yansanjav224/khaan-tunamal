@@ -1,7 +1,7 @@
 <template>
   <NuxtLink :to="`/products/${product.id}`" class="product-card group cursor-pointer block">
     <!-- Image -->
-    <div class="media-frame aspect-[4/5] mb-6 ghost-border">
+    <div class="media-frame aspect-[4/5] mb-5">
       <img
         v-if="product.images?.length"
         :src="imgUrl(product.images[0], IMG.card)"
@@ -11,10 +11,6 @@
       />
       <div v-else class="w-full h-full bg-surface-container-high"></div>
 
-      <!-- Hover overlay -->
-      <div class="absolute inset-0 z-10 bg-background/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center backdrop-blur-[2px]">
-        <span class="px-8 py-3 border border-secondary text-on-surface bg-background/20 font-label-md text-label-md tracking-widest uppercase">Дэлгэрэнгүй</span>
-      </div>
     </div>
 
     <!-- Info. The name gets a fixed two-line box so prices sit on one baseline

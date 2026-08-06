@@ -2,7 +2,7 @@
   <section class="pt-4 pb-16 md:pb-section-gap px-6 md:px-margin-desktop max-w-container-max mx-auto">
     <div class="bg-surface-container-low py-16 md:py-20 px-8 md:px-20 text-center relative overflow-hidden ghost-border" v-reveal>
       <div class="relative z-10">
-        <span class="font-label-md text-label-md text-secondary tracking-widest uppercase block mb-6">{{ content.contactCTA.label }}</span>
+        <span v-if="content.contactCTA.label" class="font-label-md text-label-md text-secondary tracking-widest uppercase block mb-6">{{ content.contactCTA.label }}</span>
         <h2 class="font-headline-md text-headline-md text-on-surface mb-6">{{ content.contactCTA.title }}</h2>
         <p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto mb-10">
           {{ content.contactCTA.description }}

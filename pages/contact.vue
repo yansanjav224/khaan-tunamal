@@ -24,7 +24,7 @@
       </div>
 
       <div class="relative z-10 text-center px-6">
-        <span class="font-label-md text-label-md text-secondary tracking-[0.3em] uppercase mb-4 block" v-reveal>{{ content.hero.label }}</span>
+        <span v-if="content.hero.label" class="font-label-md text-label-md text-secondary tracking-[0.3em] uppercase mb-4 block" v-reveal>{{ content.hero.label }}</span>
         <h1 class="font-display-lg text-display-lg-mobile md:text-display-lg text-on-surface mb-6 max-w-4xl mx-auto" v-reveal>
           {{ content.hero.titleLine1 }}<br /><span class="italic text-secondary">{{ content.hero.titleHighlight }}</span> холбоно
         </h1>

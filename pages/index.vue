@@ -22,7 +22,7 @@
     <section class="order-3 w-full py-10 md:py-section-gap px-6 md:px-margin-desktop max-w-container-max mx-auto">
       <div class="flex justify-between items-end gap-6 mb-10 md:mb-12" v-reveal>
         <div>
-          <span class="font-label-md text-label-md text-secondary tracking-widest uppercase block mb-4">{{ content.featuredLabel }}</span>
+          <span v-if="content.featuredLabel" class="font-label-md text-label-md text-secondary tracking-widest uppercase block mb-4">{{ content.featuredLabel }}</span>
           <h2 class="font-headline-md text-headline-md text-on-surface">{{ content.featuredTitle }}</h2>
         </div>
         <NuxtLink
@@ -43,7 +43,7 @@
           v-for="(item, i) in bentoItems"
           :key="item.link + item.name"
           :to="item.link"
-          class="media-frame group ghost-border"
+          class="media-frame group"
           :class="[
             i === 0 ? 'md:col-span-8 md:row-span-1 aspect-[16/10] md:aspect-auto' : '',
             i === 1 ? 'md:col-span-4 md:row-span-2 aspect-[4/5] md:aspect-auto' : '',
@@ -80,7 +80,7 @@
       <div class="max-w-container-max mx-auto px-6 md:px-margin-desktop py-16 md:py-24 flex flex-col md:flex-row gap-16 md:gap-20 items-center">
         <div class="w-full md:w-1/2 group" v-reveal>
           <div class="relative w-full">
-            <div class="media-frame h-[420px] md:h-[560px] ghost-border">
+            <div class="media-frame h-[420px] md:h-[560px]">
               <img
                 :src="imgUrl(content.heritage.image, 900)"
                 alt="Гар урлалын мастер ажиллаж байна"
@@ -89,7 +89,7 @@
               />
             </div>
             <!-- tracking-tighter ran "ЖИЛИЙН ТУРШЛАГА" into one word -->
-            <div class="absolute -bottom-6 right-0 md:-right-8 w-36 h-36 md:w-44 md:h-44 ghost-border p-4 bg-surface flex flex-col justify-center text-center">
+            <div class="absolute -bottom-6 right-0 md:-right-8 w-36 h-36 md:w-44 md:h-44 p-4 bg-surface flex flex-col justify-center text-center">
               <span class="font-display-lg text-[40px] md:text-display-lg text-secondary leading-none mb-2">{{ content.heritage.experienceNumber }}</span>
               <span class="font-label-md text-[10px] uppercase tracking-widest leading-snug text-on-surface-variant">{{ content.heritage.experienceLabel }}</span>
             </div>
@@ -97,7 +97,7 @@
         </div>
 
         <div class="w-full md:w-1/2 space-y-8 pt-12 md:pt-0" v-reveal="{ delay: 200 }">
-          <span class="font-label-md text-label-md text-secondary tracking-widest uppercase">{{ content.heritage.label }}</span>
+          <span v-if="content.heritage.label" class="font-label-md text-label-md text-secondary tracking-widest uppercase">{{ content.heritage.label }}</span>
           <h2 class="font-display-lg text-display-lg text-on-surface italic">{{ content.heritage.title }}</h2>
           <p class="font-body-lg text-body-lg text-on-surface-variant">{{ content.heritage.description }}</p>
           <div class="flex flex-col gap-4">
@@ -112,9 +112,9 @@
     </section>
 
     <!-- Categories -->
-    <section class="order-2 md:order-5 w-full pt-10 pb-4 md:py-section-gap px-6 md:px-margin-desktop max-w-container-max mx-auto text-center">
-      <span class="font-label-md text-label-md text-secondary tracking-widest uppercase block mb-4" v-reveal>{{ content.categoriesLabel }}</span>
-      <h2 class="font-headline-md text-headline-md text-on-surface mb-12 md:mb-16" v-reveal>{{ content.categoriesTitle }}</h2>
+    <section class="order-2 md:order-5 w-full pt-6 pb-4 md:py-section-gap px-6 md:px-margin-desktop max-w-container-max mx-auto text-center">
+      <span v-if="content.categoriesLabel" class="font-label-md text-label-md text-secondary tracking-widest uppercase block mb-4" v-reveal>{{ content.categoriesLabel }}</span>
+      <h2 class="font-headline-md text-[26px] md:text-headline-md text-on-surface mb-6 md:mb-16" v-reveal>{{ content.categoriesTitle }}</h2>
       <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-gutter">
         <NuxtLink
           v-for="(cat, i) in categoryItems"
@@ -123,7 +123,7 @@
           class="group"
           v-reveal="{ delay: i * 100 }"
         >
-          <div class="media-frame w-full aspect-[4/5] mb-4 ghost-border">
+          <div class="media-frame w-full aspect-[4/5] mb-4">
             <img
               :src="imgUrl(cat.image, 500)"
               :alt="cat.name"

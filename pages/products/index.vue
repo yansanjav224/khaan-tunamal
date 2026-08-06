@@ -3,7 +3,7 @@
     <main class="pt-28 md:pt-40">
       <!-- Hero -->
       <header class="px-6 md:px-margin-desktop max-w-container-max mx-auto mb-10 md:mb-20 text-center">
-        <span class="font-label-md text-[11px] md:text-label-md text-secondary uppercase tracking-[0.25em] md:tracking-[0.3em] block mb-3 md:mb-4" v-reveal>{{ content.hero.label }}</span>
+        <span v-if="content.hero.label" class="font-label-md text-[11px] md:text-label-md text-secondary uppercase tracking-[0.25em] md:tracking-[0.3em] block mb-3 md:mb-4" v-reveal>{{ content.hero.label }}</span>
         <h1 class="font-display-lg text-[34px] md:text-[64px] mb-5 md:mb-8 text-on-surface italic" v-reveal>{{ content.hero.title }}</h1>
         <div class="w-20 h-px bg-secondary/50 mx-auto mb-6 md:mb-8" v-reveal></div>
         <p class="max-w-2xl mx-auto font-body-lg text-[16px] md:text-body-lg text-on-surface-variant leading-relaxed" v-reveal>

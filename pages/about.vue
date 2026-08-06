@@ -1,15 +1,12 @@
 <template>
   <div>
     <main class="relative overflow-hidden pt-32 md:pt-40">
-      <!-- Mongolian Script Background -->
-      <MongolianScript />
-
       <!-- Hero Section -->
       <section class="max-w-container-max mx-auto px-6 md:px-margin-desktop mb-16 md:mb-24">
         <div class="grid md:grid-cols-12 gap-gutter items-center">
         <!-- Image (left) -->
         <div class="md:col-span-6 order-1" v-reveal>
-          <div class="media-frame aspect-[4/5] max-h-[600px] ghost-border">
+          <div class="media-frame aspect-[4/5] max-h-[600px]">
             <img
               :src="imgUrl(content.hero.image, 800)"
               alt="Хаан Тунамал Хийц — гар урлал"
@@ -21,7 +18,7 @@
         </div>
         <!-- Text (right) -->
         <div class="md:col-span-5 md:col-start-8 order-2" v-reveal="{ delay: 200 }">
-          <span class="font-label-md text-label-md text-secondary uppercase tracking-[0.4em] mb-6 block">{{ content.hero.label }}</span>
+          <span v-if="content.hero.label" class="font-label-md text-label-md text-secondary uppercase tracking-[0.4em] mb-6 block">{{ content.hero.label }}</span>
           <h1 class="font-display-lg text-display-lg md:text-[72px] leading-tight mb-6 italic">
             {{ content.hero.title }}
           </h1>

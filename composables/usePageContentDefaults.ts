@@ -158,7 +158,7 @@ export const defaultHomeContent: HomeContent = {
     { value: '10+', label: 'Жилийн туршлага' },
   ],
   heritage: {
-    label: 'Тунамалын мөн чанар',
+    label: '',
     title: 'Монгол үндэсний урлал',
     description: '"Хаан Тунамал Хийц" нь Монгол үндэсний өв соёл, уламжлалыг орчин үеийн урлалтай хослуулан, төмөр болон модон эдлэлийг хамгийн өндөр түвшинд урлан гаргаж байна. Бидний эдлэл бүр дахин давтагдашгүй түүх, өв уламжлалыг өөртөө агуулдаг.',
     image: '/images/craftsman-tools.webp',
@@ -166,15 +166,15 @@ export const defaultHomeContent: HomeContent = {
     experienceLabel: 'Жилийн туршлага',
     features: ['100% Гар урлал', 'Дээд зэргийн чанартай материал'],
   },
-  featuredLabel: 'Шилдэг бүтээлүүд',
+  featuredLabel: '',
   featuredTitle: 'Онцлох бүтээгдэхүүн',
-  categoriesLabel: 'Цуглуулгууд',
+  categoriesLabel: '',
   categoriesTitle: 'Ангилалууд',
 }
 
 export const defaultAboutContent: AboutContent = {
   hero: {
-    label: 'Талын өв уламжлал',
+    label: '',
     title: 'Бидний тухай',
     description: 'Монгол үндэсний хэв маягтай төмөр эдлэл, гар урлалын шилдэг өв уламжлалыг орчин үеийн хэрэглээнд зохицуулан урлаж байна.',
     image: '/images/design/design-14.webp',
@@ -226,7 +226,7 @@ export const defaultAboutContent: AboutContent = {
 
 export const defaultContactContent: ContactContent = {
   hero: {
-    label: 'Бидэнтэй холбогдох',
+    label: '',
     titleLine1: 'Өв соёл, урлахуйн ухааныг',
     titleHighlight: 'алтан хэлхээгээр',
     image: '/images/design/design-16.webp',
@@ -246,7 +246,7 @@ export const defaultContactContent: ContactContent = {
 
 export const defaultProductsContent: ProductsContent = {
   hero: {
-    label: 'Уламжлалт Урлал',
+    label: '',
     title: 'Эрхэмсэг Өв',
     description: 'Монгол дархны ур ухаан, галын соёлыг шингээсэн гар урлалын дээжис. Төмөрлөг эдлэлийн төгс зохицол, мөнхөд орших өв соёл.',
   },
@@ -256,7 +256,7 @@ export const defaultProductsContent: ProductsContent = {
 
 export const defaultSharedContent: SharedContent = {
   contactCTA: {
-    label: 'Лавлагаа',
+    label: '',
     title: 'Сонирхож байна уу?',
     description: 'Бүтээгдэхүүнтэй холбоотой мэдээлэл авах, захиалга өгөхийг хүсвэл бидэнтэй холбогдоорой. Бид таны хүссэн загвараар урлаж өгнө.',
     phone: '99907191',
