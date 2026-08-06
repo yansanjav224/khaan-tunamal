@@ -5,17 +5,13 @@
 // Mongolian letter except Ө/Ү silently fell back to a system sans — words were
 // literally rendering in two different typefaces. Manrope covers both blocks.
 //
-// Noto Sans Mongolian is required for the ᠬᠠᠭᠠᠨ ᠲᠤᠨᠠᠮᠠᠯ watermarks (U+1800-18AF);
-// neither EB Garamond nor a generic `serif` has those glyphs, so they rendered
-// as tofu boxes on macOS/iOS/Android.
-//
 // Material Symbols is requested with `icon_names=`, which returns a subsetted
 // font containing only the 14 glyphs the site uses instead of the full ~300 kB
 // variable icon font.
 // Russo One is the squared display face for the wordmark ("дөрвөлжин").
 // Swap candidates that also carry Cyrillic: Tektur, Unbounded, Play, Oswald.
 const FONT_TEXT =
-  'https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Manrope:wght@200..800&family=Russo+One&family=Noto+Sans+Mongolian&display=swap'
+  'https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Manrope:wght@200..800&family=Russo+One&display=swap'
 
 const FONT_ICONS =
   'https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,300,0,0' +

@@ -1,35 +1,36 @@
 <template>
-  <div class="relative flex flex-col">
-    <!-- Brand name down the outer margin, centred against the first screen so
-         it sits level with the hero instead of clinging to the top corner.
-         Desktop only: a phone has no margin to put it in. -->
-    <div
-      class="pointer-events-none absolute left-2 top-0 h-screen hidden xl:flex items-center pt-16"
-      aria-hidden="true"
-    >
-      <p class="mongolian-edge">{{ MONGOLIAN_NAME }}</p>
-    </div>
-
+  <div>
     <!-- Hero -->
-    <HeroSection class="order-1 w-full" />
+    <HeroSection />
 
-    <!-- Stats -->
-    <section class="order-4 md:order-2 w-full px-6 md:px-margin-desktop max-w-container-max mx-auto" v-reveal>
-      <div class="fine-line opacity-20"></div>
-      <div
-        class="grid grid-cols-3 gap-6 md:gap-24 text-center py-12 md:py-16"
-        :class="stats.length === 4 ? 'md:grid-cols-4' : stats.length === 2 ? 'md:grid-cols-2' : 'md:grid-cols-3'"
-      >
-        <div v-for="stat in stats" :key="stat.label" class="flex flex-col items-center">
-          <span class="font-display-lg text-[32px] md:text-display-lg text-secondary mb-1 md:mb-2">{{ stat.value }}</span>
-          <span class="font-label-md text-[10px] md:text-label-md uppercase tracking-widest text-on-surface-variant">{{ stat.label }}</span>
-        </div>
+    <!-- Categories -->
+    <section class="pt-6 pb-4 md:pt-section-gap md:pb-12 px-6 md:px-margin-desktop max-w-container-max mx-auto text-center">
+      <span v-if="content.categoriesLabel" class="font-label-md text-label-md text-secondary tracking-widest uppercase block mb-4" v-reveal>{{ content.categoriesLabel }}</span>
+      <h2 class="font-headline-md text-[26px] md:text-headline-md text-on-surface mb-6 md:mb-16" v-reveal>{{ content.categoriesTitle }}</h2>
+      <div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-4 md:gap-gutter">
+        <NuxtLink
+          v-for="(cat, i) in categoryItems"
+          :key="cat.id"
+          :to="`/products?category=${cat.id}`"
+          class="group"
+          v-reveal="{ delay: i * 100 }"
+        >
+          <div class="media-frame w-full aspect-[4/5] mb-4">
+            <img
+              :src="imgUrl(cat.image, 500)"
+              :alt="cat.name"
+              loading="lazy"
+              decoding="async"
+            />
+            <div class="absolute inset-0 z-10 bg-secondary/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+          </div>
+          <span class="block text-[15px] leading-snug tracking-normal text-on-surface md:font-label-md md:text-label-md md:uppercase md:tracking-widest group-hover:text-secondary transition-colors">{{ cat.name }}</span>
+        </NuxtLink>
       </div>
-      <div class="fine-line opacity-20"></div>
     </section>
 
     <!-- Featured Products — Bento -->
-    <section class="order-3 w-full py-10 md:py-section-gap px-6 md:px-margin-desktop max-w-container-max mx-auto">
+    <section class="py-10 md:py-section-gap px-6 md:px-margin-desktop max-w-container-max mx-auto">
       <div class="flex justify-between items-end gap-6 mb-10 md:mb-12" v-reveal>
         <div>
           <span v-if="content.featuredLabel" class="font-label-md text-label-md text-secondary tracking-widest uppercase block mb-4">{{ content.featuredLabel }}</span>
@@ -85,7 +86,7 @@
     </section>
 
     <!-- Heritage Story -->
-    <section class="order-5 md:order-4 w-full py-section-gap relative">
+    <section class="py-section-gap relative">
       <div class="fine-line opacity-20"></div>
       <div class="max-w-container-max mx-auto px-6 md:px-margin-desktop py-16 md:py-24 flex flex-col md:flex-row gap-16 md:gap-20 items-center">
         <div class="w-full md:w-1/2 group" v-reveal>
@@ -121,33 +122,7 @@
       <div class="fine-line opacity-20"></div>
     </section>
 
-    <!-- Categories -->
-    <section class="order-2 md:order-5 w-full pt-6 pb-4 md:py-section-gap px-6 md:px-margin-desktop max-w-container-max mx-auto text-center">
-      <span v-if="content.categoriesLabel" class="font-label-md text-label-md text-secondary tracking-widest uppercase block mb-4" v-reveal>{{ content.categoriesLabel }}</span>
-      <h2 class="font-headline-md text-[26px] md:text-headline-md text-on-surface mb-6 md:mb-16" v-reveal>{{ content.categoriesTitle }}</h2>
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-gutter">
-        <NuxtLink
-          v-for="(cat, i) in categoryItems"
-          :key="cat.id"
-          :to="`/products?category=${cat.id}`"
-          class="group"
-          v-reveal="{ delay: i * 100 }"
-        >
-          <div class="media-frame w-full aspect-[4/5] mb-4">
-            <img
-              :src="imgUrl(cat.image, 500)"
-              :alt="cat.name"
-              loading="lazy"
-              decoding="async"
-            />
-            <div class="absolute inset-0 z-10 bg-secondary/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-          </div>
-          <span class="block text-[15px] leading-snug tracking-normal text-on-surface md:font-label-md md:text-label-md md:uppercase md:tracking-widest group-hover:text-secondary transition-colors">{{ cat.name }}</span>
-        </NuxtLink>
-      </div>
-    </section>
-
-    <ContactCTA class="order-6 w-full" />
+    <ContactCTA />
   </div>
 </template>
 
@@ -183,13 +158,6 @@ useJsonLd(() => ({
   priceRange: '₮₮',
 }))
 
-// Live counts first, then whatever extra stats the admin configured.
-const stats = computed(() => [
-  { value: `${categories.value.length}`, label: 'Ангилал' },
-  { value: `${products.value.length}`, label: 'Бүтээгдэхүүн' },
-  ...(content.value.stats || []),
-])
-
 const fallbackImages = [
   '/images/design/design-1.webp',
   '/images/design/design-15.webp',
@@ -214,26 +182,35 @@ const bentoItems = computed(() =>
 
 const overflowFeatured = computed(() => featuredProducts.value.slice(4))
 
+// Every category is rendered now, not the first four, so the placeholder list
+// has to cover more of them — and it wraps, so an admin adding a sixth category
+// still gets a picture instead of a repeat of the first.
 const categoryFallbackImages = [
   '/images/design/design-8.webp',
   '/images/design/design-3.webp',
   '/images/design/design-11.webp',
   '/images/design/design-13.webp',
+  '/images/design/design-12.webp',
+  '/images/design/design-9.webp',
+  '/images/design/design-4.webp',
+  '/images/design/design-16.webp',
 ]
+
+const fallbackFor = (i: number) => categoryFallbackImages[i % categoryFallbackImages.length]
 const categoryFallbackNames = ['Төмөр эдлэл', 'Модон эдлэл', 'Дагалдах хэрэгсэл', 'Захиалгат бүтээл']
 
 const categoryItems = computed(() => {
   if (categories.value.length) {
-    return categories.value.slice(0, 4).map((cat, i) => ({
+    return categories.value.map((cat, i) => ({
       ...cat,
-      image: cat.image || categoryFallbackImages[i] || categoryFallbackImages[0],
+      image: cat.image || fallbackFor(i),
     }))
   }
   return categoryFallbackNames.map((name, i) => ({
     id: `cat-${i}`,
     name,
     order: i,
-    image: categoryFallbackImages[i],
+    image: fallbackFor(i),
   }))
 })
 </script>

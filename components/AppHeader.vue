@@ -1,8 +1,11 @@
 <template>
   <nav class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-md border-b border-outline-variant/30">
     <div class="flex justify-between items-center px-6 md:px-margin-desktop py-5 md:py-6 max-w-container-max mx-auto">
-      <NuxtLink to="/" class="font-headline-md text-[22px] md:text-headline-md text-secondary tracking-tighter">
-        ХААН ТУНАМАЛ
+      <NuxtLink
+        to="/"
+        class="font-headline-md text-[15px] leading-tight sm:text-[19px] md:text-[26px] text-secondary tracking-tight"
+      >
+        ХААН ТУНАМАЛ ХИЙЦ ХХК
       </NuxtLink>
 
       <!-- Desktop nav -->

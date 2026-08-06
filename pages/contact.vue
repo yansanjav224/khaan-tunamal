@@ -13,16 +13,6 @@
         <div class="absolute inset-0 hero-gradient"></div>
       </div>
 
-      <!-- Mongolian script is written top-to-bottom. Laid out horizontally and
-           tilted 12° at 200px it sprawled across the skyline as scribble; set
-           vertically at the margin it reads as the mark it was meant to be. -->
-      <!-- Flex-centred rather than translate-y-1/2: Tailwind's translate
-           utilities rebuild the whole transform chain and would drop the
-           condensed scale the mark relies on. -->
-      <div class="pointer-events-none absolute inset-y-0 right-[7%] hidden lg:flex items-center" aria-hidden="true">
-        <p class="mongolian-edge !text-[2.2rem] !opacity-25">{{ MONGOLIAN_NAME }}</p>
-      </div>
-
       <div class="relative z-10 text-center px-6">
         <span v-if="content.hero.label" class="font-label-md text-label-md text-secondary tracking-[0.3em] uppercase mb-4 block" v-reveal>{{ content.hero.label }}</span>
         <h1 class="font-display-lg text-display-lg-mobile md:text-display-lg text-on-surface mb-6 max-w-4xl mx-auto" v-reveal>

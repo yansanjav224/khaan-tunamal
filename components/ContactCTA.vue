@@ -25,15 +25,6 @@
         </div>
       </div>
 
-      <!-- Artistic background Mongolian character -->
-      <!-- Kept fully inside the panel: at translate-x-1/4 it was sliced in half
-           by the overflow and read as a stray shape rather than a mark. -->
-      <div
-        class="absolute -right-4 md:right-2 top-1/2 -translate-y-1/2 opacity-[0.05] text-[200px] md:text-[280px] leading-none font-mongolian pointer-events-none select-none hidden lg:block"
-        aria-hidden="true"
-      >
-        ᠬ
-      </div>
     </div>
   </section>
 </template>
