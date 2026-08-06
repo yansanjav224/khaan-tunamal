@@ -16,7 +16,8 @@ service cloud.firestore {
 
     function isAdmin() {
       return request.auth != null && request.auth.uid in [
-        'jERW7F79AoZud348mr0o0v2RUeq2'  // eyansanjav@gmail.com
+        'jERW7F79AoZud348mr0o0v2RUeq2', // eyansanjav@gmail.com
+        'e3NeRBmXSxNLCYL0hySF9I194qZ2'  // info@gerege.com
       ];
     }
 
