@@ -137,9 +137,55 @@ export interface SharedFooter {
   copyright: string
 }
 
+/**
+ * Interface copy — every fixed label on the public site.
+ *
+ * These used to be literals in the templates, which meant the admin could edit
+ * the headlines but not the word on the button underneath them.
+ */
+export interface SharedUi {
+  nav: { home: string; products: string; about: string; contact: string; call: string }
+  footer: { linksTitle: string; contactTitle: string; facebook: string }
+  home: { viewAll: string; viewAllShort: string }
+  products: {
+    searchPlaceholder: string
+    all: string
+    foundSuffix: string
+    emptyAll: string
+  }
+  product: {
+    back: string
+    sizes: string
+    ctaIntro: string
+    facebookCta: string
+    notFound: string
+    related: string
+    detail: string
+    noImage: string
+  }
+  form: {
+    title: string
+    intro: string
+    nameLabel: string
+    namePlaceholder: string
+    phoneLabel: string
+    phonePlaceholder: string
+    messageLabel: string
+    messagePlaceholder: string
+    submit: string
+    sending: string
+    sent: string
+    thanks: string
+    errPhone: string
+    errMessage: string
+    errGeneric: string
+  }
+}
+
 export interface SharedContent {
   contactCTA: SharedContactCTA
   footer: SharedFooter
+  ui: SharedUi
 }
 
 // ===================== DEFAULTS =====================
@@ -266,6 +312,57 @@ export const defaultSharedContent: SharedContent = {
   footer: {
     brandName: 'ХААН ТУНАМАЛ ХИЙЦ',
     copyright: 'ХААН ТУНАМАЛ ХИЙЦ. Бүх эрх хуулиар хамгаалагдсан.',
+  },
+  ui: {
+    nav: {
+      home: 'Нүүр',
+      products: 'Бүтээгдэхүүн',
+      about: 'Бидний тухай',
+      contact: 'Холбоо барих',
+      call: 'Залгах',
+    },
+    footer: {
+      linksTitle: 'Холбоосууд',
+      contactTitle: 'Холбоо барих',
+      facebook: 'Facebook хуудас',
+    },
+    home: {
+      viewAll: 'Бүх бүтээгдэхүүн үзэх',
+      viewAllShort: 'Бүгд',
+    },
+    products: {
+      searchPlaceholder: 'Бараа хайх...',
+      all: 'Бүгд',
+      foundSuffix: 'бүтээгдэхүүн олдлоо',
+      emptyAll: 'Одоогоор бараа бүртгэгдээгүй байна.',
+    },
+    product: {
+      back: 'Бүтээгдэхүүн рүү буцах',
+      sizes: 'Хэмжээ',
+      ctaIntro: 'Захиалга өгөх, дэлгэрэнгүй мэдээлэл авахыг хүсвэл:',
+      facebookCta: 'Facebook-ээр бичих',
+      notFound: 'Бүтээгдэхүүн олдсонгүй',
+      related: 'Төстэй бүтээгдэхүүн',
+      detail: 'Дэлгэрэнгүй',
+      noImage: 'Зураг байхгүй',
+    },
+    form: {
+      title: 'Зурвас үлдээх',
+      intro: 'Утсаар холбогдох боломжгүй бол доорх маягтыг бөглөнө үү. Бид эргэн холбогдоно.',
+      nameLabel: 'Нэр *',
+      namePlaceholder: 'Таны нэр',
+      phoneLabel: 'Утас *',
+      phonePlaceholder: '99112233',
+      messageLabel: 'Зурвас *',
+      messagePlaceholder: 'Ямар бүтээгдэхүүн сонирхож байна вэ?',
+      submit: 'Илгээх',
+      sending: 'Илгээж байна...',
+      sent: 'Илгээгдлээ',
+      thanks: 'Баярлалаа! Бид тантай удахгүй холбогдоно.',
+      errPhone: 'Утасны дугаараа зөв оруулна уу.',
+      errMessage: 'Зурвасаа бичнэ үү.',
+      errGeneric: 'Илгээхэд алдаа гарлаа. Утсаар холбогдоно уу.',
+    },
   },
 }
 

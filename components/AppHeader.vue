@@ -32,7 +32,7 @@
           aria-label="Утсаар залгах"
         >
           <span class="material-symbols-outlined text-[18px]">call</span>
-          Залгах
+          {{ ui.nav.call }}
         </a>
         <button
           class="w-11 h-11 flex items-center justify-center text-secondary border border-outline-variant/40"
@@ -90,14 +90,18 @@
 <script setup lang="ts">
 const route = useRoute()
 const { settings } = useSiteSettings()
+const { content: shared } = useSharedContent()
 const mobileOpen = ref(false)
 
-const navLinks = [
-  { to: '/', label: 'Нүүр' },
-  { to: '/products', label: 'Бүтээгдэхүүн' },
-  { to: '/about', label: 'Бидний тухай' },
-  { to: '/contact', label: 'Холбоо барих' },
-]
+const ui = computed(() => shared.value.ui)
+
+// Routes stay in code; only the wording comes from the admin.
+const navLinks = computed(() => [
+  { to: '/', label: ui.value.nav.home },
+  { to: '/products', label: ui.value.nav.products },
+  { to: '/about', label: ui.value.nav.about },
+  { to: '/contact', label: ui.value.nav.contact },
+])
 
 const primaryPhone = computed(() => settings.value.phones?.[0]?.number || '')
 

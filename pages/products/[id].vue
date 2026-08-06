@@ -8,7 +8,7 @@
         class="inline-flex items-center gap-2 text-on-surface-variant hover:text-secondary transition-colors mb-8 font-label-md text-label-md uppercase tracking-widest"
       >
         <span class="material-symbols-outlined text-lg">arrow_back</span>
-        Бүтээгдэхүүн рүү буцах
+        {{ ui.product.back }}
       </NuxtLink>
 
       <div v-if="product" class="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14">
@@ -30,7 +30,7 @@
             </p>
 
             <div v-if="product.sizes" class="flex flex-wrap items-center gap-3 mb-6 pb-6 border-b border-outline-variant/20">
-              <span class="text-on-surface-variant text-caption uppercase tracking-widest">Хэмжээ</span>
+              <span class="text-on-surface-variant text-caption uppercase tracking-widest">{{ ui.product.sizes }}</span>
               <div class="flex flex-wrap gap-2">
                 <span
                   v-for="size in product.sizes.split(',')"
@@ -45,7 +45,7 @@
 
           <!-- CTA -->
           <div class="ghost-border bg-surface-container-low/40 p-6 lg:p-8">
-            <p class="text-on-surface-variant text-body-md mb-5">Захиалга өгөх, дэлгэрэнгүй мэдээлэл авахыг хүсвэл:</p>
+            <p class="text-on-surface-variant text-body-md mb-5">{{ ui.product.ctaIntro }}</p>
             <div class="flex flex-col sm:flex-row gap-3">
               <a
                 v-for="(p, i) in settings.phones || []"
@@ -68,7 +68,7 @@
               class="mt-3 w-full inline-flex items-center justify-center gap-2 px-8 py-4 ghost-border font-label-md text-label-md uppercase tracking-widest text-on-surface hover:bg-surface-container-high transition-all"
             >
               <span class="material-symbols-outlined text-lg">chat</span>
-              Facebook-ээр бичих
+              {{ ui.product.facebookCta }}
             </a>
           </div>
         </div>
@@ -76,17 +76,17 @@
 
       <div v-else class="text-center py-20">
         <span class="material-symbols-outlined text-outline-variant text-6xl mb-4 block">inventory_2</span>
-        <p class="text-on-surface-variant text-body-lg mb-6">Бүтээгдэхүүн олдсонгүй</p>
+        <p class="text-on-surface-variant text-body-lg mb-6">{{ ui.product.notFound }}</p>
         <NuxtLink
           to="/products"
           class="inline-flex items-center justify-center px-8 py-4 ghost-border font-label-md text-label-md uppercase tracking-widest hover:border-secondary hover:text-secondary transition-all"
-        >Бүтээгдэхүүн рүү буцах</NuxtLink>
+        >{{ ui.product.back }}</NuxtLink>
       </div>
 
       <!-- Related — internal links Google can follow, and a way out of a dead end -->
       <section v-if="related.length" class="mt-20 md:mt-section-gap">
         <div class="fine-line opacity-20 mb-16"></div>
-        <h2 class="font-headline-md text-headline-md text-on-surface mb-10 md:mb-12 text-center">Төстэй бүтээгдэхүүн</h2>
+        <h2 class="font-headline-md text-headline-md text-on-surface mb-10 md:mb-12 text-center">{{ ui.product.related }}</h2>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-14 gap-x-6 md:gap-x-gutter">
           <ProductCard v-for="p in related" :key="p.id" :product="p" v-reveal />
         </div>
@@ -114,6 +114,8 @@ const route = useRoute()
 const { products, findProduct } = useProducts()
 const { categoryName: lookupCategory } = useCategories()
 const { settings } = useSiteSettings()
+const { content: shared } = useSharedContent()
+const ui = computed(() => shared.value.ui)
 const { abs, base } = useSiteUrl()
 
 const productId = computed(() => route.params.id as string)

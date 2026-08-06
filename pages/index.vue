@@ -40,8 +40,8 @@
           to="/products"
           class="shrink-0 font-label-md text-label-md uppercase tracking-widest text-on-surface-variant hover:text-secondary flex items-center gap-2 group transition-all"
         >
-          <span class="hidden sm:inline">Бүх бүтээгдэхүүн үзэх</span>
-          <span class="sm:hidden">Бүгд</span>
+          <span class="hidden sm:inline">{{ ui.home.viewAll }}</span>
+          <span class="sm:hidden">{{ ui.home.viewAllShort }}</span>
           <span class="material-symbols-outlined text-[16px]">open_in_new</span>
         </NuxtLink>
       </div>
@@ -131,6 +131,8 @@ const { products, featuredProducts } = useProducts()
 const { categories } = useCategories()
 const { settings } = useSiteSettings()
 const { content } = useHomeContent()
+const { content: shared } = useSharedContent()
+const ui = computed(() => shared.value.ui)
 const { abs, base } = useSiteUrl()
 
 usePageSeo(() => ({

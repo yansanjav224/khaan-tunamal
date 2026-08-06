@@ -24,19 +24,19 @@
     <!-- Editors stay mounted (v-show), so unsaved edits survive a tab switch. -->
     <template v-else>
       <div v-show="activeTab === 'home'">
-        <PageHomeEditor :model-value="homeContent" :saving="saving" @save="saveHome" />
+        <AdminPageHomeEditor :model-value="homeContent" :saving="saving" @save="saveHome" />
       </div>
       <div v-show="activeTab === 'about'">
-        <PageAboutEditor :model-value="aboutContent" :saving="saving" @save="saveAbout" />
+        <AdminPageAboutEditor :model-value="aboutContent" :saving="saving" @save="saveAbout" />
       </div>
       <div v-show="activeTab === 'contact'">
-        <PageContactEditor :model-value="contactContent" :saving="saving" @save="saveContact" />
+        <AdminPageContactEditor :model-value="contactContent" :saving="saving" @save="saveContact" />
       </div>
       <div v-show="activeTab === 'products'">
-        <PageProductsEditor :model-value="productsContent" :saving="saving" @save="saveProducts" />
+        <AdminPageProductsEditor :model-value="productsContent" :saving="saving" @save="saveProducts" />
       </div>
       <div v-show="activeTab === 'shared'">
-        <PageSharedEditor :model-value="sharedContent" :saving="saving" @save="saveShared" />
+        <AdminPageSharedEditor :model-value="sharedContent" :saving="saving" @save="saveShared" />
       </div>
     </template>
 

@@ -77,14 +77,14 @@
       <!-- Message form + map -->
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
         <section class="ghost-border p-8 md:p-10" v-reveal>
-          <h2 class="font-headline-md text-headline-md text-on-surface mb-2">Зурвас үлдээх</h2>
+          <h2 class="font-headline-md text-headline-md text-on-surface mb-2">{{ ui.form.title }}</h2>
           <p class="font-body-md text-body-md text-on-surface-variant mb-8">
-            Утсаар холбогдох боломжгүй бол доорх маягтыг бөглөнө үү. Бид эргэн холбогдоно.
+            {{ ui.form.intro }}
           </p>
 
           <form class="space-y-5" @submit.prevent="submit">
             <div>
-              <label for="cf-name" class="block text-[15px] text-on-surface mb-2">Нэр *</label>
+              <label for="cf-name" class="block text-[15px] text-on-surface mb-2">{{ ui.form.nameLabel }}</label>
               <input
                 id="cf-name"
                 v-model="form.name"
@@ -93,12 +93,12 @@
                 maxlength="80"
                 autocomplete="name"
                 class="w-full bg-surface-container border border-outline-variant/40 text-on-surface px-4 py-3.5 text-[16px] placeholder:text-on-surface-variant/50 focus:outline-none focus:border-secondary transition-colors"
-                placeholder="Таны нэр"
+                :placeholder="ui.form.namePlaceholder"
               />
             </div>
 
             <div>
-              <label for="cf-phone" class="block text-[15px] text-on-surface mb-2">Утас *</label>
+              <label for="cf-phone" class="block text-[15px] text-on-surface mb-2">{{ ui.form.phoneLabel }}</label>
               <input
                 id="cf-phone"
                 v-model="form.phone"
@@ -108,12 +108,12 @@
                 inputmode="tel"
                 autocomplete="tel"
                 class="w-full bg-surface-container border border-outline-variant/40 text-on-surface px-4 py-3.5 text-[16px] placeholder:text-on-surface-variant/50 focus:outline-none focus:border-secondary transition-colors"
-                placeholder="99112233"
+                :placeholder="ui.form.phonePlaceholder"
               />
             </div>
 
             <div>
-              <label for="cf-message" class="block text-[15px] text-on-surface mb-2">Зурвас *</label>
+              <label for="cf-message" class="block text-[15px] text-on-surface mb-2">{{ ui.form.messageLabel }}</label>
               <textarea
                 id="cf-message"
                 v-model="form.message"
@@ -121,7 +121,7 @@
                 rows="5"
                 maxlength="1000"
                 class="w-full bg-surface-container border border-outline-variant/40 text-on-surface px-4 py-3.5 text-[16px] placeholder:text-on-surface-variant/50 focus:outline-none focus:border-secondary transition-colors resize-y"
-                placeholder="Ямар бүтээгдэхүүн сонирхож байна вэ?"
+                :placeholder="ui.form.messagePlaceholder"
               ></textarea>
               <p class="text-body-sm text-outline mt-1 text-right">{{ form.message.length }}/1000</p>
             </div>
@@ -138,11 +138,11 @@
               class="w-full inline-flex items-center justify-center gap-3 px-8 py-4 bg-secondary text-on-secondary text-[15px] font-semibold tracking-wide hover:brightness-110 transition-all disabled:opacity-50 disabled:pointer-events-none"
             >
               <span class="material-symbols-outlined text-lg">{{ sent ? 'check_circle' : 'send' }}</span>
-              {{ sending ? 'Илгээж байна...' : sent ? 'Илгээгдлээ' : 'Илгээх' }}
+              {{ sending ? ui.form.sending : sent ? ui.form.sent : ui.form.submit }}
             </button>
 
             <p v-if="sent" class="text-secondary text-body-sm" role="status">
-              Баярлалаа! Бид тантай удахгүй холбогдоно.
+              {{ ui.form.thanks }}
             </p>
             <p v-if="sendError" class="text-error text-body-sm" role="alert">{{ sendError }}</p>
           </form>
@@ -170,6 +170,8 @@
 <script setup lang="ts">
 const { settings } = useSiteSettings()
 const { content } = useContactContent()
+const { content: shared } = useSharedContent()
+const ui = computed(() => shared.value.ui)
 const { base } = useSiteUrl()
 
 usePageSeo(() => ({
@@ -206,11 +208,11 @@ const submit = async () => {
 
   const phoneDigits = form.phone.replace(/\D/g, '')
   if (phoneDigits.length < 6) {
-    sendError.value = 'Утасны дугаараа зөв оруулна уу.'
+    sendError.value = ui.value.form.errPhone
     return
   }
   if (form.message.trim().length < 5) {
-    sendError.value = 'Зурвасаа бичнэ үү.'
+    sendError.value = ui.value.form.errMessage
     return
   }
 
@@ -219,7 +221,7 @@ const submit = async () => {
     await $fetch('/api/contact', { method: 'POST', body: { ...form } })
     sent.value = true
   } catch (e: any) {
-    sendError.value = e?.data?.message || e?.data?.statusMessage || 'Илгээхэд алдаа гарлаа. Утсаар холбогдоно уу.'
+    sendError.value = e?.data?.message || e?.data?.statusMessage || ui.value.form.errGeneric
   } finally {
     sending.value = false
   }

@@ -15,12 +15,12 @@
       <div class="max-w-md mx-auto mb-10 px-6">
         <div class="relative">
           <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant text-[20px] pointer-events-none">search</span>
-          <label for="product-search" class="sr-only">Бараа хайх</label>
+          <label for="product-search" class="sr-only">{{ ui.products.searchPlaceholder }}</label>
           <input
             id="product-search"
             v-model="search"
             type="search"
-            placeholder="Бараа хайх..."
+            :placeholder="ui.products.searchPlaceholder"
             class="w-full bg-surface-container border border-outline-variant/40 text-on-surface pl-12 pr-4 py-3 font-body-md text-body-md placeholder:text-on-surface-variant/50 focus:outline-none focus:border-secondary transition-colors"
           />
         </div>
@@ -35,7 +35,7 @@
             ? 'border-secondary text-secondary md:border-b md:text-on-surface'
             : 'border-outline-variant/40 text-on-surface-variant hover:text-secondary md:border-transparent'"
         >
-          Бүгд
+          {{ ui.products.all }}
         </button>
         <button
           v-for="cat in categories"
@@ -53,7 +53,7 @@
       <!-- Grid -->
       <section class="px-6 md:px-margin-desktop max-w-container-max mx-auto pb-section-gap">
         <p v-if="filteredProducts.length" class="sr-only" aria-live="polite">
-          {{ filteredProducts.length }} бүтээгдэхүүн олдлоо
+          {{ filteredProducts.length }} {{ ui.products.foundSuffix }}
         </p>
 
         <div v-if="filteredProducts.length" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-14 md:gap-y-16 gap-x-6 md:gap-x-gutter">
@@ -71,7 +71,7 @@
             <p class="text-on-surface-variant text-body-lg">{{ content.emptyStateText }}</p>
             <button @click="clearFilters" class="mt-4 text-label-md text-secondary hover:underline uppercase tracking-widest">{{ content.emptyStateButton }}</button>
           </template>
-          <p v-else class="text-on-surface-variant text-body-lg">Одоогоор бараа бүртгэгдээгүй байна.</p>
+          <p v-else class="text-on-surface-variant text-body-lg">{{ ui.products.emptyAll }}</p>
         </div>
       </section>
     </main>
@@ -85,6 +85,8 @@ const router = useRouter()
 const { products: allProducts } = useProducts()
 const { categories } = useCategories()
 const { content } = useProductsContent()
+const { content: shared } = useSharedContent()
+const ui = computed(() => shared.value.ui)
 const { base } = useSiteUrl()
 
 const activeCategory = ref((route.query.category as string) || '')

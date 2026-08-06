@@ -25,7 +25,7 @@
       <!-- Touch devices never see the hover overlay, so the card needs to say
            out loud that it opens. -->
       <span class="md:hidden mt-2 inline-flex items-center gap-1 text-[13px] text-on-surface-variant">
-        Дэлгэрэнгүй
+        {{ shared.ui.product.detail }}
         <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
       </span>
     </div>
@@ -40,6 +40,7 @@ const props = defineProps<{
 }>()
 
 const { categoryName: lookupCategory } = useCategories()
+const { content: shared } = useSharedContent()
 
 const categoryName = computed(() => lookupCategory(props.product.category))
 

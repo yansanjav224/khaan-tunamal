@@ -13,18 +13,18 @@
 
         <!-- Links -->
         <div class="space-y-6">
-          <h4 class="font-label-md text-label-md uppercase tracking-widest text-secondary">Холбоосууд</h4>
+          <h4 class="font-label-md text-label-md uppercase tracking-widest text-secondary">{{ ui.footer.linksTitle }}</h4>
           <ul class="space-y-4">
-            <li><NuxtLink to="/" class="text-[16px] text-on-surface-variant hover:text-secondary transition-colors">Нүүр хуудас</NuxtLink></li>
-            <li><NuxtLink to="/products" class="text-[16px] text-on-surface-variant hover:text-secondary transition-colors">Бүтээгдэхүүн</NuxtLink></li>
-            <li><NuxtLink to="/about" class="text-[16px] text-on-surface-variant hover:text-secondary transition-colors">Бидний тухай</NuxtLink></li>
-            <li><NuxtLink to="/contact" class="text-[16px] text-on-surface-variant hover:text-secondary transition-colors">Холбоо барих</NuxtLink></li>
+            <li><NuxtLink to="/" class="text-[16px] text-on-surface-variant hover:text-secondary transition-colors">{{ ui.nav.home }}</NuxtLink></li>
+            <li><NuxtLink to="/products" class="text-[16px] text-on-surface-variant hover:text-secondary transition-colors">{{ ui.nav.products }}</NuxtLink></li>
+            <li><NuxtLink to="/about" class="text-[16px] text-on-surface-variant hover:text-secondary transition-colors">{{ ui.nav.about }}</NuxtLink></li>
+            <li><NuxtLink to="/contact" class="text-[16px] text-on-surface-variant hover:text-secondary transition-colors">{{ ui.nav.contact }}</NuxtLink></li>
           </ul>
         </div>
 
         <!-- Contact -->
         <div class="text-right space-y-6">
-          <h4 class="font-label-md text-label-md uppercase tracking-widest text-secondary">Холбоо барих</h4>
+          <h4 class="font-label-md text-label-md uppercase tracking-widest text-secondary">{{ ui.footer.contactTitle }}</h4>
           <ul class="space-y-4">
             <li v-for="p in settings.phones || []" :key="p.number">
               <a
@@ -33,7 +33,7 @@
               >{{ formatPhone(p.number) }}</a>
             </li>
             <li>
-              <a :href="settings.facebookUrl" target="_blank" rel="noopener noreferrer" class="font-body-md text-body-md text-on-surface-variant hover:text-secondary transition-colors">Facebook хуудас</a>
+              <a :href="settings.facebookUrl" target="_blank" rel="noopener noreferrer" class="font-body-md text-body-md text-on-surface-variant hover:text-secondary transition-colors">{{ ui.footer.facebook }}</a>
             </li>
           </ul>
         </div>
@@ -54,4 +54,5 @@
 <script setup lang="ts">
 const { settings } = useSiteSettings()
 const { content: sharedContent } = useSharedContent()
+const ui = computed(() => sharedContent.value.ui)
 </script>
