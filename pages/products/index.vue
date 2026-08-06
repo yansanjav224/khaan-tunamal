@@ -85,6 +85,7 @@ const router = useRouter()
 const { products: allProducts } = useProducts()
 const { categories } = useCategories()
 const { content } = useProductsContent()
+const { settings } = useSiteSettings()
 const { content: shared } = useSharedContent()
 const ui = computed(() => shared.value.ui)
 const { base } = useSiteUrl()
@@ -93,7 +94,7 @@ const activeCategory = ref((route.query.category as string) || '')
 const search = ref('')
 
 usePageSeo(() => ({
-  title: `${content.value.hero.title} — Бүтээгдэхүүн | Хаан Тунамал Хийц`,
+  title: `${content.value.hero.title} — ${ui.value.nav.products} | ${settings.value.companyName}`,
   description: content.value.hero.description,
   image: allProducts.value[0]?.images?.[0],
 }))
@@ -102,7 +103,7 @@ usePageSeo(() => ({
 useJsonLd(() => ({
   '@context': 'https://schema.org',
   '@type': 'ItemList',
-  name: 'Хаан Тунамал Хийц — бүтээгдэхүүн',
+  name: `${settings.value.companyName} — ${ui.value.nav.products}`,
   numberOfItems: allProducts.value.length,
   itemListElement: allProducts.value.slice(0, 30).map((p, i) => ({
     '@type': 'ListItem',

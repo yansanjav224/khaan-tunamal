@@ -175,7 +175,7 @@ const ui = computed(() => shared.value.ui)
 const { base } = useSiteUrl()
 
 usePageSeo(() => ({
-  title: 'Холбоо барих | Хаан Тунамал Хийц',
+  title: `${ui.value.nav.contact} | ${settings.value.companyName}`,
   description: `${settings.value.companyName} — утас ${(settings.value.phones || []).map(p => formatPhone(p.number)).join(', ')}. ${settings.value.address}. ${content.value.cards.businessHours}`,
   image: content.value.hero.image,
 }))

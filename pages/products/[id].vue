@@ -139,8 +139,8 @@ const formatPrice = (price: number) => price.toLocaleString('mn-MN')
 
 usePageSeo(() => ({
   title: product.value
-    ? `${product.value.name} | Хаан Тунамал Хийц`
-    : 'Бүтээгдэхүүн олдсонгүй | Хаан Тунамал Хийц',
+    ? `${product.value.name} | ${settings.value.companyName}`
+    : `${ui.value.product.notFound} | ${settings.value.companyName}`,
   description: product.value
     ? `${product.value.description || product.value.name} Үнэ: ${formatPrice(product.value.price)}₮.`
     : 'Хүссэн бүтээгдэхүүн олдсонгүй.',

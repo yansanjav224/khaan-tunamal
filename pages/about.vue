@@ -144,7 +144,7 @@ const { settings } = useSiteSettings()
 const { base, abs } = useSiteUrl()
 
 usePageSeo(() => ({
-  title: `${content.value.hero.title} | Хаан Тунамал Хийц`,
+  title: `${content.value.hero.title} | ${settings.value.companyName}`,
   description: content.value.hero.description,
   image: content.value.hero.image,
 }))

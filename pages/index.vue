@@ -136,7 +136,7 @@ const ui = computed(() => shared.value.ui)
 const { abs, base } = useSiteUrl()
 
 usePageSeo(() => ({
-  title: 'Хаан Тунамал Хийц — Монгол үндэсний төмөр эдлэл, зуух',
+  title: `${settings.value.companyName} — ${settings.value.companySlogan}`,
   description: content.value.hero.description,
   image: content.value.hero.image,
 }))
