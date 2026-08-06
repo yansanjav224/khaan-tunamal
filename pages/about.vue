@@ -9,7 +9,7 @@
           <div class="media-frame aspect-[4/5] max-h-[600px]">
             <img
               :src="imgUrl(content.hero.image, 800)"
-              alt="Хаан Тунамал Хийц — гар урлал"
+              :alt="content.hero.title"
               class="w-full h-full object-cover"
               fetchpriority="high"
               decoding="async"
@@ -49,7 +49,7 @@
             <div class="aspect-[4/5] bg-surface-container relative overflow-hidden">
               <img
                 :src="imgUrl(content.story.image, 800)"
-                alt="Өв уламжлалын нарийн ажил"
+                :alt="content.story.title"
                 class="w-full h-full object-cover"
                 loading="lazy"
                 decoding="async"
@@ -110,7 +110,7 @@
               <div class="bg-surface-container h-[600px] overflow-hidden">
                 <img
                   :src="imgUrl(content.valuesImage, 800)"
-                  alt="Урлангийн ажлын үе"
+                  :alt="content.valuesSectionTitle"
                   class="w-full h-full object-cover"
                   loading="lazy"
                   decoding="async"

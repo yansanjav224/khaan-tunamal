@@ -91,6 +91,8 @@ export interface ContactHero {
   label: string
   titleLine1: string
   titleHighlight: string
+  /** Trails the highlighted words — used to be the literal "холбоно". */
+  titleTail: string
   image: string
 }
 
@@ -144,7 +146,7 @@ export interface SharedFooter {
  * the headlines but not the word on the button underneath them.
  */
 export interface SharedUi {
-  nav: { home: string; products: string; about: string; contact: string; call: string }
+  nav: { brand: string; home: string; products: string; about: string; contact: string; call: string }
   footer: { linksTitle: string; contactTitle: string; facebook: string }
   home: { viewAll: string; viewAllShort: string }
   products: {
@@ -275,6 +277,7 @@ export const defaultContactContent: ContactContent = {
     label: '',
     titleLine1: 'Өв соёл, урлахуйн ухааныг',
     titleHighlight: 'алтан хэлхээгээр',
+    titleTail: 'холбоно',
     image: '/images/design/design-16.webp',
   },
   cards: {
@@ -315,6 +318,7 @@ export const defaultSharedContent: SharedContent = {
   },
   ui: {
     nav: {
+      brand: 'ХААН ТУНАМАЛ ХИЙЦ ХХК',
       home: 'Нүүр',
       products: 'Бүтээгдэхүүн',
       about: 'Бидний тухай',

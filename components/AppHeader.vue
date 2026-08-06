@@ -5,7 +5,7 @@
         to="/"
         class="font-brand text-[12px] whitespace-nowrap sm:text-[15px] md:text-[22px] text-secondary tracking-tight"
       >
-        ХААН ТУНАМАЛ ХИЙЦ ХХК
+        {{ ui.nav.brand }}
       </NuxtLink>
 
       <!-- Desktop nav -->

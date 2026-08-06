@@ -78,6 +78,7 @@ const UI_GROUPS = [
   {
     key: 'nav', title: 'Цэс', hint: 'Дээд цэс болон footer-ийн холбоосын нэр. Хаяг нь өөрчлөгдөхгүй.',
     fields: [
+      { key: 'brand', label: 'Толгойн лого (компанийн нэр)', wide: true },
       { key: 'home', label: 'Нүүр' },
       { key: 'products', label: 'Бүтээгдэхүүн' },
       { key: 'about', label: 'Бидний тухай' },

@@ -48,7 +48,7 @@
             <!-- Largest-contentful element: eager and high priority, never lazy. -->
             <img
               :src="imgUrl(content.hero.image, 1000)"
-              alt="Монгол гар урлалын төмөр зуух"
+              :alt="`${content.hero.title} ${content.hero.titleLine2}`"
               width="1000"
               height="1000"
               fetchpriority="high"

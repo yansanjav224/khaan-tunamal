@@ -17,6 +17,10 @@
           <input v-model="form.hero.titleHighlight" class="input w-full" />
         </div>
         <div>
+          <label class="block text-sm text-gray-400 mb-1">Төгсгөлийн үг</label>
+          <input v-model="form.hero.titleTail" class="input w-full" />
+        </div>
+        <div>
           <AdminSingleImageUpload v-model="form.hero.image" label="Дэвсгэр зураг" />
         </div>
       </div>

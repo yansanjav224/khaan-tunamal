@@ -4,7 +4,7 @@
     <HeroSection />
 
     <!-- Categories -->
-    <section class="pt-6 pb-4 md:pt-section-gap md:pb-12 px-6 md:px-margin-desktop max-w-container-max mx-auto text-center">
+    <section v-if="categoryItems.length" class="pt-6 pb-4 md:pt-section-gap md:pb-12 px-6 md:px-margin-desktop max-w-container-max mx-auto text-center">
       <span v-if="content.categoriesLabel" class="font-label-md text-label-md text-secondary tracking-widest uppercase block mb-4" v-reveal>{{ content.categoriesLabel }}</span>
       <h2 class="font-headline-md text-[26px] md:text-headline-md text-on-surface mb-6 md:mb-16" v-reveal>{{ content.categoriesTitle }}</h2>
       <div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-4 md:gap-gutter">
@@ -29,8 +29,9 @@
       </div>
     </section>
 
-    <!-- Featured Products — Bento -->
-    <section class="py-10 md:py-section-gap px-6 md:px-margin-desktop max-w-container-max mx-auto">
+    <!-- Featured Products. Hidden entirely when nothing is flagged featured —
+         it used to invent four placeholder products with made-up names. -->
+    <section v-if="featuredProducts.length" class="py-10 md:py-section-gap px-6 md:px-margin-desktop max-w-container-max mx-auto">
       <div class="flex justify-between items-end gap-6 mb-10 md:mb-12" v-reveal>
         <div>
           <span v-if="content.featuredLabel" class="font-label-md text-label-md text-secondary tracking-widest uppercase block mb-4">{{ content.featuredLabel }}</span>
@@ -48,18 +49,26 @@
 
       <!-- Captions are permanent, not hover-only. On desktop the names and
            prices were hidden until the cursor landed on a tile, so the whole
-           section read as an unlabelled photo collage. -->
-      <div class="grid grid-cols-1 md:grid-cols-12 md:grid-rows-2 gap-4 md:gap-6 h-auto md:h-[840px]" v-reveal>
+           section read as an unlabelled photo collage.
+
+           The bento spans only make sense with four tiles; with fewer, an even
+           grid keeps the row from collapsing into odd shapes. -->
+      <div
+        v-reveal
+        :class="useBento
+          ? 'grid grid-cols-1 md:grid-cols-12 md:grid-rows-2 gap-4 md:gap-6 h-auto md:h-[840px]'
+          : 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6'"
+      >
         <NuxtLink
           v-for="(item, i) in bentoItems"
-          :key="item.link + item.name"
+          :key="item.link"
           :to="item.link"
           class="media-frame group"
-          :class="[
+          :class="useBento ? [
             i === 0 ? 'md:col-span-8 md:row-span-1 aspect-[16/10] md:aspect-auto' : '',
             i === 1 ? 'md:col-span-4 md:row-span-2 aspect-[4/5] md:aspect-auto' : '',
             i >= 2 ? 'md:col-span-4 md:row-span-1 aspect-[4/3] md:aspect-auto' : '',
-          ]"
+          ] : 'aspect-[4/3]'"
         >
           <img
             :src="imgUrl(item.image, i === 0 ? 1000 : 700)"
@@ -94,7 +103,7 @@
             <div class="media-frame h-[420px] md:h-[560px]">
               <img
                 :src="imgUrl(content.heritage.image, 900)"
-                alt="Гар урлалын мастер ажиллаж байна"
+                :alt="content.heritage.title"
                 loading="lazy"
                 decoding="async"
               />
@@ -128,7 +137,7 @@
 
 <script setup lang="ts">
 const { products, featuredProducts } = useProducts()
-const { categories } = useCategories()
+const { categories, categoryName } = useCategories()
 const { settings } = useSiteSettings()
 const { content } = useHomeContent()
 const { content: shared } = useSharedContent()
@@ -160,27 +169,20 @@ useJsonLd(() => ({
   priceRange: '₮₮',
 }))
 
-const fallbackImages = [
-  '/images/design/design-1.webp',
-  '/images/design/design-15.webp',
-  '/images/design/design-2.webp',
-  '/images/design/design-6.webp',
-]
-const fallbackLabels = ['Дээд зэрэглэл', 'Дагалдах хэрэгсэл', 'Өв уламжлал', 'Урлалын багаж']
-const fallbackNames = ['Уламжлалт төмөр зуух', 'Хүжсийн тавиур', 'Модон авдар', 'Зуухны багаж']
-
+// Real products only. This used to pad the grid out to four with invented
+// names, labels and stock photographs, which read as catalogue entries.
 const bentoItems = computed(() =>
-  [0, 1, 2, 3].map((i) => {
-    const p = featuredProducts.value[i]
-    return {
-      link: p ? `/products/${p.id}` : '/products',
-      image: p?.images?.[0] || fallbackImages[i],
-      name: p?.name || fallbackNames[i],
-      label: p?.sizes || fallbackLabels[i],
-      price: p ? `${p.price.toLocaleString('mn-MN')}₮` : '',
-    }
-  }),
+  featuredProducts.value.slice(0, 4).map(p => ({
+    link: `/products/${p.id}`,
+    image: p.images?.[0] || '',
+    name: p.name,
+    label: p.sizes || categoryName(p.category),
+    price: `${p.price.toLocaleString('mn-MN')}₮`,
+  })),
 )
+
+// The bento spans only make sense with four tiles.
+const useBento = computed(() => bentoItems.value.length === 4)
 
 const overflowFeatured = computed(() => featuredProducts.value.slice(4))
 
@@ -199,7 +201,6 @@ const categoryFallbackImages = [
 ]
 
 const fallbackFor = (i: number) => categoryFallbackImages[i % categoryFallbackImages.length]
-const categoryFallbackNames = ['Төмөр эдлэл', 'Модон эдлэл', 'Дагалдах хэрэгсэл', 'Захиалгат бүтээл']
 
 const categoryItems = computed(() => {
   if (categories.value.length) {
@@ -208,11 +209,6 @@ const categoryItems = computed(() => {
       image: cat.image || fallbackFor(i),
     }))
   }
-  return categoryFallbackNames.map((name, i) => ({
-    id: `cat-${i}`,
-    name,
-    order: i,
-    image: fallbackFor(i),
-  }))
+  return []
 })
 </script>
