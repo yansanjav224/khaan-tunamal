@@ -1,8 +1,14 @@
 <template>
   <div class="relative flex flex-col">
-    <!-- Brand name down the outer margin of the page. Desktop only: on a phone
-         there is no margin to put it in, and it would only cost scroll. -->
-    <p class="mongolian-edge hidden xl:block" aria-hidden="true">{{ MONGOLIAN_NAME }}</p>
+    <!-- Brand name down the outer margin, centred against the first screen so
+         it sits level with the hero instead of clinging to the top corner.
+         Desktop only: a phone has no margin to put it in. -->
+    <div
+      class="pointer-events-none absolute left-2 top-0 h-screen hidden xl:flex items-center pt-16"
+      aria-hidden="true"
+    >
+      <p class="mongolian-edge">{{ MONGOLIAN_NAME }}</p>
+    </div>
 
     <!-- Hero -->
     <HeroSection class="order-1 w-full" />

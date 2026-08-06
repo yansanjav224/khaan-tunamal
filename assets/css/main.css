@@ -141,36 +141,48 @@
      natural flow — nothing is rotated.
 
      No width and no overflow clipping: Mongolian glyphs hang off both sides of
-     the stem, and a fixed narrow box sheared the side strokes clean off. The
-     column is kept slim by the type size instead, and long by the tracking. */
+     the stem, and a fixed narrow box sheared the side strokes clean off.
+
+     Size steps by breakpoint rather than growing freely, because the amount of
+     room to the left of the content is not constant: the container is centred
+     at max 1280px, so at exactly 1280px viewport there is only the 64px of
+     section padding to sit in, while at 1536px there is 192px. */
   .mongolian-edge {
     writing-mode: vertical-lr;
     text-orientation: mixed;
     font-family: 'Noto Sans Mongolian', serif;
-    font-size: 2.1rem;
-    /* Mongolian is a joining script, so letter-spacing barely moves it — the
-       browser will not break the connecting stem. Narrow-and-tall comes from a
-       gentle scale instead, which reads as condensed calligraphy. */
+    font-size: 2.15rem;
     letter-spacing: 0.06em;
     line-height: 1.2;
-    transform: scale(0.86, 1.28);
-    transform-origin: top left;
+    /* Letter-spacing is the wrong tool here — Mongolian is a joining script and
+       the browser will not break the connecting stem to insert space. The tall,
+       narrow proportion comes from a gentle scale, reading as condensed
+       calligraphy. */
+    transform: scale(0.9, 1.35);
+    transform-origin: center;
     user-select: none;
     pointer-events: none;
-    position: absolute;
-    top: 9rem;
-    left: 0.35rem;
-    opacity: 0.6;
+    opacity: 0.7;
     background: linear-gradient(
       180deg,
-      #f0d39a 0%,
-      #e9c176 40%,
-      rgba(233, 193, 118, 0.5) 78%,
-      rgba(233, 193, 118, 0.18) 100%
+      #f5dcae 0%,
+      #e9c176 45%,
+      rgba(233, 193, 118, 0.62) 82%,
+      rgba(233, 193, 118, 0.28) 100%
     );
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
+  }
+
+  /* Wider screens have more outer margin, so the mark grows and eases away
+     from the very edge instead of clinging to it. */
+  @media (min-width: 1400px) {
+    .mongolian-edge { font-size: 2.9rem; margin-left: 0.5rem; }
+  }
+
+  @media (min-width: 1600px) {
+    .mongolian-edge { font-size: 3.4rem; margin-left: 1.5rem; }
   }
 
   /* Metallic fill for the wordmark. Plain white read as flat next to the gold
