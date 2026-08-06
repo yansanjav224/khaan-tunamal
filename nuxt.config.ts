@@ -8,12 +8,14 @@
 // Material Symbols is requested with `icon_names=`, which returns a subsetted
 // font containing only the 14 glyphs the site uses instead of the full ~300 kB
 // variable icon font.
-// Unbounded is the display face for the wordmark: geometric and squared in
-// character, but light enough not to shout. Russo One held the same shape at a
-// far heavier weight and read as sporty rather than premium.
-// Swap candidates that also carry Cyrillic: Tektur, Play, Oswald.
+// Prata carries the wordmark: a high-contrast display serif whose thick/thin
+// stroke transition is what makes the gold gradient read as polished metal.
+// Geometric faces (Russo One, Unbounded) held an even stroke and the gradient
+// flattened out across it.
+// Swap candidates that also carry Cyrillic: Playfair Display, Cormorant
+// Garamond 300, EB Garamond 400.
 const FONT_TEXT =
-  'https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Manrope:wght@200..800&family=Unbounded:wght@200..400&display=swap'
+  'https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Manrope:wght@200..800&family=Prata&display=swap'
 
 const FONT_ICONS =
   'https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,300,0,0' +

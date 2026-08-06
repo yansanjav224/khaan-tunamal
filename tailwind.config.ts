@@ -88,8 +88,8 @@ export default {
         'body-md': ['Manrope'],
         'body-sm': ['Manrope'],
         'label-md': ['Manrope'],
-        // Display face for the wordmark — geometric, squared, set light.
-        square: ['Unbounded', 'sans-serif'],
+        // Display face reserved for the wordmark.
+        brand: ['Prata', 'serif'],
       },
       fontSize: {
         'display-lg': ['48px', { lineHeight: '1.1', letterSpacing: '-0.02em', fontWeight: '400' }],

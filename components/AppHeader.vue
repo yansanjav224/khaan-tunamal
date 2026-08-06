@@ -3,7 +3,7 @@
     <div class="flex justify-between items-center px-6 md:px-margin-desktop py-5 md:py-6 max-w-container-max mx-auto">
       <NuxtLink
         to="/"
-        class="font-headline-md text-[13px] whitespace-nowrap sm:text-[17px] md:text-[26px] text-secondary tracking-tight"
+        class="font-brand text-[12px] whitespace-nowrap sm:text-[15px] md:text-[22px] text-secondary tracking-tight"
       >
         ХААН ТУНАМАЛ ХИЙЦ ХХК
       </NuxtLink>

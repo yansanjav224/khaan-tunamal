@@ -11,10 +11,9 @@
           class="font-label-md text-[11px] md:text-label-md text-secondary tracking-[0.25em] md:tracking-[0.3em] uppercase block mb-4 md:mb-6"
         >{{ content.hero.label }}</span>
 
-        <!-- Wordmark in the display face, set light. Unbounded is wide, so it
-             takes a slightly smaller size than the serif scale would give it,
-             and a touch more weight on phones where 200 goes faint. -->
-        <h1 class="wordmark font-square font-[300] md:font-[200] text-[30px] leading-[1.18] tracking-[0.01em] md:text-[56px] md:leading-[1.14] mb-5 md:mb-8">
+        <!-- Wordmark. Prata is a single-weight display serif, so the size and
+             leading carry it rather than any weight change. -->
+        <h1 class="wordmark font-brand text-[32px] leading-[1.2] md:text-[58px] md:leading-[1.14] mb-5 md:mb-8">
           {{ content.hero.title }} <br /> {{ content.hero.titleLine2 }}
         </h1>
 
