@@ -136,47 +136,56 @@
     pointer-events: none;
   }
 
-  /* The brand name set vertically in traditional Mongolian script, as a piece
-     of the composition rather than a watermark. Mongolian is written
-     top-to-bottom, left-to-right, so `vertical-lr` is its natural flow — no
-     rotation involved. Gold gradient fill gives it the worked-metal feel the
-     Cyrillic wordmark gets from its weight. */
-  .mongolian-column {
-    writing-mode: vertical-lr;
-    text-orientation: mixed;
-    font-family: 'Noto Sans Mongolian', serif;
-    letter-spacing: 0.12em;
-    line-height: 1.35;
-    user-select: none;
-    pointer-events: none;
-    background: linear-gradient(180deg, #ffdea5 0%, #e9c176 35%, #8a6a2c 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    opacity: 0.75;
-  }
+  /* The brand name down the outer margin, in traditional Mongolian script.
+     Mongolian runs top-to-bottom, left-to-right, so `vertical-lr` is its
+     natural flow — nothing is rotated.
 
-  /* Same mark, running down the outer margin of the page. Larger, fainter, and
-     it must never push the layout — hence the fixed width and clipping. */
+     No width and no overflow clipping: Mongolian glyphs hang off both sides of
+     the stem, and a fixed narrow box sheared the side strokes clean off. The
+     column is kept slim by the type size instead, and long by the tracking. */
   .mongolian-edge {
     writing-mode: vertical-lr;
     text-orientation: mixed;
     font-family: 'Noto Sans Mongolian', serif;
-    letter-spacing: 0.18em;
-    line-height: 1.3;
+    font-size: 2.1rem;
+    /* Mongolian is a joining script, so letter-spacing barely moves it — the
+       browser will not break the connecting stem. Narrow-and-tall comes from a
+       gentle scale instead, which reads as condensed calligraphy. */
+    letter-spacing: 0.06em;
+    line-height: 1.2;
+    transform: scale(0.86, 1.28);
+    transform-origin: top left;
     user-select: none;
     pointer-events: none;
     position: absolute;
-    top: 8rem;
-    left: 0.4rem;
-    width: 3.4rem;
-    overflow: hidden;
-    font-size: 2.85rem;
-    background: linear-gradient(180deg, #e9c176 0%, rgba(233, 193, 118, 0.35) 55%, transparent 100%);
+    top: 9rem;
+    left: 0.35rem;
+    opacity: 0.6;
+    background: linear-gradient(
+      180deg,
+      #f0d39a 0%,
+      #e9c176 40%,
+      rgba(233, 193, 118, 0.5) 78%,
+      rgba(233, 193, 118, 0.18) 100%
+    );
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
-    opacity: 0.5;
+  }
+
+  /* Metallic fill for the wordmark. Plain white read as flat next to the gold
+     everywhere else; this gives the lettering the same worked-brass surface. */
+  .wordmark {
+    color: #e9c176;
+  }
+
+  @supports ((-webkit-background-clip: text) or (background-clip: text)) {
+    .wordmark {
+      background: linear-gradient(168deg, #fdf1d8 0%, #e9c176 38%, #c2903f 66%, #f4dda8 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
   }
 
   /* Traditional-script background texture. Kept faint and pushed to the

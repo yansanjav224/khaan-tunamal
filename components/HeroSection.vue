@@ -14,7 +14,7 @@
         <!-- Wordmark in the squared display face. Russo One has no italic and
              sets tight, so it takes its own size and tracking rather than the
              serif display scale. -->
-        <h1 class="font-square text-[34px] leading-[1.12] tracking-[0.01em] md:text-[62px] md:leading-[1.08] text-on-surface mb-5 md:mb-8">
+        <h1 class="wordmark font-square text-[34px] leading-[1.12] tracking-[0.01em] md:text-[62px] md:leading-[1.08] mb-5 md:mb-8">
           {{ content.hero.title }} <br /> {{ content.hero.titleLine2 }}
         </h1>
 
@@ -41,10 +41,9 @@
         </div>
       </div>
 
-      <!-- Right: hero image, with the script standing beside it rather than
-           behind it. -->
-      <div class="hidden md:col-span-7 relative md:flex items-center justify-center gap-6 lg:gap-10" v-reveal="{ delay: 300 }">
-        <div class="relative flex-1 aspect-[16/10] md:aspect-square max-w-2xl">
+      <!-- Right: hero image -->
+      <div class="hidden md:col-span-7 relative md:flex justify-center" v-reveal="{ delay: 300 }">
+        <div class="relative w-full aspect-[16/10] md:aspect-square max-w-2xl">
           <div class="absolute inset-0 bg-gradient-to-tr from-secondary/10 to-transparent blur-3xl"></div>
           <div class="media-frame absolute inset-0">
             <!-- Largest-contentful element: eager and high priority, never lazy. -->
@@ -58,10 +57,6 @@
             />
           </div>
         </div>
-
-        <p class="mongolian-column shrink-0 hidden lg:block text-[54px]" aria-hidden="true">
-          {{ MONGOLIAN_NAME }}
-        </p>
       </div>
     </div>
   </section>

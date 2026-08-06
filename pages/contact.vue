@@ -17,7 +17,7 @@
            tilted 12° at 200px it sprawled across the skyline as scribble; set
            vertically at the margin it reads as the mark it was meant to be. -->
       <p
-        class="mongolian-column absolute right-[6%] top-1/2 -translate-y-1/2 text-[90px] !opacity-25 hidden lg:block"
+        class="mongolian-edge hidden lg:block !left-auto !top-1/2 right-[7%] -translate-y-1/2 !text-[2.2rem] !opacity-25"
         aria-hidden="true"
       >{{ MONGOLIAN_NAME }}</p>
 
