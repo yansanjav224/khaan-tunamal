@@ -1,19 +1,19 @@
 <template>
   <div>
-    <main class="relative overflow-hidden pt-32">
+    <main class="relative overflow-hidden pt-32 md:pt-40">
       <!-- Mongolian Script Background -->
       <MongolianScript />
 
       <!-- Hero Section -->
-      <section class="max-w-container-max mx-auto px-6 md:px-margin-desktop mb-section-gap">
+      <section class="max-w-container-max mx-auto px-6 md:px-margin-desktop mb-16 md:mb-24">
         <div class="grid md:grid-cols-12 gap-gutter items-center">
         <!-- Image (left) -->
         <div class="md:col-span-6 order-1" v-reveal>
-          <div class="aspect-[4/5] overflow-hidden">
+          <div class="media-frame aspect-[4/5] max-h-[600px] ghost-border">
             <img
               :src="imgUrl(content.hero.image, 800)"
               alt="Хаан Тунамал Хийц — гар урлал"
-              class="w-full h-full object-cover grayscale-[30%] brightness-75"
+              class="w-full h-full object-cover"
               fetchpriority="high"
               decoding="async"
             />
@@ -33,7 +33,7 @@
       </section>
 
       <!-- Our Story: Бидний түүх -->
-      <section class="max-w-container-max mx-auto px-6 md:px-margin-desktop mb-section-gap">
+      <section class="max-w-container-max mx-auto px-6 md:px-margin-desktop mb-16 md:mb-24">
         <div class="grid md:grid-cols-12 gap-gutter items-center">
           <div class="md:col-span-5" v-reveal>
             <h2 class="font-headline-md text-headline-md text-secondary mb-8">{{ content.story.title }}</h2>
@@ -69,13 +69,13 @@
       </section>
 
       <!-- Craft Tradition: Гар урлалын уламжлал -->
-      <section class="bg-surface-container-lowest py-section-gap overflow-hidden mb-section-gap">
+      <section class="bg-surface-container-lowest py-16 md:py-24 overflow-hidden mb-16 md:mb-24">
         <div class="max-w-container-max mx-auto px-6 md:px-margin-desktop">
-          <div class="text-center mb-24" v-reveal>
+          <div class="text-center mb-14 md:mb-16" v-reveal>
             <h2 class="font-display-lg text-display-lg mb-6">{{ content.craftSectionTitle }}</h2>
             <div class="w-24 h-px bg-secondary mx-auto"></div>
           </div>
-          <div class="grid md:grid-cols-3 gap-16">
+          <div class="grid md:grid-cols-3 gap-12 md:gap-16">
             <div v-for="(craft, i) in content.crafts" :key="craft.title" v-reveal="{ delay: i * 200 }">
               <div class="aspect-square mb-8 overflow-hidden grayscale hover:grayscale-0 transition-all duration-700">
                 <img
@@ -94,11 +94,11 @@
       </section>
 
       <!-- Core Values: Бидний үнэт зүйлс -->
-      <section class="max-w-container-max mx-auto px-6 md:px-margin-desktop mb-section-gap">
-        <div class="grid md:grid-cols-2 gap-24 items-start">
+      <section class="max-w-container-max mx-auto px-6 md:px-margin-desktop mb-16 md:mb-24">
+        <div class="grid md:grid-cols-2 gap-16 md:gap-24 items-start">
           <div v-reveal>
             <h2 class="font-display-lg text-display-lg mb-12">{{ content.valuesSectionTitle }}</h2>
-            <div class="space-y-16">
+            <div class="space-y-12">
               <div v-for="value in content.values" :key="value.title" class="group">
                 <h4 class="font-headline-sm text-headline-sm text-secondary mb-4 flex items-center">
                   <span class="w-8 h-px bg-secondary mr-4 transition-all group-hover:w-16"></span>

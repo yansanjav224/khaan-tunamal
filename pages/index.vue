@@ -4,21 +4,23 @@
     <HeroSection />
 
     <!-- Stats -->
-    <section class="py-24 px-6 md:px-margin-desktop max-w-container-max mx-auto" v-reveal>
+    <section class="px-6 md:px-margin-desktop max-w-container-max mx-auto" v-reveal>
+      <div class="fine-line opacity-20"></div>
       <div
-        class="grid grid-cols-1 gap-12 md:gap-24 text-center"
+        class="grid grid-cols-3 gap-6 md:gap-24 text-center py-12 md:py-16"
         :class="stats.length === 4 ? 'md:grid-cols-4' : stats.length === 2 ? 'md:grid-cols-2' : 'md:grid-cols-3'"
       >
         <div v-for="stat in stats" :key="stat.label" class="flex flex-col items-center">
-          <span class="font-display-lg text-display-lg text-secondary mb-2">{{ stat.value }}</span>
-          <span class="font-label-md text-label-md uppercase tracking-widest text-on-surface-variant">{{ stat.label }}</span>
+          <span class="font-display-lg text-[32px] md:text-display-lg text-secondary mb-1 md:mb-2">{{ stat.value }}</span>
+          <span class="font-label-md text-[10px] md:text-label-md uppercase tracking-widest text-on-surface-variant">{{ stat.label }}</span>
         </div>
       </div>
+      <div class="fine-line opacity-20"></div>
     </section>
 
     <!-- Featured Products — Bento -->
-    <section class="py-section-gap px-6 md:px-margin-desktop max-w-container-max mx-auto">
-      <div class="flex justify-between items-end gap-6 mb-16" v-reveal>
+    <section class="py-16 md:py-section-gap px-6 md:px-margin-desktop max-w-container-max mx-auto">
+      <div class="flex justify-between items-end gap-6 mb-10 md:mb-12" v-reveal>
         <div>
           <span class="font-label-md text-label-md text-secondary tracking-widest uppercase block mb-4">{{ content.featuredLabel }}</span>
           <h2 class="font-headline-md text-headline-md text-on-surface">{{ content.featuredTitle }}</h2>
@@ -33,64 +35,31 @@
         </NuxtLink>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-12 md:grid-rows-2 gap-6 h-auto md:h-[1000px]" v-reveal>
-        <!-- Main large product (8-col) -->
+      <!-- Captions are permanent, not hover-only. On desktop the names and
+           prices were hidden until the cursor landed on a tile, so the whole
+           section read as an unlabelled photo collage. -->
+      <div class="grid grid-cols-1 md:grid-cols-12 md:grid-rows-2 gap-4 md:gap-6 h-auto md:h-[840px]" v-reveal>
         <NuxtLink
-          :to="bentoItems[0].link"
-          class="md:col-span-8 md:row-span-1 relative group overflow-hidden gallery-hover aspect-[4/3] md:aspect-auto"
-        >
-          <img
-            :src="imgUrl(bentoItems[0].image, 1000)"
-            :alt="bentoItems[0].name"
-            class="w-full h-full object-cover"
-            loading="lazy"
-            decoding="async"
-          />
-          <div class="absolute inset-0 bg-black/40 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity flex items-end p-8 md:p-12">
-            <div class="transform md:translate-y-8 md:group-hover:translate-y-0 transition-transform">
-              <span class="font-label-md text-label-md text-secondary uppercase">{{ bentoItems[0].label }}</span>
-              <h3 class="font-headline-sm text-headline-sm text-on-surface">{{ bentoItems[0].name }}</h3>
-            </div>
-          </div>
-        </NuxtLink>
-
-        <!-- Tall side product (4-col, 2 rows) -->
-        <NuxtLink
-          :to="bentoItems[1].link"
-          class="md:col-span-4 md:row-span-2 relative group overflow-hidden gallery-hover bg-surface-container-low p-1 ghost-border aspect-[4/5] md:aspect-auto"
-        >
-          <img
-            :src="imgUrl(bentoItems[1].image, 800)"
-            :alt="bentoItems[1].name"
-            class="w-full h-full object-cover"
-            loading="lazy"
-            decoding="async"
-          />
-          <div class="absolute inset-0 bg-black/40 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity flex flex-col justify-center items-center text-center p-8">
-            <span class="font-label-md text-label-md text-secondary uppercase">{{ bentoItems[1].label }}</span>
-            <h3 class="font-headline-sm text-headline-sm text-on-surface">{{ bentoItems[1].name }}</h3>
-          </div>
-        </NuxtLink>
-
-        <!-- Bottom left / right (4-col each) -->
-        <NuxtLink
-          v-for="item in bentoItems.slice(2, 4)"
+          v-for="(item, i) in bentoItems"
           :key="item.link + item.name"
           :to="item.link"
-          class="md:col-span-4 md:row-span-1 relative group overflow-hidden gallery-hover aspect-[4/3] md:aspect-auto"
+          class="media-frame group ghost-border"
+          :class="[
+            i === 0 ? 'md:col-span-8 md:row-span-1 aspect-[16/10] md:aspect-auto' : '',
+            i === 1 ? 'md:col-span-4 md:row-span-2 aspect-[4/5] md:aspect-auto' : '',
+            i >= 2 ? 'md:col-span-4 md:row-span-1 aspect-[4/3] md:aspect-auto' : '',
+          ]"
         >
           <img
-            :src="imgUrl(item.image, 700)"
+            :src="imgUrl(item.image, i === 0 ? 1000 : 700)"
             :alt="item.name"
-            class="w-full h-full object-cover"
             loading="lazy"
             decoding="async"
           />
-          <div class="absolute inset-0 bg-black/40 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity flex items-end p-8">
-            <div>
-              <span class="font-label-md text-label-md text-secondary uppercase">{{ item.label }}</span>
-              <h3 class="font-headline-sm text-headline-sm text-on-surface">{{ item.name }}</h3>
-            </div>
+          <div class="media-caption absolute inset-x-0 bottom-0 z-10 px-6 pb-6 md:px-8 md:pb-7">
+            <span class="font-label-md text-label-md text-secondary uppercase tracking-widest block mb-2">{{ item.label }}</span>
+            <h3 class="font-headline-md text-headline-sm text-on-surface line-clamp-2">{{ item.name }}</h3>
+            <p v-if="item.price" class="font-body-md text-body-sm text-on-surface/80 mt-1 tracking-wider">{{ item.price }}</p>
           </div>
         </NuxtLink>
       </div>
@@ -108,19 +77,21 @@
     <!-- Heritage Story -->
     <section class="py-section-gap relative">
       <div class="fine-line opacity-20"></div>
-      <div class="max-w-container-max mx-auto px-6 md:px-margin-desktop py-24 flex flex-col md:flex-row gap-20 items-center">
-        <div class="w-full md:w-1/2" v-reveal>
+      <div class="max-w-container-max mx-auto px-6 md:px-margin-desktop py-16 md:py-24 flex flex-col md:flex-row gap-16 md:gap-20 items-center">
+        <div class="w-full md:w-1/2 group" v-reveal>
           <div class="relative w-full">
-            <img
-              :src="imgUrl(content.heritage.image, 900)"
-              alt="Гар урлалын мастер ажиллаж байна"
-              class="w-full h-[420px] md:h-[600px] object-cover grayscale hover:grayscale-0 transition-all duration-1000"
-              loading="lazy"
-              decoding="async"
-            />
-            <div class="absolute -bottom-8 right-0 md:-right-8 w-40 h-40 md:w-48 md:h-48 ghost-border p-4 bg-surface flex flex-col justify-center text-center">
-              <span class="font-display-lg text-display-lg text-secondary">{{ content.heritage.experienceNumber }}</span>
-              <span class="font-label-md text-label-md uppercase tracking-tighter">{{ content.heritage.experienceLabel }}</span>
+            <div class="media-frame h-[420px] md:h-[560px] ghost-border">
+              <img
+                :src="imgUrl(content.heritage.image, 900)"
+                alt="Гар урлалын мастер ажиллаж байна"
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+            <!-- tracking-tighter ran "ЖИЛИЙН ТУРШЛАГА" into one word -->
+            <div class="absolute -bottom-6 right-0 md:-right-8 w-36 h-36 md:w-44 md:h-44 ghost-border p-4 bg-surface flex flex-col justify-center text-center">
+              <span class="font-display-lg text-[40px] md:text-display-lg text-secondary leading-none mb-2">{{ content.heritage.experienceNumber }}</span>
+              <span class="font-label-md text-[10px] uppercase tracking-widest leading-snug text-on-surface-variant">{{ content.heritage.experienceLabel }}</span>
             </div>
           </div>
         </div>
@@ -141,10 +112,10 @@
     </section>
 
     <!-- Categories -->
-    <section class="py-section-gap px-6 md:px-margin-desktop max-w-container-max mx-auto text-center">
-      <span class="font-label-md text-label-md text-secondary tracking-widest uppercase block mb-6" v-reveal>{{ content.categoriesLabel }}</span>
-      <h2 class="font-headline-md text-headline-md text-on-surface mb-20" v-reveal>{{ content.categoriesTitle }}</h2>
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-gutter">
+    <section class="py-16 md:py-section-gap px-6 md:px-margin-desktop max-w-container-max mx-auto text-center">
+      <span class="font-label-md text-label-md text-secondary tracking-widest uppercase block mb-4" v-reveal>{{ content.categoriesLabel }}</span>
+      <h2 class="font-headline-md text-headline-md text-on-surface mb-12 md:mb-16" v-reveal>{{ content.categoriesTitle }}</h2>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-gutter">
         <NuxtLink
           v-for="(cat, i) in categoryItems"
           :key="cat.id"
@@ -152,15 +123,14 @@
           class="group"
           v-reveal="{ delay: i * 100 }"
         >
-          <div class="w-full aspect-[4/5] bg-surface-container-high overflow-hidden mb-6 ghost-border relative">
+          <div class="media-frame w-full aspect-[4/5] mb-4 ghost-border">
             <img
               :src="imgUrl(cat.image, 500)"
               :alt="cat.name"
-              class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
               loading="lazy"
               decoding="async"
             />
-            <div class="absolute inset-0 bg-secondary/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+            <div class="absolute inset-0 z-10 bg-secondary/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
           </div>
           <span class="font-label-md text-label-md uppercase tracking-widest text-on-surface group-hover:text-secondary transition-colors">{{ cat.name }}</span>
         </NuxtLink>
@@ -227,6 +197,7 @@ const bentoItems = computed(() =>
       image: p?.images?.[0] || fallbackImages[i],
       name: p?.name || fallbackNames[i],
       label: p?.sizes || fallbackLabels[i],
+      price: p ? `${p.price.toLocaleString('mn-MN')}₮` : '',
     }
   }),
 )

@@ -3,7 +3,7 @@
     <!-- Main image -->
     <div
       ref="containerRef"
-      class="aspect-square bg-surface-container overflow-hidden mb-4 ghost-border relative"
+      class="media-frame aspect-square mb-4 ghost-border"
       :class="images.length ? 'cursor-none' : ''"
       @mousemove="onMouseMove"
       @mouseenter="onMouseEnter"

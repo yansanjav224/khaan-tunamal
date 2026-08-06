@@ -2,10 +2,10 @@
   <div class="relative z-10">
     <main class="pt-32 md:pt-40">
       <!-- Hero -->
-      <header class="px-6 md:px-margin-desktop max-w-container-max mx-auto mb-24 md:mb-section-gap text-center">
+      <header class="px-6 md:px-margin-desktop max-w-container-max mx-auto mb-14 md:mb-20 text-center">
         <span class="font-label-md text-label-md text-secondary uppercase tracking-[0.3em] block mb-4" v-reveal>{{ content.hero.label }}</span>
         <h1 class="font-display-lg text-display-lg-mobile md:text-[64px] mb-8 text-on-surface italic" v-reveal>{{ content.hero.title }}</h1>
-        <div class="w-24 h-px bg-secondary/50 mx-auto mb-12" v-reveal></div>
+        <div class="w-24 h-px bg-secondary/50 mx-auto mb-8" v-reveal></div>
         <p class="max-w-2xl mx-auto font-body-lg text-body-lg text-on-surface-variant leading-relaxed" v-reveal>
           {{ content.hero.description }}
         </p>
@@ -27,7 +27,7 @@
       </div>
 
       <!-- Filter tabs -->
-      <div class="flex justify-start md:justify-center gap-6 md:gap-8 mb-16 px-6 overflow-x-auto whitespace-nowrap">
+      <div class="flex justify-start md:justify-center gap-6 md:gap-8 mb-12 px-6 overflow-x-auto whitespace-nowrap">
         <button
           @click="activeCategory = ''"
           class="shrink-0 font-label-md text-label-md pb-2 tracking-widest uppercase transition-colors"
@@ -52,7 +52,7 @@
           {{ filteredProducts.length }} бүтээгдэхүүн олдлоо
         </p>
 
-        <div v-if="filteredProducts.length" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-24 gap-x-gutter">
+        <div v-if="filteredProducts.length" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-14 md:gap-y-16 gap-x-6 md:gap-x-gutter">
           <ProductCard
             v-for="p in filteredProducts"
             :key="p.id"

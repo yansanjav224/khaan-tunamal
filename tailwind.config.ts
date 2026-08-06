@@ -106,7 +106,9 @@ export default {
       },
       spacing: {
         gutter: '32px',
-        'section-gap': '128px',
+        // 128px stacked with each section's own padding produced 250-300px of
+        // dead space between blocks; the page read as empty rather than airy.
+        'section-gap': '96px',
         'margin-mobile': '24px',
         'margin-desktop': '64px',
         'container-max': '1280px',

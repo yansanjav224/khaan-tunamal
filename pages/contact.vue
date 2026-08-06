@@ -13,11 +13,14 @@
         <div class="absolute inset-0 hero-gradient"></div>
       </div>
 
-      <!-- Mongolian script watermark -->
-      <div class="absolute right-[-5%] top-[20%] opacity-10 select-none pointer-events-none rotate-12 hidden lg:block">
-        <p class="text-[200px] leading-tight font-mongolian text-stroke-gold">
-          ᠬᠠᠭᠠᠨ ᠲᠤᠨᠠᠮᠠᠯ
-        </p>
+      <!-- Mongolian script is written top-to-bottom. Laid out horizontally and
+           tilted 12° at 200px it sprawled across the skyline as scribble; set
+           vertically at the margin it reads as the mark it was meant to be. -->
+      <div
+        class="mongolian-script-vertical font-mongolian text-[110px] right-[6%] top-1/2 -translate-y-1/2 !opacity-[0.09] text-secondary hidden lg:block"
+        aria-hidden="true"
+      >
+        ᠬᠠᠭᠠᠨ ᠲᠤᠨᠠᠮᠠᠯ
       </div>
 
       <div class="relative z-10 text-center px-6">

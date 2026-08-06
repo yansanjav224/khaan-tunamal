@@ -1,8 +1,8 @@
 <template>
-  <footer class="bg-surface-container-lowest border-t border-outline-variant/20 w-full mt-section-gap">
-    <div class="flex flex-col items-center gap-8 py-16 px-6 md:px-margin-desktop max-w-container-max mx-auto text-center">
+  <footer class="bg-surface-container-lowest border-t border-outline-variant/20 w-full mt-16 md:mt-20">
+    <div class="flex flex-col items-center gap-6 py-14 md:py-16 px-6 md:px-margin-desktop max-w-container-max mx-auto text-center">
       <!-- 3-Column Grid -->
-      <div class="grid grid-cols-1 md:grid-cols-3 w-full gap-16 mb-12">
+      <div class="grid grid-cols-1 md:grid-cols-3 w-full gap-10 md:gap-16 mb-10">
         <!-- Brand -->
         <div class="text-left space-y-6">
           <h3 class="font-headline-sm text-headline-sm text-secondary">{{ sharedContent.footer.brandName }}</h3>
@@ -47,10 +47,6 @@
         &copy; {{ new Date().getFullYear() }} {{ sharedContent.footer.copyright }}
       </p>
 
-      <!-- Bottom Links -->
-      <div class="flex gap-8">
-        <a :href="settings.facebookUrl" target="_blank" rel="noopener noreferrer" class="text-on-surface-variant hover:text-secondary transition-colors duration-200">Facebook</a>
-      </div>
     </div>
   </footer>
 </template>

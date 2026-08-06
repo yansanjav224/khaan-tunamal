@@ -25,10 +25,9 @@
 
             <h1 class="font-display-lg text-headline-lg text-on-surface mb-5">{{ product.name }}</h1>
 
-            <div class="flex items-baseline gap-2 mb-6">
-              <span class="text-secondary font-display-lg text-headline-lg">{{ formatPrice(product.price) }}</span>
-              <span class="text-secondary/60 text-lg">₮</span>
-            </div>
+            <p class="text-secondary font-display-lg text-headline-lg mb-6">
+              {{ formatPrice(product.price) }}<span class="text-[0.55em] align-baseline ml-1 text-secondary/70">₮</span>
+            </p>
 
             <div v-if="product.sizes" class="flex flex-wrap items-center gap-3 mb-6 pb-6 border-b border-outline-variant/20">
               <span class="text-on-surface-variant text-caption uppercase tracking-widest">Хэмжээ</span>
@@ -85,10 +84,10 @@
       </div>
 
       <!-- Related — internal links Google can follow, and a way out of a dead end -->
-      <section v-if="related.length" class="mt-section-gap">
+      <section v-if="related.length" class="mt-20 md:mt-section-gap">
         <div class="fine-line opacity-20 mb-16"></div>
-        <h2 class="font-headline-md text-headline-md text-on-surface mb-12 text-center">Төстэй бүтээгдэхүүн</h2>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-16 gap-x-gutter">
+        <h2 class="font-headline-md text-headline-md text-on-surface mb-10 md:mb-12 text-center">Төстэй бүтээгдэхүүн</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-14 gap-x-6 md:gap-x-gutter">
           <ProductCard v-for="p in related" :key="p.id" :product="p" v-reveal />
         </div>
       </section>
