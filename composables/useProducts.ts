@@ -13,7 +13,7 @@ import type { Product } from './useMockData'
 export const useProducts = () => {
   const { requireDb, load } = useFirebase()
 
-  const asyncData = useAsyncData<Product[]>(
+  const { data, status, refresh } = useAsyncData<Product[]>(
     'products',
     () => $fetch<Product[]>('/api/products'),
     {
@@ -22,10 +22,6 @@ export const useProducts = () => {
       getCachedData: (key, nuxtApp) => nuxtApp.payload.data[key] as Product[] | undefined,
     },
   )
-  const { data, status, refresh } = asyncData
-
-  /** Await the initial fetch — needed before deciding a product is missing. */
-  const ready = () => Promise.resolve(asyncData)
 
   const products = data as Ref<Product[]>
   const loading = computed(() => status.value === 'pending')
@@ -70,7 +66,6 @@ export const useProducts = () => {
   return {
     products,
     loading,
-    ready,
     featuredProducts,
     findProduct,
     refresh,
