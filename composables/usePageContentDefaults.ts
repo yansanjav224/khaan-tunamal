@@ -197,7 +197,7 @@ export const defaultHomeContent: HomeContent = {
     label: '',
     title: 'Хаан Тунамал',
     titleLine2: 'Хийц',
-    description: 'Монгол үндэсний хэв маягтай төмөр зуух, хүжсийн тавиур, зуухны багаж болон бусад эдлэлийг гар урлалаар бүтээнэ.',
+    description: 'Бид бүтээгдэхүүн үйлдвэрлэдэггүй. Монгол ахуй, өв уламжлалыг дараагийн үед өвлүүлэх урлал бүтээдэг юм.',
     image: '/images/design/design-5.webp',
     buttonProducts: 'Бүтээгдэхүүн үзэх',
     buttonContact: 'Холбоо барих',

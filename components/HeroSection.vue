@@ -5,7 +5,7 @@
   <section class="relative pt-28 pb-4 md:pt-40 md:pb-24 md:min-h-[860px] flex items-center px-6 md:px-margin-desktop max-w-container-max mx-auto">
     <div class="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-14 w-full items-center">
       <!-- Left: copy -->
-      <div class="md:col-span-5 z-10" v-reveal>
+      <div class="md:col-span-6 z-10" v-reveal>
         <!-- Mark and name read as one object: the name is set in the plate's
              own brushed steel rather than the page gold, and the pair is
              centred over the left-aligned copy below. -->
@@ -13,12 +13,12 @@
           <img
             src="/images/logo-xtx-plain.png"
             :alt="`${content.hero.title} ${content.hero.titleLine2}`"
-            class="h-[52px] md:h-[72px] w-auto mx-auto mb-3 md:mb-4"
+            class="h-[60px] md:h-[84px] w-auto mx-auto mb-3 md:mb-5"
             width="420"
             height="125"
             fetchpriority="high"
           />
-          <h1 class="wordmark-steel font-brand text-[17px] md:text-[23px] tracking-[0.14em] leading-snug">
+          <h1 class="wordmark-steel font-brand text-[19px] md:text-[26px] tracking-[0.14em] leading-snug">
             {{ content.hero.title }} {{ content.hero.titleLine2 }}
           </h1>
           <p
@@ -27,7 +27,7 @@
           >{{ content.hero.label }}</p>
         </div>
 
-        <p class="font-body-lg text-[17px] md:text-body-lg text-on-surface-variant max-w-md mb-7 md:mb-10">
+        <p class="font-body-lg text-[17px] md:text-body-lg text-on-surface-variant max-w-lg mb-7 md:mb-10">
           {{ content.hero.description }}
         </p>
 
@@ -51,7 +51,7 @@
       </div>
 
       <!-- Right: hero image -->
-      <div class="hidden md:col-span-7 relative md:flex justify-center" v-reveal="{ delay: 300 }">
+      <div class="hidden md:col-span-6 relative md:flex justify-center" v-reveal="{ delay: 300 }">
         <div class="relative w-full aspect-[16/10] md:aspect-square max-w-2xl">
           <div class="absolute inset-0 bg-gradient-to-tr from-secondary/10 to-transparent blur-3xl"></div>
           <div class="media-frame absolute inset-0">
