@@ -1,11 +1,20 @@
 <template>
   <nav class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-md border-b border-outline-variant/30">
     <div class="flex justify-between items-center px-6 md:px-margin-desktop py-5 md:py-6 max-w-container-max mx-auto">
-      <NuxtLink
-        to="/"
-        class="font-brand text-[12px] whitespace-nowrap sm:text-[15px] md:text-[22px] text-secondary tracking-tight"
-      >
-        {{ ui.nav.brand }}
+      <!-- The mark alone on phones: it says the same thing in a third of the
+           width, which is what the cramped header needed. The name stays in the
+           DOM for screen readers and for search. -->
+      <NuxtLink to="/" class="flex items-center gap-3 min-w-0">
+        <img
+          src="/images/logo-xtx-framed.png"
+          :alt="ui.nav.brand"
+          class="h-7 md:h-9 w-auto shrink-0"
+          width="420"
+          height="151"
+        />
+        <span class="sr-only md:not-sr-only font-brand md:text-[19px] lg:text-[22px] text-secondary tracking-tight whitespace-nowrap">
+          {{ ui.nav.brand }}
+        </span>
       </NuxtLink>
 
       <!-- Desktop nav -->

@@ -4,7 +4,15 @@
       <!-- 3-Column Grid -->
       <div class="grid grid-cols-1 md:grid-cols-3 w-full gap-10 md:gap-16 mb-10">
         <!-- Brand -->
-        <div class="text-left space-y-6">
+        <div class="text-left space-y-5">
+          <img
+            src="/images/logo-xtx-framed.png"
+            :alt="sharedContent.footer.brandName"
+            class="h-12 w-auto"
+            width="420"
+            height="151"
+            loading="lazy"
+          />
           <h3 class="font-headline-sm text-headline-sm text-secondary">{{ sharedContent.footer.brandName }}</h3>
           <p class="font-body-md text-body-md text-on-surface-variant max-w-xs">
             {{ settings.companyDescription }}
