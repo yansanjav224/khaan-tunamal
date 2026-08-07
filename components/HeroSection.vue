@@ -6,24 +6,26 @@
     <div class="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-14 w-full items-center">
       <!-- Left: copy -->
       <div class="md:col-span-5 z-10" v-reveal>
-        <img
-          src="/images/logo-xtx-plain.png"
-          :alt="`${content.hero.title} ${content.hero.titleLine2}`"
-          class="h-10 md:h-14 w-auto mb-6 md:mb-8"
-          width="420"
-          height="125"
-          fetchpriority="high"
-        />
-        <span
-          v-if="content.hero.label"
-          class="font-label-md text-[11px] md:text-label-md text-secondary tracking-[0.25em] md:tracking-[0.3em] uppercase block mb-4 md:mb-6"
-        >{{ content.hero.label }}</span>
-
-        <!-- Wordmark. Prata is a single-weight display serif, so the size and
-             leading carry it rather than any weight change. -->
-        <h1 class="wordmark font-brand text-[32px] leading-[1.2] md:text-[58px] md:leading-[1.14] mb-5 md:mb-8">
-          {{ content.hero.title }} <br /> {{ content.hero.titleLine2 }}
-        </h1>
+        <!-- Mark and name read as one object: the name is set in the plate's
+             own brushed steel rather than the page gold, and the pair is
+             centred over the left-aligned copy below. -->
+        <div class="text-center mb-8 md:mb-10">
+          <img
+            src="/images/logo-xtx-plain.png"
+            :alt="`${content.hero.title} ${content.hero.titleLine2}`"
+            class="h-[52px] md:h-[72px] w-auto mx-auto mb-3 md:mb-4"
+            width="420"
+            height="125"
+            fetchpriority="high"
+          />
+          <h1 class="wordmark-steel font-brand text-[17px] md:text-[23px] tracking-[0.14em] leading-snug">
+            {{ content.hero.title }} {{ content.hero.titleLine2 }}
+          </h1>
+          <p
+            v-if="content.hero.label"
+            class="font-label-md text-[11px] md:text-label-md text-secondary tracking-[0.28em] uppercase mt-4"
+          >{{ content.hero.label }}</p>
+        </div>
 
         <p class="font-body-lg text-[17px] md:text-body-lg text-on-surface-variant max-w-md mb-7 md:mb-10">
           {{ content.hero.description }}

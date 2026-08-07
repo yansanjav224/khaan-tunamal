@@ -194,7 +194,7 @@ export interface SharedContent {
 
 export const defaultHomeContent: HomeContent = {
   hero: {
-    label: 'Өв уламжлалт урлал',
+    label: '',
     title: 'Хаан Тунамал',
     titleLine2: 'Хийц',
     description: 'Монгол үндэсний хэв маягтай төмөр зуух, хүжсийн тавиур, зуухны багаж болон бусад эдлэлийг гар урлалаар бүтээнэ.',

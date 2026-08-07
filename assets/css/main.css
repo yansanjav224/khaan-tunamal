@@ -123,6 +123,21 @@
     transform: scale(1.05);
   }
 
+  /* Brushed-steel fill, matched to the XTX plate so the name reads as part of
+     the same object rather than as a caption under it. */
+  .wordmark-steel {
+    color: #b6b6b6;
+  }
+
+  @supports ((-webkit-background-clip: text) or (background-clip: text)) {
+    .wordmark-steel {
+      background: linear-gradient(170deg, #ececec 0%, #b9b9b9 34%, #7d7d7d 62%, #d6d6d6 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+  }
+
   /* Metallic fill for the wordmark. Plain white read as flat next to the gold
      everywhere else; this gives the lettering the same worked-brass surface. */
   .wordmark {
