@@ -6,11 +6,11 @@
            DOM for screen readers and for search. -->
       <NuxtLink to="/" class="flex items-center gap-3 min-w-0">
         <img
-          src="/images/logo-xtx-framed.png"
+          src="/images/logo-xtx-plain.png"
           :alt="ui.nav.brand"
           class="h-7 md:h-9 w-auto shrink-0"
           width="420"
-          height="151"
+          height="125"
         />
         <span class="sr-only md:not-sr-only font-brand md:text-[19px] lg:text-[22px] text-secondary tracking-tight whitespace-nowrap">
           {{ ui.nav.brand }}

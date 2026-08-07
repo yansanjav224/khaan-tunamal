@@ -6,11 +6,11 @@
         <!-- Brand -->
         <div class="text-left space-y-5">
           <img
-            src="/images/logo-xtx-framed.png"
+            src="/images/logo-xtx-plain.png"
             :alt="sharedContent.footer.brandName"
             class="h-12 w-auto"
             width="420"
-            height="151"
+            height="125"
             loading="lazy"
           />
           <h3 class="font-headline-sm text-headline-sm text-secondary">{{ sharedContent.footer.brandName }}</h3>
