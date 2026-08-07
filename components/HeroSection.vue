@@ -7,11 +7,15 @@
       <!-- Left: copy -->
       <div class="md:col-span-6 z-10" v-reveal>
         <!-- Mark and name read as one object: the name is set in the plate's
-             own brushed steel rather than the page gold. The pair is centred on
-             the paragraph beneath it, so the box is capped at the same max-w-lg
-             the paragraph uses — centring on the column instead would drift as
-             soon as the two widths differ. -->
-        <div class="max-w-lg text-center mb-8 md:mb-10">
+             own brushed steel rather than the page gold.
+
+             The pair is centred on the paragraph beneath, but on its ink rather
+             than on its box: the paragraph is ragged-right and its lines stop
+             short of the 512px measure, so centring on the box put the mark
+             about 20px right of where the eye reads the middle. The right
+             padding is a percentage so it tracks the measure instead of being a
+             pixel offset tied to today's sentence. -->
+        <div class="max-w-lg pr-[8%] text-center mb-8 md:mb-10">
           <img
             src="/images/logo-xtx-plain.png"
             :alt="`${content.hero.title} ${content.hero.titleLine2}`"
