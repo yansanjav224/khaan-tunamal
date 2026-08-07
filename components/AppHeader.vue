@@ -1,20 +1,13 @@
 <template>
   <nav class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-md border-b border-outline-variant/30">
-    <div class="flex justify-between items-center px-6 md:px-margin-desktop py-5 md:py-6 max-w-container-max mx-auto">
-      <!-- The mark alone on phones: it says the same thing in a third of the
-           width, which is what the cramped header needed. The name stays in the
-           DOM for screen readers and for search. -->
-      <NuxtLink to="/" class="flex items-center gap-3 min-w-0">
-        <img
-          src="/images/logo-xtx-plain.png"
-          :alt="ui.nav.brand"
-          class="h-7 md:h-9 w-auto shrink-0"
-          width="420"
-          height="125"
-        />
-        <span class="sr-only md:not-sr-only font-brand md:text-[19px] lg:text-[22px] text-secondary tracking-tight whitespace-nowrap">
-          {{ ui.nav.brand }}
-        </span>
+    <div class="flex justify-between items-center gap-3 px-6 md:px-margin-desktop py-5 md:py-6 max-w-container-max mx-auto">
+      <!-- Wordmark only. The hero carries the XTX mark at 56px directly below,
+           and two of them in one viewport read as a mistake. -->
+      <NuxtLink
+        to="/"
+        class="font-brand text-[11px] min-[360px]:text-[13px] sm:text-[17px] md:text-[22px] text-secondary tracking-tight min-w-0 truncate"
+      >
+        {{ ui.nav.brand }}
       </NuxtLink>
 
       <!-- Desktop nav -->
@@ -37,11 +30,11 @@
         <a
           v-if="primaryPhone"
           :href="`tel:${primaryPhone}`"
-          class="flex items-center gap-2 px-4 py-2.5 bg-secondary text-on-secondary text-[13px] font-semibold tracking-wide"
+          class="flex items-center gap-2 px-3 min-[400px]:px-4 py-2.5 bg-secondary text-on-secondary text-[13px] font-semibold tracking-wide shrink-0"
           aria-label="Утсаар залгах"
         >
           <span class="material-symbols-outlined text-[18px]">call</span>
-          {{ ui.nav.call }}
+          <span class="hidden min-[400px]:inline">{{ ui.nav.call }}</span>
         </a>
         <button
           class="w-11 h-11 flex items-center justify-center text-secondary border border-outline-variant/40"

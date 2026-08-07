@@ -6,6 +6,14 @@
     <div class="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-14 w-full items-center">
       <!-- Left: copy -->
       <div class="md:col-span-5 z-10" v-reveal>
+        <img
+          src="/images/logo-xtx-plain.png"
+          :alt="`${content.hero.title} ${content.hero.titleLine2}`"
+          class="h-10 md:h-14 w-auto mb-6 md:mb-8"
+          width="420"
+          height="125"
+          fetchpriority="high"
+        />
         <span
           v-if="content.hero.label"
           class="font-label-md text-[11px] md:text-label-md text-secondary tracking-[0.25em] md:tracking-[0.3em] uppercase block mb-4 md:mb-6"
