@@ -7,13 +7,14 @@
       <!-- Left: copy -->
       <div class="md:col-span-6 z-10" v-reveal>
         <!-- Mark and name read as one object: the name is set in the plate's
-             own brushed steel rather than the page gold, and the pair is
-             centred over the left-aligned copy below. -->
-        <div class="text-center mb-8 md:mb-10">
+             own brushed steel rather than the page gold. Left-aligned like
+             everything else in the column — centring it over left-aligned copy
+             left the mark floating off to the right of its own text. -->
+        <div class="mb-8 md:mb-10">
           <img
             src="/images/logo-xtx-plain.png"
             :alt="`${content.hero.title} ${content.hero.titleLine2}`"
-            class="h-[60px] md:h-[84px] w-auto mx-auto mb-3 md:mb-5"
+            class="h-[60px] md:h-[84px] w-auto mb-3 md:mb-5"
             width="420"
             height="125"
             fetchpriority="high"

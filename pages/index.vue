@@ -4,9 +4,9 @@
     <HeroSection />
 
     <!-- Categories -->
-    <section v-if="categoryItems.length" class="pt-6 pb-4 md:pt-section-gap md:pb-12 px-6 md:px-margin-desktop max-w-container-max mx-auto text-center">
+    <section v-if="categoryItems.length" class="py-12 md:py-section-gap px-6 md:px-margin-desktop max-w-container-max mx-auto">
       <span v-if="content.categoriesLabel" class="font-label-md text-label-md text-secondary tracking-widest uppercase block mb-4" v-reveal>{{ content.categoriesLabel }}</span>
-      <h2 class="font-headline-md text-[26px] md:text-headline-md text-on-surface mb-6 md:mb-16" v-reveal>{{ content.categoriesTitle }}</h2>
+      <h2 class="font-headline-md text-headline-md text-on-surface mb-10 md:mb-12" v-reveal>{{ content.categoriesTitle }}</h2>
       <div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-4 md:gap-gutter">
         <NuxtLink
           v-for="(cat, i) in categoryItems"
@@ -24,14 +24,14 @@
             />
             <div class="absolute inset-0 z-10 bg-secondary/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
           </div>
-          <span class="block text-[15px] leading-snug tracking-normal text-on-surface md:font-label-md md:text-label-md md:uppercase md:tracking-widest group-hover:text-secondary transition-colors">{{ cat.name }}</span>
+          <span class="block text-center text-[15px] leading-snug tracking-normal text-on-surface md:font-label-md md:text-label-md md:uppercase md:tracking-widest group-hover:text-secondary transition-colors">{{ cat.name }}</span>
         </NuxtLink>
       </div>
     </section>
 
     <!-- Featured Products. Hidden entirely when nothing is flagged featured —
          it used to invent four placeholder products with made-up names. -->
-    <section v-if="featuredProducts.length" class="py-10 md:py-section-gap px-6 md:px-margin-desktop max-w-container-max mx-auto">
+    <section v-if="featuredProducts.length" class="py-12 md:py-section-gap px-6 md:px-margin-desktop max-w-container-max mx-auto">
       <div class="flex justify-between items-end gap-6 mb-10 md:mb-12" v-reveal>
         <div>
           <span v-if="content.featuredLabel" class="font-label-md text-label-md text-secondary tracking-widest uppercase block mb-4">{{ content.featuredLabel }}</span>
@@ -95,7 +95,7 @@
     </section>
 
     <!-- Heritage Story -->
-    <section class="py-section-gap relative">
+    <section class="py-12 md:py-section-gap relative">
       <div class="fine-line opacity-20"></div>
       <div class="max-w-container-max mx-auto px-6 md:px-margin-desktop py-16 md:py-24 flex flex-col md:flex-row gap-16 md:gap-20 items-center">
         <div class="w-full md:w-1/2 group" v-reveal>
@@ -109,7 +109,7 @@
               />
             </div>
             <!-- tracking-tighter ran "ЖИЛИЙН ТУРШЛАГА" into one word -->
-            <div class="absolute -bottom-6 right-0 md:-right-8 w-36 h-36 md:w-44 md:h-44 p-4 bg-surface flex flex-col justify-center text-center">
+            <div class="absolute -bottom-6 right-0 md:-right-8 w-36 h-36 md:w-44 md:h-44 p-4 bg-surface border border-outline-variant/40 flex flex-col justify-center text-center">
               <span class="font-display-lg text-[40px] md:text-display-lg text-secondary leading-none mb-2">{{ content.heritage.experienceNumber }}</span>
               <span class="font-label-md text-[10px] uppercase tracking-widest leading-snug text-on-surface-variant">{{ content.heritage.experienceLabel }}</span>
             </div>
@@ -118,7 +118,7 @@
 
         <div class="w-full md:w-1/2 space-y-8 pt-12 md:pt-0" v-reveal="{ delay: 200 }">
           <span v-if="content.heritage.label" class="font-label-md text-label-md text-secondary tracking-widest uppercase">{{ content.heritage.label }}</span>
-          <h2 class="font-display-lg text-display-lg text-on-surface italic">{{ content.heritage.title }}</h2>
+          <h2 class="font-headline-md text-headline-md text-on-surface">{{ content.heritage.title }}</h2>
           <p class="font-body-lg text-body-lg text-on-surface-variant">{{ content.heritage.description }}</p>
           <div class="flex flex-col gap-4">
             <div v-for="feat in content.heritage.features" :key="feat" class="flex items-center gap-6">
