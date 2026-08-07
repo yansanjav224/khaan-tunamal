@@ -15,7 +15,7 @@
              about 20px right of where the eye reads the middle. The right
              padding is a percentage so it tracks the measure instead of being a
              pixel offset tied to today's sentence. -->
-        <div class="max-w-lg pr-[8%] text-center mb-8 md:mb-10">
+        <div class="max-w-lg pr-[8%] md:pr-[3%] text-center mb-8 md:mb-10">
           <img
             src="/images/logo-xtx-plain.png"
             :alt="`${content.hero.title} ${content.hero.titleLine2}`"
@@ -33,7 +33,7 @@
           >{{ content.hero.label }}</p>
         </div>
 
-        <p class="font-body-lg text-[19px] md:text-[22px] font-light leading-relaxed tracking-[0.015em] text-on-surface/90 max-w-lg mb-8 md:mb-10">
+        <p class="font-body-lg text-[19px] md:text-[20px] font-light leading-relaxed tracking-[0.015em] text-on-surface/90 max-w-lg mb-8 md:mb-10 md:text-justify hyphens-none">
           {{ content.hero.description }}
         </p>
 
