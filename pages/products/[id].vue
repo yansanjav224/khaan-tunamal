@@ -5,7 +5,7 @@
     <div class="max-w-container-max mx-auto px-6 md:px-margin-desktop">
       <NuxtLink
         to="/products"
-        class="inline-flex items-center gap-2 text-on-surface-variant hover:text-secondary transition-colors mb-8 font-label-md text-label-md uppercase tracking-widest"
+        class="inline-flex items-center gap-2 py-2 text-on-surface-variant hover:text-secondary transition-colors mb-6 font-label-md text-label-md uppercase tracking-widest"
       >
         <span class="material-symbols-outlined text-lg">arrow_back</span>
         {{ ui.product.back }}
@@ -20,7 +20,7 @@
             <NuxtLink
               v-if="categoryName"
               :to="`/products/category/${product.category}`"
-              class="inline-block text-secondary text-caption uppercase tracking-[0.3em] mb-4 px-3 py-1 border border-secondary/30 bg-secondary/5 hover:bg-secondary/15 transition-colors"
+              class="inline-block text-secondary text-caption uppercase tracking-[0.3em] mb-4 px-3 py-2.5 border border-secondary/30 bg-secondary/5 hover:bg-secondary/15 transition-colors"
             >{{ categoryName }}</NuxtLink>
 
             <h1 class="font-display-lg text-headline-lg text-on-surface mb-5">{{ product.name }}</h1>
