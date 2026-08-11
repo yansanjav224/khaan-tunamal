@@ -289,7 +289,7 @@ export const defaultContactContent: ContactContent = {
     locationTitle: 'Хаяг, байршил',
     phoneTitle: 'Утас',
     emailTitle: 'Цахим шуудан',
-    email: 'contact@khaantunamal.mn',
+    email: 'khaantunamal@khaantunamal.mn',
     businessHours: 'Даваа - Бямба: 10:00 - 19:00',
     instagramLabel: 'Instagram',
     facebookLabel: 'Facebook',
