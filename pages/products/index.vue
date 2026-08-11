@@ -98,7 +98,7 @@ watchEffect(() => {
 const search = ref('')
 
 usePageSeo(() => ({
-  title: `${content.value.hero.title} — ${ui.value.nav.products} | ${settings.value.companyName}`,
+  title: `${ui.value.nav.products} — ${categories.value.slice(0, 3).map(c => c.name).join(', ')} | ${settings.value.companyName}`,
   description: content.value.hero.description,
   image: allProducts.value[0]?.images?.[0],
 }))

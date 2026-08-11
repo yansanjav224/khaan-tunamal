@@ -69,6 +69,20 @@
             >{{ ui.products.all }}</NuxtLink>
           </div>
         </div>
+
+        <!-- Questions, as plain text rather than a JS accordion: a crawler
+             reads it without executing anything, and an older visitor does not
+             have to work out that the headings are clickable. -->
+        <section v-if="faq.length" class="mt-20 md:mt-section-gap max-w-3xl">
+          <div class="fine-line opacity-20 mb-12"></div>
+          <h2 class="font-headline-md text-headline-md text-on-surface mb-10">{{ ui.products.faqTitle }}</h2>
+          <div class="space-y-8">
+            <div v-for="(item, i) in faq" :key="i" v-reveal>
+              <h3 class="font-headline-sm text-[18px] text-on-surface mb-2">{{ item.q }}</h3>
+              <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">{{ item.a }}</p>
+            </div>
+          </div>
+        </section>
       </section>
     </main>
   </div>
@@ -100,6 +114,7 @@ const category = computed(
   () => categories.value.find(c => c.id === slug.value) || { id: slug.value, name: '', order: 0 } as any,
 )
 const siblings = computed(() => categories.value)
+const faq = computed(() => (category.value.faq || []).filter(f => f?.q && f?.a))
 const items = computed(() =>
   products.value
     .filter(p => p.category === slug.value)
@@ -119,6 +134,15 @@ usePageSeo(() => ({
 }))
 
 useJsonLd(() => [
+  ...(faq.value.length ? [{
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faq.value.map(f => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.a },
+    })),
+  }] : []),
   {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',

@@ -45,8 +45,27 @@
           </div>
           <div>
             <label class="block text-sm text-gray-400 mb-1">Танилцуулга бичвэр</label>
-            <textarea v-model="form.intro" rows="4" class="input-dark w-full" placeholder="Ангиллын хуудсан дээр барааны жагсаалтын дээр харагдах хэсэг"></textarea>
-            <p class="text-xs text-gray-500 mt-1">Хуудсан дээр үнэхээр харагдана. 300–600 тэмдэгт байх тусам Google сайн ойлгоно.</p>
+            <textarea v-model="form.intro" rows="5" class="input-dark w-full" placeholder="Ангиллын хуудсан дээр барааны жагсаалтын дээр харагдах хэсэг"></textarea>
+            <p class="text-xs text-gray-500 mt-1">Хуудсан дээр үнэхээр харагдана. 800–1200 тэмдэгт байвал Google-ийн хайлтад хамгийн сайн.</p>
+          </div>
+
+          <div>
+            <div class="flex items-center justify-between mb-1">
+              <label class="block text-sm text-gray-400">Түгээмэл асуулт, хариулт</label>
+              <button type="button" @click="form.faq.push({ q: '', a: '' })" class="text-xs text-gold hover:underline">+ Асуулт нэмэх</button>
+            </div>
+            <p class="text-xs text-gray-500 mb-2">
+              Худалдан авагчийн үнэхээр асуудаг зүйлийг бич — «Хэдэн хоногт хийж өгөх вэ?»,
+              «Хэмжээгээр захиалж болох уу?». Google эдгээрийг хайлтын үр дүнд шууд гаргадаг.
+            </p>
+            <div v-for="(f, i) in form.faq" :key="i" class="mb-3 p-3 border border-dark-border">
+              <div class="flex gap-2 mb-2">
+                <input v-model="f.q" class="input-dark flex-1" placeholder="Асуулт" />
+                <button type="button" @click="form.faq.splice(i, 1)" class="text-sm text-gray-500 hover:text-red-400 px-2">Хасах</button>
+              </div>
+              <textarea v-model="f.a" rows="2" class="input-dark w-full" placeholder="Хариулт — 1–3 өгүүлбэр"></textarea>
+            </div>
+            <p v-if="!form.faq.length" class="text-xs text-gray-600">Асуулт нэмээгүй байна.</p>
           </div>
         </div>
 
@@ -125,7 +144,7 @@ const props = defineProps<{
   products: Product[]
 }>()
 
-type CategoryInput = { name: string; order: number; image: string; seoTitle: string; seoDescription: string; intro: string }
+type CategoryInput = { name: string; order: number; image: string; seoTitle: string; seoDescription: string; intro: string; faq: { q: string; a: string }[] }
 
 const emit = defineEmits<{
   create: [data: CategoryInput]
@@ -157,6 +176,7 @@ const blank = (): CategoryInput => ({
   seoTitle: '',
   seoDescription: '',
   intro: '',
+  faq: [],
 })
 
 const form = reactive<CategoryInput>(blank())
@@ -170,6 +190,8 @@ const startEdit = (cat: Category) => {
     seoTitle: cat.seoTitle || '',
     seoDescription: cat.seoDescription || '',
     intro: cat.intro || '',
+    // cloned, or editing one row would mutate the list behind the form
+    faq: (cat.faq || []).map(f => ({ ...f })),
   })
 }
 
@@ -179,7 +201,7 @@ const cancelEdit = () => {
 }
 
 const handleSubmit = () => {
-  const data: CategoryInput = { ...form }
+  const data: CategoryInput = { ...form, faq: form.faq.filter(f => f.q.trim() && f.a.trim()).map(f => ({ q: f.q.trim(), a: f.a.trim() })) }
   if (editingCategory.value) {
     emit('update', editingCategory.value.id, data)
     cancelEdit()

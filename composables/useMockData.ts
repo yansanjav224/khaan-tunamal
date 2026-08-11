@@ -59,6 +59,18 @@ export interface Category {
   seoTitle?: string
   seoDescription?: string
   intro?: string
+  /**
+   * Questions buyers actually type. Each pair is rendered as visible text and
+   * as FAQPage markup, which is how a category page competes for a bare head
+   * term like "зуух" instead of only for the long phrase someone types when
+   * they already know the product.
+   */
+  faq?: CategoryFaq[]
+}
+
+export interface CategoryFaq {
+  q: string
+  a: string
 }
 
 export interface ContactMessage {

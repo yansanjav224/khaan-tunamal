@@ -156,6 +156,7 @@ export interface SharedUi {
     all: string
     foundSuffix: string
     emptyAll: string
+    faqTitle: string
   }
   product: {
     back: string
@@ -346,6 +347,7 @@ export const defaultSharedContent: SharedContent = {
       all: 'Бүгд',
       foundSuffix: 'бүтээгдэхүүн олдлоо',
       emptyAll: 'Одоогоор бараа бүртгэгдээгүй байна.',
+      faqTitle: 'Түгээмэл асуулт',
     },
     product: {
       back: 'Бүтээгдэхүүн рүү буцах',

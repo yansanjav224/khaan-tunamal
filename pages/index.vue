@@ -146,7 +146,10 @@ const { abs, base } = useSiteUrl()
 
 usePageSeo(() => ({
   title: `${settings.value.companyName} — ${settings.value.companySlogan}`,
-  description: content.value.hero.description,
+  // Not content.hero.description: the visible line on the page is deliberately
+  // poetic and contains none of the words a buyer types. This one names the
+  // products, and stays editable under Тохиргоо.
+  description: settings.value.companyDescription,
   image: content.value.hero.image,
 }))
 
