@@ -30,7 +30,7 @@
         <a
           v-if="primaryPhone"
           :href="`tel:${primaryPhone}`"
-          class="flex items-center gap-2 px-3 min-[400px]:px-4 py-2.5 bg-secondary text-on-secondary text-[13px] font-semibold tracking-wide shrink-0"
+          class="flex items-center gap-2 px-3 min-[400px]:px-4 py-3 bg-secondary text-on-secondary text-[13px] font-semibold tracking-wide shrink-0"
           aria-label="Утсаар залгах"
         >
           <span class="material-symbols-outlined text-[18px]">call</span>
