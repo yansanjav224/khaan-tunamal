@@ -39,7 +39,7 @@
         </div>
         <NuxtLink
           to="/products"
-          class="shrink-0 font-label-md text-label-md uppercase tracking-widest text-on-surface-variant hover:text-secondary flex items-center gap-2 group transition-all"
+          class="shrink-0 py-3 font-label-md text-label-md uppercase tracking-widest text-on-surface-variant hover:text-secondary flex items-center gap-2 group transition-all"
         >
           <span class="hidden sm:inline">{{ ui.home.viewAll }}</span>
           <span class="sm:hidden">{{ ui.home.viewAllShort }}</span>

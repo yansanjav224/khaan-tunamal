@@ -5,7 +5,7 @@
            and two of them in one viewport read as a mistake. -->
       <NuxtLink
         to="/"
-        class="font-brand text-[11px] min-[360px]:text-[13px] sm:text-[17px] md:text-[22px] text-secondary tracking-tight min-w-0 truncate"
+        class="font-brand text-[11px] min-[360px]:text-[13px] sm:text-[17px] md:text-[22px] text-secondary tracking-tight min-w-0 truncate py-3"
       >
         {{ ui.nav.brand }}
       </NuxtLink>
