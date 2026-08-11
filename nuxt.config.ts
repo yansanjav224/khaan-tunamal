@@ -84,13 +84,20 @@ export default defineNuxtConfig({
     '/': { isr: 900 },
     '/about': { isr: 900 },
     '/contact': { isr: 900 },
-    // allowQuery: without it the ISR cache is keyed on the path alone, so
-    // /products?category=X was served the HTML rendered for no category at
-    // all. The grid corrected itself on hydration but the filter chips did
-    // not — Vue does not repair class mismatches in production — leaving
-    // "Бүгд" highlighted over a filtered grid on every shared or refreshed
-    // category link.
-    '/products': { isr: { expiration: 900, allowQuery: ['category'] } },
+    // Edge caching instead of ISR, because /products is the one page whose
+    // output depends on the query string. Nitro's Vercel ISR entrypoint
+    // rewrites `req.url` to the bare `__isr_route` value on a cache miss and
+    // drops every other parameter with it, so ?category=X never reached the
+    // render — `isr.allowQuery` splits the cache but cannot put the parameter
+    // back. The grid still filtered on the client, but the chips did not,
+    // leaving "Бүгд" highlighted over a filtered grid on any category link
+    // that was shared, refreshed or arrived at from search.
+    //
+    // s-maxage gives the same economics: Vercel's edge keys on the full URL
+    // including the query, so each category renders at most once per window.
+    '/products': {
+      headers: { 'cache-control': 'public, max-age=0, s-maxage=900, stale-while-revalidate=1800' },
+    },
     '/products/**': { isr: 1800 },
     '/admin/**': { ssr: false, headers: { 'x-robots-tag': 'noindex, nofollow' } },
     '/api/**': {

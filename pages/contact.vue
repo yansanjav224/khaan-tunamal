@@ -37,7 +37,7 @@
           <h2 class="font-headline-sm text-headline-sm text-on-surface mb-3">{{ content.cards.phoneTitle }}</h2>
           <div v-for="p in settings.phones || []" :key="p.number" class="mb-3">
             <p class="font-body-md text-body-md">
-              <a :href="`tel:${p.number}`" class="text-[19px] font-medium text-secondary hover:brightness-110 transition-all">{{ formatPhone(p.number) }}</a>
+              <a :href="`tel:${p.number}`" class="inline-block py-2 text-[19px] font-medium text-secondary hover:brightness-110 transition-all">{{ formatPhone(p.number) }}</a>
               <span class="text-outline text-body-sm"> · {{ p.label }}</span>
             </p>
             <!-- Most customers here message rather than call. The labels are
@@ -46,13 +46,13 @@
             <div class="flex gap-5">
               <a
                 :href="`viber://chat?number=%2B976${p.number}`"
-                class="inline-block py-2.5 font-label-md text-label-md uppercase tracking-widest text-outline hover:text-secondary transition-colors"
+                class="inline-block py-3.5 font-label-md text-label-md uppercase tracking-widest text-outline hover:text-secondary transition-colors"
               >Viber</a>
               <a
                 :href="`https://wa.me/976${p.number}`"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="inline-block py-2.5 font-label-md text-label-md uppercase tracking-widest text-outline hover:text-secondary transition-colors"
+                class="inline-block py-3.5 font-label-md text-label-md uppercase tracking-widest text-outline hover:text-secondary transition-colors"
               >WhatsApp</a>
             </div>
           </div>
@@ -63,14 +63,14 @@
           <span class="material-symbols-outlined text-secondary text-3xl mb-6 block">mail</span>
           <h2 class="font-headline-sm text-headline-sm text-on-surface mb-3">{{ content.cards.emailTitle }}</h2>
           <p class="font-body-md text-body-md text-on-surface-variant">
-            <a :href="`mailto:${content.cards.email}`" class="hover:text-secondary transition-colors">{{ content.cards.email }}</a>
+            <a :href="`mailto:${content.cards.email}`" class="inline-block py-2 hover:text-secondary transition-colors">{{ content.cards.email }}</a>
           </p>
           <div class="flex gap-6 mt-4 pt-4 border-t border-outline-variant/20">
             <a
               :href="settings.facebookUrl"
               target="_blank"
               rel="noopener noreferrer"
-              class="font-label-md text-label-md text-on-surface-variant hover:text-secondary transition-colors uppercase tracking-widest"
+              class="inline-block py-3.5 font-label-md text-label-md text-on-surface-variant hover:text-secondary transition-colors uppercase tracking-widest"
             >{{ content.cards.facebookLabel }}</a>
           </div>
         </div>
