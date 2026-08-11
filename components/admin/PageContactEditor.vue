@@ -66,12 +66,31 @@
       <h3 class="text-lg font-semibold text-gray-100 mb-4">Газрын зураг</h3>
       <div class="space-y-4">
         <div>
-          <label class="block text-sm text-gray-400 mb-1">Google Maps Embed URL</label>
-          <input v-model="form.mapEmbedUrl" class="input w-full" placeholder="https://www.google.com/maps/embed?pb=..." />
+          <label class="block text-sm text-gray-400 mb-1">Газрын зургийн хаяг (embed)</label>
+          <input v-model="form.mapEmbedUrl" class="input w-full" placeholder="https://www.google.com/maps?q=47.930322,107.020728&z=16&hl=mn&output=embed" />
+          <p class="text-xs text-gray-500 mt-1">
+            Google Maps дээр байрлалаа олоод баруун товшиж координатаа хуулна. Дараа нь энд
+            <code class="text-gray-400">https://www.google.com/maps?q=ӨРГӨРӨГ,УРТРАГ&amp;z=16&amp;hl=mn&amp;output=embed</code>
+            гэж бичнэ. Төлбөргүй, түлхүүр шаардахгүй.
+          </p>
         </div>
         <div>
-          <label class="block text-sm text-gray-400 mb-1">Зурган дээрх шошго</label>
-          <input v-model="form.mapLabel" class="input w-full" />
+          <label class="block text-sm text-gray-400 mb-1">Google Maps холбоос (Замын заавар товч)</label>
+          <input v-model="form.mapLink" class="input w-full" placeholder="https://maps.app.goo.gl/..." />
+          <p class="text-xs text-gray-500 mt-1">Google Maps дээрх "Хуваалцах" товчны богино холбоос.</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm text-gray-400 mb-1">Байршлын нэр</label>
+            <input v-model="form.mapLabel" class="input w-full" />
+          </div>
+          <div>
+            <label class="block text-sm text-gray-400 mb-1">Товчны бичиг</label>
+            <input v-model="form.mapDirectionsLabel" class="input w-full" />
+          </div>
+        </div>
+        <div>
+          <AdminSingleImageUpload v-model="form.mapImage" label="Байршлын зураг (сонголт — үүд, байшингийн зураг)" />
         </div>
       </div>
     </div>

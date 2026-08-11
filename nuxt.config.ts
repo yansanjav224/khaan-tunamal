@@ -19,7 +19,7 @@ const FONT_TEXT =
 
 const FONT_ICONS =
   'https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,300,0,0' +
-  '&icon_names=arrow_back,arrow_forward,call,chat,check_circle,close,inventory_2,location_on,mail,menu,open_in_new,search,send,verified' +
+  '&icon_names=arrow_back,arrow_forward,call,chat,check_circle,close,directions,inventory_2,location_on,mail,menu,open_in_new,search,send,verified' +
   '&display=block'
 
 export default defineNuxtConfig({

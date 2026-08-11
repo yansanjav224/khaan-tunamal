@@ -148,18 +148,48 @@
           </form>
         </section>
 
-        <!-- Map -->
-        <section class="min-h-[450px] lg:min-h-0 border border-outline-variant/30 overflow-hidden relative" v-reveal="{ delay: 150 }">
+        <!-- Map. The label used to float over the map as a translucent card,
+             which sat on top of streets and read as clutter; it is a solid bar
+             under the map now, with room for a photo of the entrance and a
+             direct route into the Google Maps app. -->
+        <section class="border border-outline-variant/30 overflow-hidden flex flex-col" v-reveal="{ delay: 150 }">
           <iframe
             :src="content.mapEmbedUrl"
             :title="content.mapLabel"
-            class="w-full h-full min-h-[450px] border-0 invert brightness-[0.85] contrast-[1.2] hue-rotate-[200deg]"
+            class="w-full flex-1 min-h-[360px] border-0 invert brightness-[0.85] contrast-[1.2] hue-rotate-[200deg]"
             allowfullscreen=""
             loading="lazy"
             referrerpolicy="no-referrer-when-downgrade"
           ></iframe>
-          <div class="absolute bottom-6 left-6 bg-background/90 backdrop-blur-md px-6 py-4 border border-secondary/30">
-            <p class="font-label-md text-label-md text-secondary uppercase tracking-widest">{{ content.mapLabel }}</p>
+
+          <!-- Stacks on a phone so the button keeps its wording: an unlabelled
+               arrow icon is exactly the kind of thing an older customer will not
+               risk tapping. -->
+          <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-5 border-t border-outline-variant/30 bg-surface-container-low p-5 md:px-6">
+            <div class="flex items-center gap-4 min-w-0 flex-1">
+              <img
+                v-if="content.mapImage"
+                :src="imgUrl(content.mapImage, 220)"
+                :alt="content.mapLabel"
+                class="h-16 w-16 md:h-[72px] md:w-[72px] shrink-0 object-cover border border-outline-variant/30"
+                loading="lazy"
+                decoding="async"
+              />
+              <div class="min-w-0">
+                <p class="font-label-md text-label-md text-secondary uppercase tracking-widest">{{ content.mapLabel }}</p>
+                <p class="text-[15px] text-on-surface-variant leading-snug mt-1">{{ settings.address }}</p>
+              </div>
+            </div>
+            <a
+              v-if="content.mapLink"
+              :href="content.mapLink"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="shrink-0 inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-secondary text-on-secondary text-[15px] font-semibold tracking-wide hover:brightness-110 transition-all"
+            >
+              <span class="material-symbols-outlined text-[20px]">directions</span>
+              {{ content.mapDirectionsLabel }}
+            </a>
           </div>
         </section>
       </div>
@@ -180,12 +210,23 @@ usePageSeo(() => ({
   image: content.value.hero.image,
 }))
 
+// The pin doubles as structured data: parsing it off the embed URL keeps the
+// coordinates Google is told about and the map the visitor sees from drifting
+// apart when an admin moves the pin.
+const geo = computed(() => {
+  const m = /[?&]q=(-?\d+\.?\d*),(-?\d+\.?\d*)/.exec(content.value.mapEmbedUrl || '')
+  if (!m) return null
+  return { '@type': 'GeoCoordinates', latitude: Number(m[1]), longitude: Number(m[2]) }
+})
+
 useJsonLd(() => ({
   '@context': 'https://schema.org',
   '@type': 'ContactPage',
   url: `${base}/contact`,
+  // LocalBusiness rather than Organization: it inherits Place, so the pin and
+  // the opening hours are readable by Google's local results.
   mainEntity: {
-    '@type': 'Organization',
+    '@type': 'LocalBusiness',
     name: settings.value.companyName,
     telephone: (settings.value.phones || []).map(p => `+976${p.number}`),
     email: content.value.cards.email,
@@ -194,6 +235,8 @@ useJsonLd(() => ({
       addressLocality: settings.value.address,
       addressCountry: 'MN',
     },
+    ...(geo.value ? { geo: geo.value } : {}),
+    ...(content.value.mapLink ? { hasMap: content.value.mapLink } : {}),
   },
 }))
 

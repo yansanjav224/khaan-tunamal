@@ -111,6 +111,11 @@ export interface ContactContent {
   cards: ContactCard
   mapEmbedUrl: string
   mapLabel: string
+  /** Opens the pin in the Google Maps app so the customer can navigate to it. */
+  mapLink: string
+  /** Optional photo of the entrance, shown beside the address. */
+  mapImage: string
+  mapDirectionsLabel: string
 }
 
 // ===================== PRODUCTS =====================
@@ -289,8 +294,14 @@ export const defaultContactContent: ContactContent = {
     instagramLabel: 'Instagram',
     facebookLabel: 'Facebook',
   },
-  mapEmbedUrl: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d87058.24407968498!2d106.83513895!3d47.91868055!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x5d9692432795fad3%3A0x63177b0e4c3f21c1!2sUlaanbaatar%2C%20Mongolia!5e0!3m2!1sen!2s!4v1718000000000!5m2!1sen!2s',
-  mapLabel: 'Улаанбаатар',
+  // `output=embed` needs no API key and no billing account, unlike the Maps
+  // Embed API. The workshop is a dropped pin rather than a listed business, so
+  // the coordinates are the address as far as Google is concerned.
+  mapEmbedUrl: 'https://www.google.com/maps?q=47.930322,107.020728&z=16&hl=mn&output=embed',
+  mapLabel: 'Хаан Тунамал Хийц',
+  mapLink: 'https://maps.app.goo.gl/jFURZAhd3tAGLdvA6',
+  mapImage: '',
+  mapDirectionsLabel: 'Замын заавар',
 }
 
 export const defaultProductsContent: ProductsContent = {
