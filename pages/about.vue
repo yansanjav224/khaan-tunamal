@@ -129,7 +129,7 @@
             {{ content.cta.description }}
           </p>
           <div class="flex flex-col md:flex-row justify-center gap-8">
-            <a :href="`tel:${content.cta.phone}`" class="border border-secondary px-10 py-4 font-label-md text-label-md uppercase tracking-[0.2em] hover:bg-secondary hover:text-on-secondary transition-all">{{ content.cta.phoneDisplay }}</a>
+            <a v-if="ctaPhone" :href="`tel:${ctaPhone}`" class="border border-secondary px-10 py-4 font-label-md text-label-md uppercase tracking-[0.2em] hover:bg-secondary hover:text-on-secondary transition-all">{{ formatPhone(ctaPhone) }}</a>
             <NuxtLink to="/contact" class="border border-outline px-10 py-4 font-label-md text-label-md uppercase tracking-[0.2em] hover:bg-on-surface hover:text-surface transition-all">{{ content.cta.buttonText }}</NuxtLink>
           </div>
         </div>
@@ -141,6 +141,8 @@
 <script setup lang="ts">
 const { content } = useAboutContent()
 const { settings } = useSiteSettings()
+// Single source of truth for the phone number — see components/ContactCTA.vue.
+const ctaPhone = computed(() => (settings.value.phones || [])[0]?.number || '')
 const { base, abs } = useSiteUrl()
 
 usePageSeo(() => ({

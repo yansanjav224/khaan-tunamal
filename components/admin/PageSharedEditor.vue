@@ -16,13 +16,9 @@
           <label class="block text-sm text-gray-400 mb-1">Тайлбар</label>
           <textarea v-model="form.contactCTA.description" rows="2" class="input w-full"></textarea>
         </div>
-        <div>
-          <label class="block text-sm text-gray-400 mb-1">Утасны дугаар</label>
-          <input v-model="form.contactCTA.phone" class="input w-full" />
-        </div>
-        <div>
-          <label class="block text-sm text-gray-400 mb-1">Утас (харагдах)</label>
-          <input v-model="form.contactCTA.phoneDisplay" class="input w-full" />
+        <div class="md:col-span-2 text-xs text-gray-500">
+          Утасны дугаарыг <b class="text-gray-400">Тохиргоо</b> цэснээс солино —
+          товч тэндхийн эхний дугаарыг автоматаар авдаг.
         </div>
         <div>
           <label class="block text-sm text-gray-400 mb-1">Товч текст</label>

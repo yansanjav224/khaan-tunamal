@@ -70,8 +70,6 @@ export interface AboutValue {
 export interface AboutCTA {
   title: string
   description: string
-  phone: string
-  phoneDisplay: string
   buttonText: string
 }
 
@@ -134,8 +132,6 @@ export interface SharedContactCTA {
   label: string
   title: string
   description: string
-  phone: string
-  phoneDisplay: string
   buttonText: string
 }
 
@@ -272,8 +268,6 @@ export const defaultAboutContent: AboutContent = {
   cta: {
     title: 'Бидэнтэй холбогдох',
     description: 'Бүтээгдэхүүнтэй холбоотой мэдээлэл авах, захиалга өгөхийг хүсвэл бидэнтэй холбогдоорой.',
-    phone: '99907191',
-    phoneDisplay: '9990-7191',
     buttonText: 'Холбоо барих хуудас',
   },
 }
@@ -320,8 +314,6 @@ export const defaultSharedContent: SharedContent = {
     label: '',
     title: 'Сонирхож байна уу?',
     description: 'Бүтээгдэхүүнтэй холбоотой мэдээлэл авах, захиалга өгөхийг хүсвэл бидэнтэй холбогдоорой. Бид таны хүссэн загвараар урлаж өгнө.',
-    phone: '99907191',
-    phoneDisplay: '9990-7191',
     buttonText: 'Холбоо барих',
   },
   footer: {

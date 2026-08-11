@@ -9,11 +9,12 @@
         </p>
         <div class="flex flex-col sm:flex-row gap-4 md:gap-6">
           <a
-            :href="`tel:${content.contactCTA.phone}`"
+            v-if="phone"
+            :href="`tel:${phone}`"
             class="flex items-center justify-center gap-4 px-12 py-5 bg-secondary text-on-secondary font-label-md text-label-md uppercase tracking-widest hover:brightness-110 transition-all"
           >
             <span class="material-symbols-outlined">call</span>
-            {{ content.contactCTA.phoneDisplay }}
+            {{ formatPhone(phone) }}
           </a>
           <NuxtLink
             to="/contact"
@@ -31,4 +32,11 @@
 
 <script setup lang="ts">
 const { content } = useSharedContent()
+
+// The number comes from site settings rather than from this block's own field.
+// It used to be stored separately, so changing the phone under Тохиргоо left
+// this button — the main call-to-action on the home page — still dialling the
+// old one.
+const { settings } = useSiteSettings()
+const phone = computed(() => (settings.value.phones || [])[0]?.number || '')
 </script>
