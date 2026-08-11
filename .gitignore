@@ -7,3 +7,5 @@ dist
 .firebase
 .vercel
 .env*
+
+.DS_Store
