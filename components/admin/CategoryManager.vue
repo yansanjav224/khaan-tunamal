@@ -26,6 +26,30 @@
              always fell back to a stock design image. -->
         <AdminSingleImageUpload v-model="form.image" label="Ангиллын зураг (нүүр хуудсанд харагдана)" />
 
+        <!-- Every category has its own page at /products/category/<id>. These
+             three fields are what Google shows and reads there. -->
+        <div class="pt-2 border-t border-dark-border space-y-4">
+          <p class="text-sm text-gray-400">
+            Google-д зориулсан бичвэр
+            <span class="text-gray-600">— ангиллын хуудас: <code>/products/category/{{ editingCategory?.id || '…' }}</code></span>
+          </p>
+          <div>
+            <label class="block text-sm text-gray-400 mb-1">Хайлтын гарчиг</label>
+            <input v-model="form.seoTitle" class="input-dark w-full" placeholder="Гар хийцийн монгол зуух, тулга | Хаан Тунамал Хийц" />
+            <p class="text-xs text-gray-500 mt-1">Google-ийн үр дүнд харагдах хөх гарчиг. 50–60 тэмдэгт. Хоосон бол ангиллын нэрээр автоматаар үүснэ.</p>
+          </div>
+          <div>
+            <label class="block text-sm text-gray-400 mb-1">Хайлтын тайлбар</label>
+            <textarea v-model="form.seoDescription" rows="2" class="input-dark w-full" placeholder="Гарчгийн доор харагдах 2 мөр"></textarea>
+            <p class="text-xs text-gray-500 mt-1">120–160 тэмдэгт. Хүнд уншуулах өгүүлбэр, түлхүүр үг шигтгэсэн байх.</p>
+          </div>
+          <div>
+            <label class="block text-sm text-gray-400 mb-1">Танилцуулга бичвэр</label>
+            <textarea v-model="form.intro" rows="4" class="input-dark w-full" placeholder="Ангиллын хуудсан дээр барааны жагсаалтын дээр харагдах хэсэг"></textarea>
+            <p class="text-xs text-gray-500 mt-1">Хуудсан дээр үнэхээр харагдана. 300–600 тэмдэгт байх тусам Google сайн ойлгоно.</p>
+          </div>
+        </div>
+
         <div class="flex gap-2">
           <button type="submit" class="btn-gold whitespace-nowrap">
             {{ editingCategory ? 'Хадгалах' : 'Нэмэх' }}
@@ -101,7 +125,7 @@ const props = defineProps<{
   products: Product[]
 }>()
 
-type CategoryInput = { name: string; order: number; image: string }
+type CategoryInput = { name: string; order: number; image: string; seoTitle: string; seoDescription: string; intro: string }
 
 const emit = defineEmits<{
   create: [data: CategoryInput]
@@ -126,36 +150,43 @@ const confirmMerge = (cat: Category) => {
 }
 
 const editingCategory = ref<Category | null>(null)
-const form = reactive<CategoryInput>({
+const blank = (): CategoryInput => ({
   name: '',
   order: 1,
   image: '',
+  seoTitle: '',
+  seoDescription: '',
+  intro: '',
 })
+
+const form = reactive<CategoryInput>(blank())
 
 const startEdit = (cat: Category) => {
   editingCategory.value = cat
-  form.name = cat.name
-  form.order = cat.order
-  form.image = cat.image || ''
+  Object.assign(form, blank(), {
+    name: cat.name,
+    order: cat.order,
+    image: cat.image || '',
+    seoTitle: cat.seoTitle || '',
+    seoDescription: cat.seoDescription || '',
+    intro: cat.intro || '',
+  })
 }
 
 const cancelEdit = () => {
   editingCategory.value = null
-  form.name = ''
-  form.order = 1
-  form.image = ''
+  Object.assign(form, blank())
 }
 
 const handleSubmit = () => {
-  const data: CategoryInput = { name: form.name, order: form.order, image: form.image }
+  const data: CategoryInput = { ...form }
   if (editingCategory.value) {
     emit('update', editingCategory.value.id, data)
     cancelEdit()
   } else {
     emit('create', data)
-    form.name = ''
-    form.image = ''
-    form.order = props.categories.length + 1
+    const next = props.categories.length + 1
+    Object.assign(form, blank(), { order: next })
   }
 }
 </script>

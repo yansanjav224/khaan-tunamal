@@ -4,11 +4,21 @@ export default defineEventHandler(async (event) => {
   const base = String(useRuntimeConfig().public.siteUrl || '').replace(/\/+$/, '')
   const today = new Date().toISOString().slice(0, 10)
 
-  const products = await fetchProducts().catch(() => [] as Array<Record<string, any>>)
+  const [products, categories] = await Promise.all([
+    fetchProducts().catch(() => [] as Array<Record<string, any>>),
+    fetchCategories().catch(() => [] as Array<Record<string, any>>),
+  ])
 
   const urls: Array<{ loc: string; priority: string; changefreq: string }> = [
     { loc: `${base}/`, priority: '1.0', changefreq: 'weekly' },
     { loc: `${base}/products`, priority: '0.9', changefreq: 'weekly' },
+    // Above the individual products: these are the pages that answer a search
+    // for "зуух" or "төмөр хашаа", and each one is a route of its own.
+    ...categories.map(c => ({
+      loc: `${base}/products/category/${c.id}`,
+      priority: '0.85',
+      changefreq: 'weekly',
+    })),
     { loc: `${base}/about`, priority: '0.6', changefreq: 'monthly' },
     { loc: `${base}/contact`, priority: '0.6', changefreq: 'monthly' },
     ...products.map(p => ({

@@ -63,8 +63,12 @@ export function usePageSeo(seo: MaybeRefOrGetter<PageSeo>) {
   })
 }
 
-/** Emit a JSON-LD block. */
-export function useJsonLd(data: MaybeRefOrGetter<Record<string, any>>) {
+/**
+ * Emit a JSON-LD block. An array is serialised as-is — Google reads a top-level
+ * array of nodes from one script tag, so a page describing several things (a
+ * breadcrumb trail and the collection it sits in) needs only this one call.
+ */
+export function useJsonLd(data: MaybeRefOrGetter<Record<string, any> | Array<Record<string, any>>>) {
   useHead({
     script: [
       {

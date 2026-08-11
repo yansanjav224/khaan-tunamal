@@ -19,7 +19,7 @@
           <div class="ghost-border bg-surface-container-low/40 p-6 lg:p-8 mb-6">
             <NuxtLink
               v-if="categoryName"
-              :to="`/products?category=${product.category}`"
+              :to="`/products/category/${product.category}`"
               class="inline-block text-secondary text-caption uppercase tracking-[0.3em] mb-4 px-3 py-1 border border-secondary/30 bg-secondary/5 hover:bg-secondary/15 transition-colors"
             >{{ categoryName }}</NuxtLink>
 

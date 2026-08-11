@@ -47,6 +47,16 @@ export interface Category {
   name: string
   order: number
   image?: string
+  /**
+   * Search copy. Each category has its own landing page at
+   * /products/category/<id>, and these are what Google reads: the tab title,
+   * the result snippet, and a paragraph of real text above the grid. Without
+   * them every category page would carry the same generic wording and compete
+   * with itself.
+   */
+  seoTitle?: string
+  seoDescription?: string
+  intro?: string
 }
 
 export interface ContactMessage {

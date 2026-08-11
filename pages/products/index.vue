@@ -26,29 +26,24 @@
         </div>
       </div>
 
-      <!-- Filter tabs -->
-      <div class="flex md:justify-center gap-3 md:gap-8 mb-10 md:mb-12 px-6 overflow-x-auto whitespace-nowrap pb-1">
-        <button
-          @click="activeCategory = ''"
-          class="shrink-0 px-4 py-2.5 text-[14px] border transition-colors md:border-0 md:px-0 md:py-0 md:pb-2 md:font-label-md md:text-label-md md:tracking-widest md:uppercase"
-          :class="!activeCategory
-            ? 'border-secondary text-secondary md:border-b md:text-on-surface'
-            : 'border-outline-variant/40 text-on-surface-variant hover:text-secondary md:border-transparent'"
+      <!-- Filter tabs. Links rather than buttons: each category has a real page
+           at /products/category/<id> with its own title and copy, and a crawler
+           follows an href where it cannot follow a click handler. -->
+      <nav class="flex md:justify-center gap-3 md:gap-8 mb-10 md:mb-12 px-6 overflow-x-auto whitespace-nowrap pb-1">
+        <span
+          class="shrink-0 px-4 py-2.5 text-[14px] border border-secondary text-secondary md:border-0 md:px-0 md:py-0 md:pb-2 md:border-b md:text-on-surface md:font-label-md md:text-label-md md:tracking-widest md:uppercase"
         >
           {{ ui.products.all }}
-        </button>
-        <button
+        </span>
+        <NuxtLink
           v-for="cat in categories"
           :key="cat.id"
-          @click="activeCategory = cat.id"
-          class="shrink-0 px-4 py-2.5 text-[14px] border transition-colors md:border-0 md:px-0 md:py-0 md:pb-2 md:font-label-md md:text-label-md md:tracking-widest md:uppercase"
-          :class="activeCategory === cat.id
-            ? 'border-secondary text-secondary md:border-b md:text-on-surface'
-            : 'border-outline-variant/40 text-on-surface-variant hover:text-secondary md:border-transparent'"
+          :to="`/products/category/${cat.id}`"
+          class="shrink-0 px-4 py-2.5 text-[14px] border border-outline-variant/40 text-on-surface-variant hover:text-secondary transition-colors md:border-0 md:px-0 md:py-0 md:pb-2 md:border-transparent md:font-label-md md:text-label-md md:tracking-widest md:uppercase"
         >
           {{ cat.name }}
-        </button>
-      </div>
+        </NuxtLink>
+      </nav>
 
       <!-- Grid -->
       <section class="px-6 md:px-margin-desktop max-w-container-max mx-auto pb-section-gap">
@@ -67,7 +62,7 @@
 
         <div v-else class="text-center py-20">
           <span class="material-symbols-outlined text-outline-variant text-6xl mb-4 block">inventory_2</span>
-          <template v-if="activeCategory || search.trim()">
+          <template v-if="search.trim()">
             <p class="text-on-surface-variant text-body-lg">{{ content.emptyStateText }}</p>
             <button @click="clearFilters" class="mt-4 text-label-md text-secondary hover:underline uppercase tracking-widest">{{ content.emptyStateButton }}</button>
           </template>
@@ -80,7 +75,6 @@
 
 <script setup lang="ts">
 const route = useRoute()
-const router = useRouter()
 
 const { products: allProducts } = useProducts()
 const { categories } = useCategories()
@@ -90,7 +84,17 @@ const { content: shared } = useSharedContent()
 const ui = computed(() => shared.value.ui)
 const { base } = useSiteUrl()
 
-const activeCategory = ref((route.query.category as string) || '')
+// ?category=X is the old shape of a category link. It still arrives from
+// bookmarks and anything already shared, so it is sent to the page that now
+// owns that content rather than being silently filtered here — two URLs for
+// one list is the kind of duplication that keeps both out of search results.
+const legacyCategory = computed(() => String(route.query.category || ''))
+watchEffect(() => {
+  if (legacyCategory.value && /^[a-z0-9-]+$/.test(legacyCategory.value)) {
+    navigateTo(`/products/category/${legacyCategory.value}`, { redirectCode: 301, replace: true })
+  }
+})
+
 const search = ref('')
 
 usePageSeo(() => ({
@@ -113,36 +117,20 @@ useJsonLd(() => ({
   })),
 }))
 
+// This page is now the whole catalogue plus search; narrowing by category is
+// what the category pages are for.
 const filteredProducts = computed(() => {
-  let result = [...allProducts.value]
-  if (activeCategory.value) {
-    result = result.filter(p => p.category === activeCategory.value)
-  }
   const q = search.value.trim().toLowerCase()
-  if (q) {
-    result = result.filter(p =>
-      p.name.toLowerCase().includes(q) ||
-      (p.description || '').toLowerCase().includes(q),
-    )
-  }
+  const result = q
+    ? allProducts.value.filter(p =>
+        p.name.toLowerCase().includes(q) ||
+        (p.description || '').toLowerCase().includes(q),
+      )
+    : [...allProducts.value]
   return result.sort((a, b) => (a.order || 0) - (b.order || 0))
 })
 
 const clearFilters = () => {
-  activeCategory.value = ''
   search.value = ''
-  router.replace({ query: {} })
 }
-
-watch(activeCategory, (cat) => {
-  router.replace({ query: cat ? { category: cat } : {} })
-})
-
-// Reset a stale/invalid ?category=<id> deep link once categories are known, so
-// it can't leave the grid empty with no tab highlighted.
-watch(categories, (cats) => {
-  if (activeCategory.value && cats.length && !cats.some(c => c.id === activeCategory.value)) {
-    activeCategory.value = ''
-  }
-}, { immediate: true })
 </script>

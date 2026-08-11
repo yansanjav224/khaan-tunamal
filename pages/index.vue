@@ -11,7 +11,7 @@
         <NuxtLink
           v-for="(cat, i) in categoryItems"
           :key="cat.id"
-          :to="`/products?category=${cat.id}`"
+          :to="`/products/category/${cat.id}`"
           class="group"
           v-reveal="{ delay: i * 100 }"
         >
