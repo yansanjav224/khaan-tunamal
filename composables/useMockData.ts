@@ -23,6 +23,8 @@ export interface SiteSettings {
   companyDescription: string
   phones: SitePhone[]
   facebookUrl: string
+  /** m.me deep link for the floating chat button. Empty hides the button. */
+  messengerUrl: string
   address: string
   addressNote: string
   aboutText: string
@@ -77,6 +79,7 @@ export const defaultSiteSettings: SiteSettings = {
     { number: '99732244', label: 'Утас' },
   ],
   facebookUrl: 'https://www.facebook.com/profile.php?id=100095197205568',
+  messengerUrl: 'https://m.me/100095197205568',
   address: 'Улаанбаатар хот',
   addressNote: 'Газрын зураг дээрх тэмдэглэгээг харна уу',
   aboutText: 'Хаан Тунамал Хийц нь Монгол үндэсний хэв маягтай төмөр эдлэл үйлдвэрлэгч юм. Бид монгол уламжлалт угалз хээ, дизайныг орчин үеийн технологитой хослуулан бат бөх, гоёмсог бүтээгдэхүүн бүтээдэг.',

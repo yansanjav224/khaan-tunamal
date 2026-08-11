@@ -152,6 +152,7 @@ export interface SharedFooter {
  */
 export interface SharedUi {
   nav: { brand: string; home: string; products: string; about: string; contact: string; call: string }
+  chat: { label: string }
   footer: { linksTitle: string; contactTitle: string; facebook: string }
   home: { viewAll: string; viewAllShort: string }
   products: {
@@ -335,6 +336,9 @@ export const defaultSharedContent: SharedContent = {
       about: 'Бидний тухай',
       contact: 'Холбоо барих',
       call: 'Залгах',
+    },
+    chat: {
+      label: 'Мессенжер',
     },
     footer: {
       linksTitle: 'Холбоосууд',

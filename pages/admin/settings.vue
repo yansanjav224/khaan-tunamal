@@ -57,6 +57,11 @@
             <input v-model="form.facebookUrl" type="url" class="input-dark w-full" />
           </div>
           <div>
+            <label class="block text-sm text-gray-400 mb-1">Messenger холбоос (хөвөгч чат товч)</label>
+            <input v-model="form.messengerUrl" type="url" class="input-dark w-full" placeholder="https://m.me/100095197205568" />
+            <p class="text-xs text-gray-500 mt-1">Хоосон орхивол товч харагдахгүй.</p>
+          </div>
+          <div>
             <label class="block text-sm text-gray-400 mb-1">Хаяг</label>
             <input v-model="form.address" type="text" class="input-dark w-full" />
           </div>
@@ -143,6 +148,7 @@ const form = reactive<SiteSettings>({
   companyDescription: '',
   phones: [],
   facebookUrl: '',
+  messengerUrl: '',
   address: '',
   addressNote: '',
   aboutText: '',
@@ -159,6 +165,7 @@ const loadForm = () => {
   form.companyDescription = s.companyDescription
   form.phones = s.phones.map(p => ({ ...p }))
   form.facebookUrl = s.facebookUrl
+  form.messengerUrl = s.messengerUrl
   form.address = s.address
   form.addressNote = s.addressNote
   form.aboutText = s.aboutText

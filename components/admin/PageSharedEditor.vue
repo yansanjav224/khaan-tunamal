@@ -87,6 +87,12 @@ const UI_GROUPS = [
     ],
   },
   {
+    key: 'chat', title: 'Хөвөгч чат товч', hint: 'Дэлгэцийн баруун доор байрлах Messenger товчны бичиг. Холбоосыг нь Тохиргоо цэснээс солино.',
+    fields: [
+      { key: 'label', label: 'Товчны бичиг' },
+    ],
+  },
+  {
     key: 'footer', title: 'Footer гарчгууд', hint: 'Хөлийн баганын толгой бичвэрүүд.',
     fields: [
       { key: 'linksTitle', label: 'Холбоосуудын гарчиг' },
