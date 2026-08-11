@@ -338,7 +338,7 @@ export const defaultSharedContent: SharedContent = {
       call: 'Залгах',
     },
     chat: {
-      label: 'Мессенжер',
+      label: 'Чатаар холбогдох',
     },
     footer: {
       linksTitle: 'Холбоосууд',
