@@ -84,7 +84,7 @@ export interface ContactMessage {
 
 export const defaultSiteSettings: SiteSettings = {
   companyName: 'Хаан Тунамал Хийц',
-  companySlogan: 'Монгол төмөр эдлэл',
+  companySlogan: 'гар хийцийн зуух, төмөр эдлэл',
   companyDescription: 'Монгол үндэсний хэв маягтай төмөр зуух, хүжсийн тавиур, модон авдар болон бусад эдлэл үйлдвэрлэгч.',
   phones: [
     { number: '99907191', label: 'Утас / Viber / WhatsApp' },
