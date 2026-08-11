@@ -3,7 +3,7 @@
        layer is what failed, so it pulls in no composables and no layout. -->
   <div class="min-h-screen bg-background text-on-surface flex flex-col items-center justify-center px-6 text-center">
     <NuxtLink to="/" class="font-headline-md text-headline-md text-secondary tracking-tighter mb-16">
-      ХААН ТУНАМАЛ
+      ХААН ТУНАМАЛ ХИЙЦ
     </NuxtLink>
 
     <p class="font-display-lg text-[96px] md:text-[160px] leading-none text-secondary/20 select-none">

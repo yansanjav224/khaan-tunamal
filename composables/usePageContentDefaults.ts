@@ -286,7 +286,7 @@ export const defaultContactContent: ContactContent = {
     image: '/images/design/design-16.webp',
   },
   cards: {
-    locationTitle: 'Showroom',
+    locationTitle: 'Хаяг, байршил',
     phoneTitle: 'Утас',
     emailTitle: 'Цахим шуудан',
     email: 'contact@khaantunamal.mn',

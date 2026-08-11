@@ -22,26 +22,30 @@
         <!-- Links -->
         <div class="space-y-6">
           <h4 class="font-label-md text-label-md uppercase tracking-widest text-secondary">{{ ui.footer.linksTitle }}</h4>
-          <ul class="space-y-4">
-            <li><NuxtLink to="/" class="text-[16px] text-on-surface-variant hover:text-secondary transition-colors">{{ ui.nav.home }}</NuxtLink></li>
-            <li><NuxtLink to="/products" class="text-[16px] text-on-surface-variant hover:text-secondary transition-colors">{{ ui.nav.products }}</NuxtLink></li>
-            <li><NuxtLink to="/about" class="text-[16px] text-on-surface-variant hover:text-secondary transition-colors">{{ ui.nav.about }}</NuxtLink></li>
-            <li><NuxtLink to="/contact" class="text-[16px] text-on-surface-variant hover:text-secondary transition-colors">{{ ui.nav.contact }}</NuxtLink></li>
+          <!-- py-2 on the links, not gaps between them: the text is 22px tall,
+               which is half of what a thumb reliably hits. The padding is part
+               of the link, so the tappable box grows to ~42px without the list
+               visibly loosening. -->
+          <ul class="space-y-1">
+            <li><NuxtLink to="/" class="inline-block py-2 text-[16px] text-on-surface-variant hover:text-secondary transition-colors">{{ ui.nav.home }}</NuxtLink></li>
+            <li><NuxtLink to="/products" class="inline-block py-2 text-[16px] text-on-surface-variant hover:text-secondary transition-colors">{{ ui.nav.products }}</NuxtLink></li>
+            <li><NuxtLink to="/about" class="inline-block py-2 text-[16px] text-on-surface-variant hover:text-secondary transition-colors">{{ ui.nav.about }}</NuxtLink></li>
+            <li><NuxtLink to="/contact" class="inline-block py-2 text-[16px] text-on-surface-variant hover:text-secondary transition-colors">{{ ui.nav.contact }}</NuxtLink></li>
           </ul>
         </div>
 
         <!-- Contact -->
         <div class="text-right space-y-6">
           <h4 class="font-label-md text-label-md uppercase tracking-widest text-secondary">{{ ui.footer.contactTitle }}</h4>
-          <ul class="space-y-4">
+          <ul class="space-y-1">
             <li v-for="p in settings.phones || []" :key="p.number">
               <a
                 :href="`tel:${p.number}`"
-                class="text-[17px] font-medium text-on-surface hover:text-secondary transition-colors"
+                class="inline-block py-2 text-[17px] font-medium text-on-surface hover:text-secondary transition-colors"
               >{{ formatPhone(p.number) }}</a>
             </li>
             <li>
-              <a :href="settings.facebookUrl" target="_blank" rel="noopener noreferrer" class="font-body-md text-body-md text-on-surface-variant hover:text-secondary transition-colors">{{ ui.footer.facebook }}</a>
+              <a :href="settings.facebookUrl" target="_blank" rel="noopener noreferrer" class="inline-block py-2 font-body-md text-body-md text-on-surface-variant hover:text-secondary transition-colors">{{ ui.footer.facebook }}</a>
             </li>
           </ul>
         </div>

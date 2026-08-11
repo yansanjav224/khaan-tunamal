@@ -84,7 +84,13 @@ export default defineNuxtConfig({
     '/': { isr: 900 },
     '/about': { isr: 900 },
     '/contact': { isr: 900 },
-    '/products': { isr: 900 },
+    // allowQuery: without it the ISR cache is keyed on the path alone, so
+    // /products?category=X was served the HTML rendered for no category at
+    // all. The grid corrected itself on hydration but the filter chips did
+    // not — Vue does not repair class mismatches in production — leaving
+    // "Бүгд" highlighted over a filtered grid on every shared or refreshed
+    // category link.
+    '/products': { isr: { expiration: 900, allowQuery: ['category'] } },
     '/products/**': { isr: 1800 },
     '/admin/**': { ssr: false, headers: { 'x-robots-tag': 'noindex, nofollow' } },
     '/api/**': {

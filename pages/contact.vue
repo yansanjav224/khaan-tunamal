@@ -40,17 +40,19 @@
               <a :href="`tel:${p.number}`" class="text-[19px] font-medium text-secondary hover:brightness-110 transition-all">{{ formatPhone(p.number) }}</a>
               <span class="text-outline text-body-sm"> · {{ p.label }}</span>
             </p>
-            <!-- Most customers here message rather than call. -->
-            <div class="flex gap-4 mt-1">
+            <!-- Most customers here message rather than call. The labels are
+                 11px, so they get their own padding — a 12px-tall tap target is
+                 a miss waiting to happen. -->
+            <div class="flex gap-5">
               <a
                 :href="`viber://chat?number=%2B976${p.number}`"
-                class="font-label-md text-label-md uppercase tracking-widest text-outline hover:text-secondary transition-colors"
+                class="inline-block py-2.5 font-label-md text-label-md uppercase tracking-widest text-outline hover:text-secondary transition-colors"
               >Viber</a>
               <a
                 :href="`https://wa.me/976${p.number}`"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="font-label-md text-label-md uppercase tracking-widest text-outline hover:text-secondary transition-colors"
+                class="inline-block py-2.5 font-label-md text-label-md uppercase tracking-widest text-outline hover:text-secondary transition-colors"
               >WhatsApp</a>
             </div>
           </div>
